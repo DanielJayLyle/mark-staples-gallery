@@ -1,0 +1,29 @@
+'use client';
+import { useState } from 'react';
+
+export default function EnquiryForm({ slug, title, sold, priceText }: { slug: string; title: string; sold: boolean; priceText: string }) {
+  const [open, setOpen] = useState(false);
+  const [state, setState] = useState<{ status: 'idle' | 'sending' | 'done' | 'error'; msg?: string }>({ status: 'idle' });
+  async function submit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const f = new FormData(e.currentTarget);
+    setState({ status: 'sending' });
+    try {
+      const r = await fetch('/api/enquiry', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...Object.fromEntries(f), slug }) });
+      const j = await r.json();
+      setState(r.ok ? { status: 'done', msg: `Thanks ${f.get('name')}. Mark has your enquiry about "${title}" and will reply to ${f.get('email')} soon.` } : { status: 'error', msg: j.error });
+    } catch { setState({ status: 'error', msg: 'Could not reach the server. Check your connection and try again.' }); }
+  }
+  if (state.status === 'done') return <div className="done">{state.msg}</div>;
+  if (!open) return <div className="cta"><button className="btn" type="button" onClick={() => setOpen(true)}>{sold ? 'Ask about similar work' : 'Enquire about this piece'}</button></div>;
+  return (
+    <form className="form" onSubmit={submit}>
+      <label>Your name<input name="name" required autoComplete="name" /></label>
+      <label>Email<input name="email" type="email" required autoComplete="email" /></label>
+      <label className="hp" aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
+      <label>Message<textarea name="message" defaultValue={sold ? `Hi, I love "${title}". Do you have anything similar available, or take commissions?` : `Hi, I'm interested in "${title}" (${priceText}). Is it still available?`} /></label>
+      <div><button className="btn" type="submit" disabled={state.status === 'sending'}>{state.status === 'sending' ? 'Sending' : 'Send enquiry'}</button></div>
+      {state.status === 'error' && <div className="done">{state.msg}</div>}
+    </form>
+  );
+}
