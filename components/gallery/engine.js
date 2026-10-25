@@ -99,7 +99,7 @@ aoStrip(aoUp, len, .6, new THREE.Vector3(mid,H-.3,.0015));
 [ROOM.start, ROOM.end].forEach((x,i)=>{ aoStrip(aoDown, D, .55, new THREE.Vector3(x+(i?-.0015:.0015),.275,D/2), [0,i?-Math.PI/2:Math.PI/2,0]); });
 const ceil = new THREE.Mesh(new THREE.PlaneGeometry(len,D), new THREE.MeshLambertMaterial({color:0xF6F4F0}));
 ceil.rotation.x=Math.PI/2; ceil.position.set(mid,H,D/2); scene.add(ceil);
-const skirt = new THREE.Mesh(new THREE.BoxGeometry(len,.09,.018), new THREE.MeshStandardMaterial({color:0xF5F2EC, roughness:.6})); skirt.position.set(mid,.045,.009); skirt.receiveShadow=true; scene.add(skirt);
+const skirt = new THREE.Mesh(new THREE.BoxGeometry(len,.12,.018), new THREE.MeshStandardMaterial({color:0xF5F2EC, roughness:.6})); skirt.position.set(mid,.06,.009); skirt.receiveShadow=true; scene.add(skirt);
 const black = new THREE.MeshStandardMaterial({color:0x1a1a1a, roughness:.5});
 
 /* the opening wall: Mark's tag painted straight onto the plaster, still wet and dripping */
@@ -110,7 +110,7 @@ const tagTex = canvasTex(2048, Math.round(2048*TAG_VB[3]/TAG_VB[2]), (c,w)=>{ co
 const tagMesh = new THREE.Mesh(new THREE.PlaneGeometry(TAG_W, TAG_H), new THREE.MeshStandardMaterial({map:tagTex, alphaTest:.5, roughness:.32, metalness:0}));
 tagMesh.position.set(TAG_CX, TAG_CY, .002); tagMesh.receiveShadow=true; scene.add(tagMesh);
 const paintMat = new THREE.MeshStandardMaterial({color:0x020202, roughness:.22, metalness:0});
-const SKIRT = .09, drips = [];
+const SKIRT = .12, drips = [];
 /* three hand-placed runs: two that make it to the floor, one that gives up halfway */
 const DRIPS_USE = [[272,785,false,.009,.01],[552,873,true,.011,.015],[964,797,false,.008,.008]];
 function stripGeo(len, w, r, z0){
@@ -216,7 +216,7 @@ function sprayCan(body, band, tagCol){
   g.scale.setScalar(CAN_S); scene.add(g); return g;
 }
 const canA = sprayCan('#151515', '#E8317A', '#f4f1ea'); // black can, pink paint: the one he just used
-const canB = sprayCan('#f1eee7', '#F2C230', '#141312');
+const canB = sprayCan('#f1eee7', '#151515', '#141312');
 const lid = new THREE.Mesh(new THREE.LatheGeometry([[0,.05],[.031,.05],[.034,.046],[.034,0],[.031,0],[.031,.044],[0,.044]].map(p=>new THREE.Vector2(p[0],p[1])),36), new THREE.MeshStandardMaterial({color:0xE8317A, roughness:.4, side:THREE.DoubleSide}));
 lid.castShadow = true; lid.scale.setScalar(CAN_S); scene.add(lid);
 const contact = (r, op) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(r,r), new THREE.MeshBasicMaterial({map:shadowRound, transparent:true, opacity:op, depthWrite:false})); m.rotation.x = -Math.PI/2; m.renderOrder = 1; scene.add(m); return m; };
@@ -226,18 +226,18 @@ shB.scale.set(1.5, .6, 1);
 const mistTex = canvasTex(256,256,(c)=>{ const r = seed(77); for(let i=0;i<900;i++){ const a=r()*Math.PI*2, d=Math.pow(r(),.6)*118, s=.6+r()*2.2; c.fillStyle=`rgba(232,49,122,${(.12+r()*.4)*(1-d/125)})`; c.beginPath(); c.arc(128+Math.cos(a)*d, 128+Math.sin(a)*d*.7, s, 0, Math.PI*2); c.fill(); } const g=c.createRadialGradient(128,128,0,128,128,90); g.addColorStop(0,'rgba(232,49,122,.16)'); g.addColorStop(1,'rgba(232,49,122,0)'); c.fillStyle=g; c.fillRect(0,0,256,256); });
 const mist = new THREE.Mesh(new THREE.PlaneGeometry(.5,.5), new THREE.MeshBasicMaterial({map:mistTex, transparent:true, opacity:.7, depthWrite:false})); mist.rotation.x = -Math.PI/2; mist.renderOrder = 1; scene.add(mist);
 
-/* designer credit as a little floor vinyl; a real link sits over it (see placeCredit) */
-const CR_W = .95, CR_H = .15; // drawn tall so it reads right once the floor foreshortens it
-const creditTex = canvasTex(1600, 160, ()=>{});
+/* designer credit printed on the kickboard, starting at the left corner; a real link sits over it (see placeCredit) */
+const CR_W = .62, CR_H = .062; let crS = 1;
+const creditTex = canvasTex(2000, 200, ()=>{});
 function drawCredit(){
-  const c = creditTex.image.getContext('2d'); c.clearRect(0,0,1600,160); c.fillStyle = INK; c.textBaseline = 'middle';
-  c.font = '600 46px "Archivo Variable", Archivo, sans-serif'; let x = tracked(c, 'EXHIBITION DESIGN BY', 0, 84, 10);
-  c.font = '800 62px "Archivo Variable", Archivo, sans-serif'; x = tracked(c, 'FUTURE FACED', x + 26, 82, 6);
-  c.font = '600 54px "Archivo Variable", Archivo, sans-serif'; c.fillText('↗', x + 14, 80);
+  const c = creditTex.image.getContext('2d'); c.clearRect(0,0,2000,200); c.fillStyle = INK; c.textBaseline = 'middle';
+  c.font = '500 104px "Archivo Variable", Archivo, sans-serif'; c.fillText('Exhibition design by ', 0, 104); let x = c.measureText('Exhibition design by ').width;
+  c.font = '800 104px "Archivo Variable", Archivo, sans-serif'; c.fillText('Future Faced', x, 104); x += c.measureText('Future Faced').width;
+  c.font = '500 96px "Archivo Variable", Archivo, sans-serif'; c.fillText(' \u2197', x, 100);
   creditTex.needsUpdate = true;
 }
-const creditMat = new THREE.MeshBasicMaterial({map:creditTex, transparent:true, opacity:.72, depthWrite:false, color:0xffffff});
-const credit = new THREE.Mesh(new THREE.PlaneGeometry(CR_W, CR_H), creditMat); credit.rotation.x = -Math.PI/2; credit.renderOrder = 1; scene.add(credit);
+const creditMat = new THREE.MeshBasicMaterial({map:creditTex, transparent:true, opacity:.7, depthWrite:false, color:0xffffff});
+const credit = new THREE.Mesh(new THREE.PlaneGeometry(CR_W, CR_H), creditMat); credit.renderOrder = 1; scene.add(credit);
 const creditLink = $('#ffCredit'); let creditHover = 0, creditHoverT = 0;
 if(creditLink){
   on(creditLink, 'mouseenter', ()=>{ creditHoverT = 1; }); on(creditLink, 'mouseleave', ()=>{ creditHoverT = 0; });
@@ -260,16 +260,16 @@ function placeEntrance(aspect){
   shB.position.set(canB.position.x - .1*Math.cos(.55), .0012, canB.position.z + .1*Math.sin(.55) + .02); shB.rotation.z = .55;
   shL.position.set(lid.position.x, .0012, lid.position.z + .01);
   mist.position.set(canA.position.x + .1, .0011, .3);
-  credit.position.set(narrow ? -.12 : -1.55, .0013, narrow ? .64 : .5);
+  crS = narrow ? 1.3 : 1; credit.scale.setScalar(crS); credit.position.set((narrow ? -1.03 : ROOM.start + .12) + CR_W*crS/2, .062, .0186);
 }
 const crCorners = [new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()];
 function placeCredit(dt){
   if(!creditLink) return;
   creditHover += (creditHoverT - creditHover)*(1-Math.exp(-dt*10));
-  creditMat.opacity = .72 + .28*creditHover;
+  creditMat.opacity = .7 + .3*creditHover;
   const hide = inAbout || aboutV > .02 || openIdx >= 0 || !grid.hidden;
   let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9, behind=false;
-  [[-1,-1],[1,-1],[1,1],[-1,1]].forEach(([sx,sz],i)=>{ const v=crCorners[i].set(credit.position.x+sx*CR_W/2, 0, credit.position.z+sz*CR_H/2).project(camera); if(v.z>1) behind=true;
+  [[-1,-1],[1,-1],[1,1],[-1,1]].forEach(([sx,sz],i)=>{ const v=crCorners[i].set(credit.position.x+sx*CR_W*crS/2, credit.position.y+sz*CR_H*crS/2, credit.position.z).project(camera); if(v.z>1) behind=true;
     const px=(v.x*.5+.5)*vw, py=(-v.y*.5+.5)*vh; x0=Math.min(x0,px); x1=Math.max(x1,px); y0=Math.min(y0,py); y1=Math.max(y1,py); });
   const off = hide || behind || x1 < 0 || x0 > vw || y0 > vh - 4;
   creditLink.classList.toggle('off', off);
@@ -418,7 +418,8 @@ for(let i=0;i<N_SPOTS;i++){ const s=new THREE.SpotLight(0xFFEFD6, 0, 6, .6, .62,
 /* ---------- about: turn right to a side wall where the bio gets sprayed on ---------- */
 let inAbout = false, aboutV = 0, aboutTurn = false, aboutPhase = null, originX = 0;
 const ABOUT_X = ROOM.end - 2.6; // where you stand to read the end wall
-{ const sk = new THREE.Mesh(new THREE.BoxGeometry(.018,.09,D), skirt.material); sk.position.set(ROOM.end-.009,.045,D/2); sk.receiveShadow = true; scene.add(sk); }
+{ const sk0 = new THREE.Mesh(new THREE.BoxGeometry(.018,.12,D), skirt.material); sk0.position.set(ROOM.start+.009,.06,D/2); sk0.receiveShadow = true; scene.add(sk0); }
+{ const sk = new THREE.Mesh(new THREE.BoxGeometry(.018,.12,D), skirt.material); sk.position.set(ROOM.end-.009,.06,D/2); sk.receiveShadow = true; scene.add(sk); }
 const ABOUT_L = { x:0, lit:0, onAt:null, focus:1, seen:true, on:false, glowMat:new THREE.MeshBasicMaterial({color:0}), beamMat:new THREE.MeshBasicMaterial(), beamMax:0,
   spotPos:new THREE.Vector3(), spotTgt:new THREE.Vector3(), spotAngle:1.0, spotI:2.3 };
 LIGHTABLE.push(ABOUT_L);
