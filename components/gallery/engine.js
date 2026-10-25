@@ -66,7 +66,7 @@ stripeTex.wrapS = THREE.RepeatWrapping;
 
 /* room */
 const ROOM = {start:-2.6, gap:.95};
-let cursor = 1.95;
+let cursor = 2.45; // room for the title vinyl beside the tag
 PIECES.forEach(p=>{ const fw = p.sculpture ? p.w : p.w + 2*FRAMES[p.frame].t; p.x = cursor + fw/2; cursor += fw + ROOM.gap; });
 ROOM.end = cursor - ROOM.gap + 1.6; // the end wall always sits 1.6 m past the last piece, however many pieces hang
 const len = ROOM.end - ROOM.start, mid = (ROOM.start+ROOM.end)/2, H = 3.6, D = 14;
@@ -160,6 +160,121 @@ function updateDrips(T, dt){
   });
 }
 
+
+
+/* ---------- the entrance: title vinyl, spray cans, and the floor credit ---------- */
+const INK = '#141312';
+function tracked(c, s, x, y, sp){ for(const ch of s){ c.fillText(ch, x, y); x += c.measureText(ch).width + sp; } return x; }
+const VIN_W = 1.0, VIN_H = .5;
+const vinylTex = canvasTex(2048, 1024, ()=>{});
+function drawVinyl(){
+  const c = vinylTex.image.getContext('2d'), w = 2048, h = 1024; c.clearRect(0,0,w,h);
+  c.textBaseline = 'alphabetic';
+  c.fillStyle = '#D3242C'; c.beginPath(); c.arc(26, 104, 20, 0, Math.PI*2); c.fill();
+  c.fillStyle = INK; c.font = '700 54px "Archivo Variable", Archivo, sans-serif'; tracked(c, 'NOW SHOWING  \u00b7  ROOM ONE', 70, 123, 12);
+  c.font = '800 300px "Archivo Variable", Archivo, sans-serif'; tracked(c, 'MARK', -6, 420, 12); tracked(c, 'STAPLES', -6, 700, 12);
+  c.fillRect(4, 760, 380, 12);
+  c.font = '500 76px "Archivo Variable", Archivo, sans-serif'; c.fillText('Street pop art, paintings and sculpture', 4, 880);
+  c.globalAlpha = .6; c.font = '700 50px "Archivo Variable", Archivo, sans-serif'; tracked(c, 'SOUTHAMPTON, UK', 6, 972, 13); c.globalAlpha = 1;
+  // Mark's own hand over the clean lettering, like he signed the vinyl on opening night
+  c.save(); c.translate(1090, 318); c.rotate(-.12); c.fillStyle = '#E8317A'; c.font = '124px "Permanent Marker", cursive';
+  c.fillText('Peace & love x', 0, 0); c.restore();
+  vinylTex.needsUpdate = true;
+}
+const vinyl = new THREE.Mesh(new THREE.PlaneGeometry(VIN_W, VIN_H), new THREE.MeshStandardMaterial({map:vinylTex, transparent:true, roughness:.34, metalness:0, depthWrite:false, polygonOffset:true, polygonOffsetFactor:-2}));
+vinyl.receiveShadow = true; vinyl.renderOrder = 1; scene.add(vinyl);
+
+/* two spray cans and a lid left on the floor under the drips */
+function canLabel(body, band, tagCol){
+  return canvasTex(1024, 512, (c,w,h)=>{
+    c.fillStyle = body; c.fillRect(0,0,w,h);
+    c.fillStyle = band; c.fillRect(0,0,w,h*.26);
+    c.fillStyle = 'rgba(255,255,255,.18)'; c.fillRect(0,h*.26,w,4);
+    for(let k=0;k<2;k++){ // the MS tag twice round the can, so one always faces you
+      c.save(); const s = 300/TAG_VB[2]; c.translate(120 + k*512, h*.36); c.scale(s,s); c.translate(-TAG_VB[0],-TAG_VB[1]); c.fillStyle = tagCol; c.fill(new Path2D(TAG_D),'evenodd'); c.restore();
+      c.fillStyle = tagCol; c.globalAlpha = .7; c.font = '700 26px "Archivo Variable", Archivo, sans-serif'; tracked(c, '400 ML  ·  MATT', 124 + k*512, h*.9, 5); c.globalAlpha = 1;
+      c.fillStyle = band; c.beginPath(); c.arc(420 + k*512, h*.86, 22, 0, Math.PI*2); c.fill();
+    }
+    // a run of its own paint down the side
+    c.fillStyle = band; c.fillRect(760, h*.26, 9, h*.22); c.beginPath(); c.arc(764.5, h*.48, 7, 0, Math.PI*2); c.fill();
+  });
+}
+const canMetal = new THREE.MeshStandardMaterial({color:0xc9c7c2, roughness:.28, metalness:.55});
+const CAN_R = .033, CAN_H = .16, CAN_S = 1.2;
+function sprayCan(body, band, tagCol){
+  const g = new THREE.Group();
+  const lbl = new THREE.Mesh(new THREE.CylinderGeometry(CAN_R, CAN_R, CAN_H, 40, 1, true), new THREE.MeshStandardMaterial({map:canLabel(body, band, tagCol), roughness:.42, metalness:.12}));
+  lbl.position.y = .006 + CAN_H/2; g.add(lbl);
+  const pts = [[0,0],[CAN_R*.82,0],[CAN_R*.97,.002],[CAN_R,.006]].map(p=>new THREE.Vector2(p[0],p[1]));
+  g.add(new THREE.Mesh(new THREE.LatheGeometry(pts, 40), canMetal));
+  const top = []; for(let i=0;i<=10;i++){ const a=i/10*Math.PI/2; top.push(new THREE.Vector2(Math.max(.011, CAN_R*Math.cos(a)), .166 + .026*Math.sin(a))); }
+  top.push(new THREE.Vector2(.011,.196), new THREE.Vector2(.0105,.2), new THREE.Vector2(0,.2));
+  g.add(new THREE.Mesh(new THREE.LatheGeometry(top, 40), canMetal));
+  const act = new THREE.Mesh(new THREE.CylinderGeometry(.0085,.0095,.014,24), new THREE.MeshStandardMaterial({color:0xf2f0ea, roughness:.5})); act.position.y = .207; g.add(act);
+  const noz = new THREE.Mesh(new THREE.CylinderGeometry(.0018,.0018,.004,10), black); noz.rotation.x = Math.PI/2; noz.position.set(0,.209,.009); g.add(noz);
+  g.traverse(m=>{ if(m.isMesh){ m.castShadow = true; m.receiveShadow = true; } });
+  g.scale.setScalar(CAN_S); scene.add(g); return g;
+}
+const canA = sprayCan('#151515', '#E8317A', '#f4f1ea'); // black can, pink paint: the one he just used
+const canB = sprayCan('#f1eee7', '#F2C230', '#141312');
+const lid = new THREE.Mesh(new THREE.LatheGeometry([[0,.05],[.031,.05],[.034,.046],[.034,0],[.031,0],[.031,.044],[0,.044]].map(p=>new THREE.Vector2(p[0],p[1])),36), new THREE.MeshStandardMaterial({color:0xE8317A, roughness:.4, side:THREE.DoubleSide}));
+lid.castShadow = true; lid.scale.setScalar(CAN_S); scene.add(lid);
+const contact = (r, op) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(r,r), new THREE.MeshBasicMaterial({map:shadowRound, transparent:true, opacity:op, depthWrite:false})); m.rotation.x = -Math.PI/2; m.renderOrder = 1; scene.add(m); return m; };
+const shA = contact(.16, .5), shB = contact(.2, .38), shL = contact(.11, .3);
+shB.scale.set(1.5, .6, 1);
+// overspray: a faint pink mist on the concrete where he tested the can
+const mistTex = canvasTex(256,256,(c)=>{ const r = seed(77); for(let i=0;i<900;i++){ const a=r()*Math.PI*2, d=Math.pow(r(),.6)*118, s=.6+r()*2.2; c.fillStyle=`rgba(232,49,122,${(.12+r()*.4)*(1-d/125)})`; c.beginPath(); c.arc(128+Math.cos(a)*d, 128+Math.sin(a)*d*.7, s, 0, Math.PI*2); c.fill(); } const g=c.createRadialGradient(128,128,0,128,128,90); g.addColorStop(0,'rgba(232,49,122,.16)'); g.addColorStop(1,'rgba(232,49,122,0)'); c.fillStyle=g; c.fillRect(0,0,256,256); });
+const mist = new THREE.Mesh(new THREE.PlaneGeometry(.5,.5), new THREE.MeshBasicMaterial({map:mistTex, transparent:true, opacity:.7, depthWrite:false})); mist.rotation.x = -Math.PI/2; mist.renderOrder = 1; scene.add(mist);
+
+/* designer credit as a little floor vinyl; a real link sits over it (see placeCredit) */
+const CR_W = .95, CR_H = .15; // drawn tall so it reads right once the floor foreshortens it
+const creditTex = canvasTex(1600, 160, ()=>{});
+function drawCredit(){
+  const c = creditTex.image.getContext('2d'); c.clearRect(0,0,1600,160); c.fillStyle = INK; c.textBaseline = 'middle';
+  c.font = '600 46px "Archivo Variable", Archivo, sans-serif'; let x = tracked(c, 'EXHIBITION DESIGN BY', 0, 84, 10);
+  c.font = '800 62px "Archivo Variable", Archivo, sans-serif'; x = tracked(c, 'FUTURE FACED', x + 26, 82, 6);
+  c.font = '600 54px "Archivo Variable", Archivo, sans-serif'; c.fillText('↗', x + 14, 80);
+  creditTex.needsUpdate = true;
+}
+const creditMat = new THREE.MeshBasicMaterial({map:creditTex, transparent:true, opacity:.72, depthWrite:false, color:0xffffff});
+const credit = new THREE.Mesh(new THREE.PlaneGeometry(CR_W, CR_H), creditMat); credit.rotation.x = -Math.PI/2; credit.renderOrder = 1; scene.add(credit);
+const creditLink = $('#ffCredit'); let creditHover = 0, creditHoverT = 0;
+if(creditLink){
+  on(creditLink, 'mouseenter', ()=>{ creditHoverT = 1; }); on(creditLink, 'mouseleave', ()=>{ creditHoverT = 0; });
+  on(creditLink, 'focus', ()=>{ creditHoverT = 1; }); on(creditLink, 'blur', ()=>{ creditHoverT = 0; });
+  on(creditLink, 'wheel', e=>{ e.preventDefault(); canvas.dispatchEvent(new WheelEvent('wheel', e)); }, {passive:false});
+}
+
+drawVinyl(); drawCredit();
+if(document.fonts){ Promise.all(['800 80px "Archivo Variable"','500 40px "Archivo Variable"','80px "Permanent Marker"'].map(f=>document.fonts.load(f))).then(()=>{ if(alive){ drawVinyl(); drawCredit(); } }).catch(()=>{}); }
+
+/* wide screens: the vinyl hangs to the right of the tag; tall phones: tucked under it */
+function placeEntrance(aspect){
+  const narrow = aspect < .8;
+  if(narrow){ vinyl.scale.setScalar(.8); vinyl.position.set(.02 + VIN_W*.8/2, .64, .003); }
+  else { vinyl.scale.setScalar(1); vinyl.position.set(.9 + VIN_W/2, 1.32, .003); }
+  canA.position.set(narrow ? .58 : .3, 0, .17); canA.rotation.y = -.5;
+  canB.position.set(narrow ? -.7 : -.62, CAN_R*CAN_S, .34); canB.rotation.set(0, .55, Math.PI/2);
+  lid.position.set(narrow ? .3 : .02, .034, .42); lid.rotation.set(0, .9, Math.PI/2); lid.position.y = .034*CAN_S;
+  shA.position.set(canA.position.x, .0012, canA.position.z + .01);
+  shB.position.set(canB.position.x - .1*Math.cos(.55), .0012, canB.position.z + .1*Math.sin(.55) + .02); shB.rotation.z = .55;
+  shL.position.set(lid.position.x, .0012, lid.position.z + .01);
+  mist.position.set(canA.position.x + .1, .0011, .3);
+  credit.position.set(narrow ? -.12 : -1.55, .0013, narrow ? .64 : .5);
+}
+const crCorners = [new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()];
+function placeCredit(dt){
+  if(!creditLink) return;
+  creditHover += (creditHoverT - creditHover)*(1-Math.exp(-dt*10));
+  creditMat.opacity = .72 + .28*creditHover;
+  const hide = inAbout || aboutV > .02 || openIdx >= 0 || !grid.hidden;
+  let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9, behind=false;
+  [[-1,-1],[1,-1],[1,1],[-1,1]].forEach(([sx,sz],i)=>{ const v=crCorners[i].set(credit.position.x+sx*CR_W/2, 0, credit.position.z+sz*CR_H/2).project(camera); if(v.z>1) behind=true;
+    const px=(v.x*.5+.5)*vw, py=(-v.y*.5+.5)*vh; x0=Math.min(x0,px); x1=Math.max(x1,px); y0=Math.min(y0,py); y1=Math.max(y1,py); });
+  const off = hide || behind || x1 < 0 || x0 > vw || y0 > vh - 4;
+  creditLink.classList.toggle('off', off);
+  if(!off){ const pad = 6; creditLink.style.transform = `translate(${(x0-pad).toFixed(1)}px,${(y0-pad).toFixed(1)}px)`; creditLink.style.width = (x1-x0+pad*2).toFixed(1)+'px'; creditLink.style.height = (y1-y0+pad*2).toFixed(1)+'px'; }
+}
 
 
 /* pieces */
@@ -321,6 +436,7 @@ function resize(){
   const hCz = 3.2/(2*tanV), wCz = camera.aspect < .8 ? 2.05/(2*tanH) : 0;
   camDist = THREE.MathUtils.clamp(Math.max(hCz,wCz), 2.6, 7.5);
   camera.updateProjectionMatrix();
+  placeEntrance(camera.aspect);
   mpp = (2*camDist*tanH)/vw;
 }
 on(window,'resize', resize); resize();
@@ -508,6 +624,7 @@ function frame(now){
   if(focusIdx>=0){ cursorEl.classList.add('on'); cursorEl.style.transform=`translate(${mx}px,${my}px) translate(-50%,-50%)`; }
   else cursorEl.classList.remove('on');
 
+  placeCredit(dt);
   renderer.render(scene,camera);
   if(spin && spin.on) spin.render(dt);
 }

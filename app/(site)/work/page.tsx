@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import PageTop from '@/components/PageTop';
+import SiteFoot from '@/components/SiteFoot';
 import Archive from '@/components/Archive';
 import { getCollections } from '@/lib/artworks';
 
@@ -16,6 +17,7 @@ export default async function WorkIndex() {
         <p className="lede">Pop and street art by Mark Staples: spray paint, hand-cut mirrors and tagged sculpture. Every piece is an original. The 3D gallery shows a curated selection; everything lives here.</p>
         <Archive groups={groups} />
       </main>
+      <SiteFoot />
     </div>
   );
 }

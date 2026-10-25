@@ -79,6 +79,10 @@ button{font:inherit;color:inherit;}
 .vcursor.on{opacity:1;scale:1;}
 
 /* overlays */
+/* real link laid over the floor credit in the 3D room; the lettering itself is painted on the floor */
+.ff-credit{position:fixed;left:0;top:0;z-index:3;display:block;color:transparent;font-size:1px;overflow:hidden;white-space:nowrap;border-radius:4px;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.ff-credit.off{visibility:hidden;pointer-events:none;}
+.ff-credit:focus-visible{outline:2px solid var(--ink);outline-offset:2px;}
 .overlay{position:fixed;inset:0;z-index:10;background:rgba(242,240,235,.7);-webkit-backdrop-filter:blur(22px) saturate(.85);backdrop-filter:blur(22px) saturate(.85);opacity:0;transition:opacity .45s var(--ease);overflow-y:auto;overscroll-behavior:contain;}
 .overlay.show{opacity:1;}
 .close{position:fixed;z-index:12;top:calc(env(safe-area-inset-top,0px) + 16px);right:max(18px,env(safe-area-inset-right,0px));width:46px;height:46px;border-radius:50%;border:1px solid var(--ink);background:var(--paper);display:grid;place-items:center;cursor:pointer;transition:background .25s,color .25s;}

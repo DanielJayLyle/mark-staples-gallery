@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import PageTop from '@/components/PageTop';
+import SiteFoot from '@/components/SiteFoot';
 import EnquiryForm from '@/components/EnquiryForm';
 import { getArtwork, getArtworks } from '@/lib/artworks';
 import { SITE, SHOW_PRICES, priceOrStatus, sizeText } from '@/lib/site';
@@ -68,6 +69,7 @@ export default async function ArtworkPage({ params }: { params: { slug: string }
         </article>
         <nav className="prevnext" aria-label="More work"><Link href={`/work/${prev.slug}`}>&larr; {prev.title}</Link><Link href={`/work/${next.slug}`}>{next.title} &rarr;</Link></nav>
       </main>
+      <SiteFoot />
     </div>
   );
 }

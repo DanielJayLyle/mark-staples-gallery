@@ -48,3 +48,9 @@ a.chip,a.brand,.crumbs a{text-decoration:none;color:var(--ink);}
 .arch-more{margin-top:26px;}
 
 .page-top nav a{white-space:nowrap;}
+
+/* footer credit on the normal pages */
+.site-foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:72px;padding:22px 0 30px;border-top:1px solid rgba(20,19,18,.12);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);}
+.site-foot a{color:var(--ink-2);text-decoration:none;}
+.site-foot a:hover{color:var(--ink);}
+.site-foot b{font-weight:800;color:var(--ink);}
