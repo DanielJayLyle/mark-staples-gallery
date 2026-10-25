@@ -14,8 +14,28 @@ export const ABOUT = {
   ],
   influences: ['Arron Crascall', 'Banksy', 'Ripper', 'Tboy', 'Postman', 'Mr Brainwash', 'Lewis McClean', 'Zinsky', 'Bobby Guy'],
   signoff: 'Peace and love always x',
-  /* Photos of Mark. The first 3 are taped up beside the text; the rest scroll past in the reel underneath.
-     Drop files into public/about/ and set src, e.g. { src: '/about/mark-01.webp', caption: 'In the studio' }. */
-  photos: Array.from({ length: 18 }, (_, i) => ({ src: '', caption: i === 0 ? 'Mark in the studio' : '' })),
+  /* Photos of Mark (in public/about/). The first 3 are taped up beside the text; the rest scroll past in the reel.
+     Each print keeps the photo's own shape. Add a caption to any of them if you like. */
+  photos: [
+    { src: '/about/mark-01.webp', w: 620, h: 1000, caption: '' },
+    { src: '/about/mark-02.webp', w: 798, h: 1000, caption: '' },
+    { src: '/about/mark-03.webp', w: 958, h: 1000, caption: '' },
+    { src: '/about/mark-04.webp', w: 570, h: 760, caption: '' },
+    { src: '/about/mark-05.webp', w: 760, h: 570, caption: '' },
+    { src: '/about/mark-06.webp', w: 570, h: 760, caption: '' },
+    { src: '/about/mark-07.webp', w: 580, h: 760, caption: '' },
+    { src: '/about/mark-08.webp', w: 570, h: 760, caption: '' },
+    { src: '/about/mark-09.webp', w: 570, h: 760, caption: '' },
+    { src: '/about/mark-10.webp', w: 570, h: 760, caption: '' },
+    { src: '/about/mark-11.webp', w: 570, h: 760, caption: '' },
+    { src: '/about/mark-12.webp', w: 570, h: 760, caption: '' },
+    { src: '/about/mark-13.webp', w: 570, h: 760, caption: '' },
+    { src: '/about/mark-14.webp', w: 570, h: 760, caption: '' },
+    { src: '/about/mark-15.webp', w: 570, h: 760, caption: '' },
+    { src: '/about/mark-16.webp', w: 570, h: 760, caption: '' },
+    { src: '/about/mark-17.webp', w: 547, h: 760, caption: '' },
+    { src: '/about/mark-18.webp', w: 471, h: 760, caption: '' },
+    { src: '/about/mark-19.webp', w: 570, h: 760, caption: '' },
+  ] as { src: string; w: number; h: number; caption?: string }[],
 };
 export type AboutContent = typeof ABOUT;

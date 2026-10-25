@@ -216,7 +216,7 @@ body.in-about .bottom,body.in-about .tag,body.in-about .hint,body.in-about .vcur
 .about-photos{display:grid;gap:40px;padding-top:6px;}
 .print{position:relative;margin:0;background:#fbfaf7;padding:10px 10px 12px;box-shadow:0 22px 40px -22px rgba(0,0,0,.45),0 2px 6px rgba(0,0,0,.08);}
 .about-photos .print:nth-child(1){transform:rotate(2.2deg);} .about-photos .print:nth-child(2){transform:rotate(-1.8deg) translateX(-10px);} .about-photos .print:nth-child(3){transform:rotate(1.4deg) translateX(6px);}
-.print img,.print .ph{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;}
+.print img,.print .ph{display:block;width:100%;height:auto;aspect-ratio:var(--ar,.8);object-fit:cover;background:#e7e3dc;}
 .print .ph{display:grid;place-items:center;background:repeating-linear-gradient(135deg,#e7e3dc 0 12px,#e1ddd5 12px 24px);color:var(--ink-2);text-align:center;font-family:var(--f-body);font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;text-shadow:none;}
 .print .ph small{display:block;margin-top:6px;font-weight:500;letter-spacing:.1em;opacity:.7;}
 .print figcaption{font-family:"Permanent Marker",cursive;font-size:14px;margin:10px 2px 0;color:#2a2825;text-shadow:none;}
@@ -226,7 +226,8 @@ body.in-about .bottom,body.in-about .tag,body.in-about .hint,body.in-about .vcur
 .reel-track{display:flex;width:max-content;padding:26px 0 36px;animation:reel var(--dur,60s) linear infinite;}
 .about-reel:hover .reel-track{animation-play-state:paused;}
 .reel-item .print .tape{width:50px;height:17px;top:-8px;}
-.reel-item{flex:0 0 auto;width:clamp(150px,15vw,220px);margin-right:clamp(22px,2.4vw,36px);}
+/* every reel print is the same height; width follows the photo's shape, so landscape shots get wide prints */
+.reel-item{--rh:clamp(170px,17vw,250px);flex:0 0 auto;width:calc(var(--rh) * var(--ar,.8) + 20px);margin-right:clamp(22px,2.4vw,36px);}
 .reel-item:nth-child(odd) .print{transform:rotate(1.6deg);} .reel-item:nth-child(even) .print{transform:rotate(-1.4deg) translateY(8px);}
 .reel-item:nth-child(3n) .print{transform:rotate(.6deg) translateY(-6px);}
 @keyframes reel{to{transform:translateX(-50%)}}

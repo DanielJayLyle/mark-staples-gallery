@@ -641,17 +641,17 @@ function buildAbout(){
     aboutBody.appendChild(el);
   });
   const sig = document.createElement('p'); sig.className = 'spray sig'; words(sig, about.signoff);
-  sig.insertAdjacentHTML('beforeend', ' <span class="w tagmark"><svg viewBox="'+TAG_VB.join(' ')+'" aria-hidden="true"><use href="#ms-tag"/></svg></span><span class="w">MS11</span>');
+  sig.insertAdjacentHTML('beforeend', ' <span class="w">MS11</span>');
   aboutBody.appendChild(sig);
   // photos: three taped beside the text, the rest in a reel that scrolls past forever
   const photos = about.photos || [];
-  const print = (ph, n) => '<figure class="print"><i class="tape t1"></i><i class="tape t2"></i>' +
-    (ph.src ? '<img src="'+ph.src+'" alt="'+(ph.caption || 'Mark Staples')+'" loading="lazy">' : '<div class="ph"><span>Photo '+String(n).padStart(2,'0')+'<small>placeholder</small></span></div>') +
+  const print = (ph, n) => '<figure class="print'+(ph.w > ph.h ? ' wide' : '')+'" style="--ar:'+(ph.w && ph.h ? (ph.w/ph.h).toFixed(3) : '0.8')+'"><i class="tape t1"></i><i class="tape t2"></i>' +
+    (ph.src ? '<img src="'+ph.src+'" width="'+(ph.w||400)+'" height="'+(ph.h||500)+'" alt="'+(ph.caption || 'Mark Staples')+'" loading="lazy" decoding="async">' : '<div class="ph"><span>Photo '+String(n).padStart(2,'0')+'<small>placeholder</small></span></div>') +
     (ph.caption ? '<figcaption>'+ph.caption+'</figcaption>' : '') + '</figure>';
   $('#aboutPhotos').innerHTML = photos.slice(0, 3).map((ph, i) => print(ph, i + 1)).join('');
   const rest = photos.slice(3);
   if(rest.length){
-    const once = rest.map((ph, i) => '<div class="reel-item">' + print(ph, i + 4) + '</div>').join('');
+    const once = rest.map((ph, i) => '<div class="reel-item" style="--ar:'+(ph.w && ph.h ? (ph.w/ph.h).toFixed(3) : '0.8')+'">' + print(ph, i + 4) + '</div>').join('');
     const reel = $('#aboutReel');
     reel.innerHTML = '<div class="reel-track" style="--dur:' + (rest.length * 4.5) + 's">' + once + once.replace(/class="reel-item"/g, 'class="reel-item" aria-hidden="true"') + '</div>';
     reel.hidden = false;
