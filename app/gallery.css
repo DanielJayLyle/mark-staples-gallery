@@ -52,6 +52,11 @@ button{font:inherit;color:inherit;}
 .nav:hover{background:var(--ink);color:var(--paper);}
 .nav:disabled{opacity:.3;cursor:default;}
 .nav svg{width:16px;height:16px;}
+.nav .nav-lbl{display:none;}
+.nav.to-about{width:auto;border-radius:999px;padding:0 16px 0 20px;gap:10px;grid-auto-flow:column;background:#E8317A;border-color:#E8317A;color:#fff;}
+.nav.to-about .nav-lbl{display:block;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;}
+.nav.to-about:hover{background:var(--ink);border-color:var(--ink);}
+@media (max-width:560px){ .bottom:has(.to-about) #countName{display:none;} }
 .progress{flex:0 1 440px;min-width:0;}
 .pmeta{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:10px;}
 .pmeta b{font-size:11px;letter-spacing:.18em;font-weight:700;font-variant-numeric:tabular-nums;flex:none;}

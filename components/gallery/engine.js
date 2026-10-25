@@ -424,8 +424,26 @@ const ABOUT_L = { x:0, lit:0, onAt:null, focus:1, seen:true, on:false, glowMat:n
   spotPos:new THREE.Vector3(), spotTgt:new THREE.Vector3(), spotAngle:1.0, spotI:2.3 };
 LIGHTABLE.push(ABOUT_L);
 
+/* the end of the room: Mark's painted arrow pointing round the corner to the About wall */
+const END_X = ROOM.end - 1.6 + .78;
+const endTex = canvasTex(1024, 512, ()=>{});
+function drawEnd(){
+  const c = endTex.image.getContext('2d'); c.clearRect(0,0,1024,512);
+  c.fillStyle = '#E8317A'; c.strokeStyle = '#E8317A'; c.lineCap = 'round'; c.lineJoin = 'round';
+  c.save(); c.translate(70, 190); c.rotate(-.06); c.font = '112px "Permanent Marker", cursive'; c.fillText('Meet the', 0, 0); c.fillText('artist', 40, 120); c.restore();
+  // a quick, loose hand-drawn arrow
+  c.lineWidth = 22; c.beginPath(); c.moveTo(150, 405); c.bezierCurveTo(360, 450, 620, 430, 880, 360); c.stroke();
+  c.beginPath(); c.moveTo(770, 300); c.lineTo(888, 356); c.lineTo(800, 452); c.stroke();
+  endTex.needsUpdate = true;
+}
+drawEnd();
+if(document.fonts) document.fonts.load('80px "Permanent Marker"').then(()=>{ if(alive) drawEnd(); }).catch(()=>{});
+const endMat = new THREE.MeshStandardMaterial({map:endTex, transparent:true, roughness:.3, metalness:0, depthWrite:false, polygonOffset:true, polygonOffsetFactor:-2});
+const endSign = new THREE.Mesh(new THREE.PlaneGeometry(1.1, .55), endMat); endSign.position.set(END_X, 1.3, .003); endSign.renderOrder = 1; scene.add(endSign);
+let endHover = false;
+
 /* ---------- camera + controls ---------- */
-const stations = [{x:-.1, idx:-1}].concat(PIECES.map((p,i)=>({x:p.x, idx:i})));
+const stations = [{x:-.1, idx:-1}].concat(PIECES.map((p,i)=>({x:p.x, idx:i})), [{x:END_X, idx:-2}]);
 const minX = stations[0].x, maxX = stations[stations.length-1].x;
 let camX = minX, camTarget = minX, camDist = 5, distMul = 1, distMulT = 1, parX=0, parY=0, parXT=0, parYT=0;
 let vw=1, vh=1, mpp=.005;
@@ -448,6 +466,7 @@ function goTo(i){ i=Math.max(0,Math.min(stations.length-1,i)); camTarget=station
 function step(dir){ const cur = nearestStation(camTarget); goTo(cur+dir); }
 
 const ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
+function pickEnd(cx,cy){ ndc.set(cx/vw*2-1, -(cy/vh)*2+1); ray.setFromCamera(ndc,camera); return ray.intersectObject(endSign,false).length>0; }
 function pick(cx,cy){ ndc.set(cx/vw*2-1, -(cy/vh)*2+1); ray.setFromCamera(ndc,camera); const h=ray.intersectObjects(hitMeshes,false)[0]; return h ? h.object.userData.idx : -1; }
 
 let mx=0, my=0; const cursorEl=document.getElementById('cursor');
@@ -462,7 +481,7 @@ canvas.addEventListener('pointermove', e=>{
     if(dragging){ camTarget = clampX(camTarget - dx*mpp*1.15); camX = camTarget; vel = -dx*mpp/Math.max(1,now-down.lt); }
     down.lx=e.clientX; down.lt=now;
   } else if(e.pointerType==='mouse' && openIdx<0 && !inAbout){
-    hovered = pick(e.clientX,e.clientY); canvas.style.cursor = hovered>=0 ? 'none' : 'grab';
+    hovered = pick(e.clientX,e.clientY); endHover = hovered<0 && pickEnd(e.clientX,e.clientY); canvas.style.cursor = hovered>=0 ? 'none' : endHover ? 'pointer' : 'grab';
   }
 });
 canvas.addEventListener('pointerup', e=>{
@@ -474,6 +493,7 @@ canvas.addEventListener('pointerup', e=>{
   } else {
     const hit = pick(e.clientX,e.clientY);
     if(hit>=0){ if(e.pointerType==='mouse' || active===hit) openDetail(hit); else goTo(hit+1); }
+    else if(pickEnd(e.clientX,e.clientY)) openAbout();
   }
   down=null; dragging=false;
 });
@@ -490,7 +510,7 @@ on(window,'keydown', e=>{
   if(e.key==='ArrowLeft'){ step(-1); e.preventDefault(); }
   if(e.key==='Enter' && active>=0) openDetail(active);
 });
-$('#prev').onclick=()=>step(-1); $('#next').onclick=()=>step(1);
+$('#prev').onclick=()=>step(-1); $('#next').onclick=()=>{ if(stations[nearestStation(camTarget)].idx===-2) openAbout(); else step(1); };
 
 /* hint */
 const hint=$('#hint'); hint.textContent = coarse ? 'Swipe to walk the room. The lights come on as you go.' : 'Scroll to walk the room. The lights come on as you go.';
@@ -519,9 +539,11 @@ let countFor=-1;
 function setCount(si){
   if(si===countFor) return; countFor=si;
   const s=stations[si];
-  $('#count').textContent = String(s.idx+1).padStart(2,'0') + ' / ' + String(PIECES.length).padStart(2,'0');
-  $('#countName').textContent = s.idx<0 ? 'Mark Staples, new work' : PIECES[s.idx].title;
-  $('#prev').disabled = si===0; $('#next').disabled = si===stations.length-1;
+  const atEnd = s.idx===-2, nx = $('#next');
+  $('#count').textContent = (atEnd ? 'End' : String(s.idx+1).padStart(2,'0')) + ' / ' + String(PIECES.length).padStart(2,'0');
+  $('#countName').textContent = s.idx===-1 ? 'Mark Staples, new work' : atEnd ? 'That\u2019s the room' : PIECES[s.idx].title;
+  $('#prev').disabled = si===0;
+  nx.classList.toggle('to-about', atEnd); nx.setAttribute('aria-label', atEnd ? 'Meet the artist' : 'Next piece');
   stations.forEach((st,j)=>st.tick.classList.toggle('on', j===si));
 }
 
@@ -588,6 +610,7 @@ function frame(now){
   const nL = shade(NAME, T, dt, T>.35 && Math.abs(NAME.x-camX) < Math.max(reach,1.2), focusIdx>=0 ? .45 : 1);
 
   updateDrips(T, dt);
+  { const near = Math.abs(END_X-camX) < 1.4 && !inAbout; endMat.color.setScalar(near ? (endHover ? 1.15 : 1) : .78); }
   PIECES.forEach((p,i)=>{
     const ft = focusIdx<0 ? 1 : (i===focusIdx ? 1 : .45);
     const L = shade(p, T, dt, T>.6 && Math.abs(p.x-camX) < reach, ft);
