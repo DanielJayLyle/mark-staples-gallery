@@ -27,6 +27,7 @@ export const INFLUENCES = {
     { name: 'Arron Crascall' },
     { name: 'RYCA' },
     { name: 'Steve Brown' },
+    { name: 'Fatboy Slim', met: true, key: 'fatboy' },
   ] as Influence[],
   photos: [
     { src: '/influences/inf-01.webp', w: 512, h: 640, caption: 'Fatboy Slim, Brighton Box', keys: ['fatboy'] },

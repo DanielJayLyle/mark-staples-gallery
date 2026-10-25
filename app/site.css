@@ -54,3 +54,4 @@ a.chip,a.brand,.crumbs a{text-decoration:none;color:var(--ink);}
 .site-foot a{color:var(--ink-2);text-decoration:none;}
 .site-foot a:hover{color:var(--ink);}
 .site-foot b{font-weight:800;color:var(--ink);}
+@media (max-width:520px){ .page-top nav{gap:12px;} .page-top .navlink{font-size:10px;letter-spacing:.1em;padding:8px 0;} .hide-sm{display:none;} }

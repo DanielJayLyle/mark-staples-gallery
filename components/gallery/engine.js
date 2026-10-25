@@ -61,7 +61,7 @@ const shadowDrop = canvasTex(256,256,(c)=>{ c.shadowColor='rgba(20,16,12,1)'; c.
 const shadowRound = canvasTex(256,256,(c)=>{ c.shadowColor='rgba(0,0,0,1)'; c.shadowBlur=34; c.shadowOffsetY=10; c.fillStyle='#000'; c.beginPath(); c.arc(128,128,80,0,Math.PI*2); c.fill(); });
 const shadowHalo = canvasTex(256,256,(c)=>{ c.shadowColor='rgba(20,16,12,1)'; c.shadowBlur=30; c.fillStyle='rgba(20,16,12,1)'; c.fillRect(64,64,128,128); });
 const poolTex = canvasTex(256,256,(c)=>{ const g=c.createRadialGradient(128,110,0,128,128,128); g.addColorStop(0,'rgba(255,250,240,1)'); g.addColorStop(.55,'rgba(255,248,235,.35)'); g.addColorStop(1,'rgba(255,248,235,0)'); c.fillStyle=g; c.fillRect(0,0,256,256); });
-const stripeTex = canvasTex(128,32,(c,w,h)=>{ c.fillStyle='#f4f1ea'; c.fillRect(0,0,w,h); c.fillStyle='#d3242c'; for(let x=-32;x<w+32;x+=32){ c.beginPath(); c.moveTo(x,0); c.lineTo(x+16,0); c.lineTo(x+16-h,h); c.lineTo(x-h,h); c.fill(); } });
+const stripeTex = canvasTex(128,32,(c,w,h)=>{ c.fillStyle='#f4f1ea'; c.fillRect(0,0,w,h); c.fillStyle='#d8233d'; for(let x=-32;x<w+32;x+=32){ c.beginPath(); c.moveTo(x,0); c.lineTo(x+16,0); c.lineTo(x+16-h,h); c.lineTo(x-h,h); c.fill(); } });
 stripeTex.wrapS = THREE.RepeatWrapping;
 
 /* room */
@@ -170,14 +170,14 @@ const vinylTex = canvasTex(2048, 1024, ()=>{});
 function drawVinyl(){
   const c = vinylTex.image.getContext('2d'), w = 2048, h = 1024; c.clearRect(0,0,w,h);
   c.textBaseline = 'alphabetic';
-  c.fillStyle = '#D3242C'; c.beginPath(); c.arc(26, 104, 20, 0, Math.PI*2); c.fill();
+  c.fillStyle = '#d8233d'; c.beginPath(); c.arc(26, 104, 20, 0, Math.PI*2); c.fill();
   c.fillStyle = INK; c.font = '700 54px "Archivo Variable", Archivo, sans-serif'; tracked(c, 'NOW SHOWING  \u00b7  ROOM ONE', 70, 123, 12);
   c.font = '800 300px "Archivo Variable", Archivo, sans-serif'; tracked(c, 'MARK', -6, 420, 12); tracked(c, 'STAPLES', -6, 700, 12);
   c.fillRect(4, 760, 380, 12);
   c.font = '500 76px "Archivo Variable", Archivo, sans-serif'; c.fillText('Street pop art, paintings and sculpture', 4, 880);
   c.globalAlpha = .6; c.font = '700 50px "Archivo Variable", Archivo, sans-serif'; tracked(c, 'SOUTHAMPTON, UK', 6, 972, 13); c.globalAlpha = 1;
   // Mark's own hand over the clean lettering, like he signed the vinyl on opening night
-  c.save(); c.translate(1090, 318); c.rotate(-.12); c.fillStyle = '#E8317A'; c.font = '124px "Permanent Marker", cursive';
+  c.save(); c.translate(1090, 318); c.rotate(-.12); c.fillStyle = '#d8233d'; c.font = '124px "Permanent Marker", cursive';
   c.fillText('Peace & love x', 0, 0); c.restore();
   vinylTex.needsUpdate = true;
 }
@@ -215,15 +215,15 @@ function sprayCan(body, band, tagCol){
   g.traverse(m=>{ if(m.isMesh){ m.castShadow = true; m.receiveShadow = true; } });
   g.scale.setScalar(CAN_S); scene.add(g); return g;
 }
-const canA = sprayCan('#151515', '#E8317A', '#f4f1ea'); // black can, pink paint: the one he just used
+const canA = sprayCan('#151515', '#76ceff', '#f4f1ea'); // black can, Mark's blue: the one he just used
 const canB = sprayCan('#f1eee7', '#151515', '#141312');
-const lid = new THREE.Mesh(new THREE.LatheGeometry([[0,.05],[.031,.05],[.034,.046],[.034,0],[.031,0],[.031,.044],[0,.044]].map(p=>new THREE.Vector2(p[0],p[1])),36), new THREE.MeshStandardMaterial({color:0xE8317A, roughness:.4, side:THREE.DoubleSide}));
+const lid = new THREE.Mesh(new THREE.LatheGeometry([[0,.05],[.031,.05],[.034,.046],[.034,0],[.031,0],[.031,.044],[0,.044]].map(p=>new THREE.Vector2(p[0],p[1])),36), new THREE.MeshStandardMaterial({color:0x76ceff, roughness:.4, side:THREE.DoubleSide}));
 lid.castShadow = true; lid.scale.setScalar(CAN_S); scene.add(lid);
 const contact = (r, op) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(r,r), new THREE.MeshBasicMaterial({map:shadowRound, transparent:true, opacity:op, depthWrite:false})); m.rotation.x = -Math.PI/2; m.renderOrder = 1; scene.add(m); return m; };
 const shA = contact(.16, .5), shB = contact(.2, .38), shL = contact(.11, .3);
 shB.scale.set(1.5, .6, 1);
-// overspray: a faint pink mist on the concrete where he tested the can
-const mistTex = canvasTex(256,256,(c)=>{ const r = seed(77); for(let i=0;i<900;i++){ const a=r()*Math.PI*2, d=Math.pow(r(),.6)*118, s=.6+r()*2.2; c.fillStyle=`rgba(232,49,122,${(.12+r()*.4)*(1-d/125)})`; c.beginPath(); c.arc(128+Math.cos(a)*d, 128+Math.sin(a)*d*.7, s, 0, Math.PI*2); c.fill(); } const g=c.createRadialGradient(128,128,0,128,128,90); g.addColorStop(0,'rgba(232,49,122,.16)'); g.addColorStop(1,'rgba(232,49,122,0)'); c.fillStyle=g; c.fillRect(0,0,256,256); });
+// overspray: a faint blue mist on the concrete where he tested the can
+const mistTex = canvasTex(256,256,(c)=>{ const r = seed(77); for(let i=0;i<900;i++){ const a=r()*Math.PI*2, d=Math.pow(r(),.6)*118, s=.6+r()*2.2; c.fillStyle=`rgba(70,170,235,${(.12+r()*.4)*(1-d/125)})`; c.beginPath(); c.arc(128+Math.cos(a)*d, 128+Math.sin(a)*d*.7, s, 0, Math.PI*2); c.fill(); } const g=c.createRadialGradient(128,128,0,128,128,90); g.addColorStop(0,'rgba(70,170,235,.16)'); g.addColorStop(1,'rgba(70,170,235,0)'); c.fillStyle=g; c.fillRect(0,0,256,256); });
 const mist = new THREE.Mesh(new THREE.PlaneGeometry(.5,.5), new THREE.MeshBasicMaterial({map:mistTex, transparent:true, opacity:.7, depthWrite:false})); mist.rotation.x = -Math.PI/2; mist.renderOrder = 1; scene.add(mist);
 
 /* designer credit printed on the kickboard, starting at the left corner; a real link sits over it (see placeCredit) */
@@ -397,7 +397,7 @@ PIECES.forEach((p,i)=>{
     p.spotAngle=THREE.MathUtils.clamp(Math.atan((FW*.66+.25)/(FH*.8+.4)),.4,.85); p.spotI=1.35;
     const pool = new THREE.Mesh(new THREE.PlaneGeometry(FW*2.2+.7, FH*1.8+.7), new THREE.MeshBasicMaterial({map:poolTex, transparent:true, opacity:0, depthWrite:false, blending:THREE.AdditiveBlending}));
     pool.position.set(p.x, p.cy+.1, .0025); scene.add(pool); p.poolMat = pool.material; p.poolMax=.035;
-    if(p.sold){ const dot=new THREE.Mesh(new THREE.CircleGeometry(.024,32), new THREE.MeshBasicMaterial({color:0xD3242C})); dot.position.set(p.x+FW/2+.07, p.cy-FH/2+.03, .004); scene.add(dot); }
+    if(p.sold){ const dot=new THREE.Mesh(new THREE.CircleGeometry(.024,32), new THREE.MeshBasicMaterial({color:0xd8233d})); dot.position.set(p.x+FW/2+.07, p.cy-FH/2+.03, .004); scene.add(dot); }
   }
   const realShadow = p.sculpture || p.cutWall;
   g.traverse(m=>{ if(m.isMesh && !m.material.transparent){ m.castShadow=realShadow; m.receiveShadow=true; } });
@@ -429,7 +429,7 @@ const END_X = ROOM.end - 1.6 + .78;
 const endTex = canvasTex(1024, 512, ()=>{});
 function drawEnd(){
   const c = endTex.image.getContext('2d'); c.clearRect(0,0,1024,512);
-  c.fillStyle = '#E8317A'; c.strokeStyle = '#E8317A'; c.lineCap = 'round'; c.lineJoin = 'round';
+  c.fillStyle = '#d8233d'; c.strokeStyle = '#d8233d'; c.lineCap = 'round'; c.lineJoin = 'round';
   c.save(); c.translate(70, 190); c.rotate(-.06); c.font = '112px "Permanent Marker", cursive'; c.fillText('Meet the', 0, 0); c.fillText('artist', 40, 120); c.restore();
   // a quick, loose hand-drawn arrow
   c.lineWidth = 22; c.beginPath(); c.moveTo(150, 405); c.bezierCurveTo(360, 450, 620, 430, 880, 360); c.stroke();
@@ -534,7 +534,7 @@ tag.addEventListener('click', ()=>{ if(active>=0) openDetail(active); });
 /* counter and progress rail */
 const railEl=$('#rail'), railFill=$('#railFill');
 stations.forEach(s=>{ const e=document.createElement('s'); e.style.left=((s.x-minX)/(maxX-minX)*100)+'%'; railEl.appendChild(e); s.tick=e; });
-$('#brand').addEventListener('click', e=>{ e.preventDefault(); if(inAbout){ originX = minX; if(inInf) closeInf(true, true); closeAbout(); return; } if(!$('#detail').hidden) closeDetail(); if(!$('#grid').hidden) closeGrid(); goTo(0); });
+$('#brand').addEventListener('click', e=>{ e.preventDefault(); if(inAbout){ originX = minX; closeInf(true, true); closeAbout(); return; } if(!$('#detail').hidden) closeDetail(); if(!$('#grid').hidden) closeGrid(); goTo(0); });
 let countFor=-1;
 function setCount(si){
   if(si===countFor) return; countFor=si;
@@ -586,15 +586,17 @@ function frame(now){
   // About: glide to the far end, then turn right to face the end wall; reverse on the way out
   if(inAbout && aboutPhase === 'travel' && Math.abs(camX - ABOUT_X) < .06){ aboutPhase = 'turn'; aboutTurn = true; setTimeout(showAboutText, 950); }
   if(!inAbout && aboutPhase === 'out' && aboutV < .03){ aboutPhase = null; camTarget = clampX(originX); }
+  if(infQueued && inAbout && aboutPhase === 'turn' && aboutV > .82){ infQueued = false; startInf(); }
   aboutV += ((aboutTurn?1:0) - aboutV) * (1 - Math.exp(-dt*2.4));
   if(!aboutTurn && aboutV < .004) aboutV = 0;
   const te = aboutV*aboutV*(3 - 2*aboutV), ta = te*Math.PI/2, tl = cz*(1-te) + 2.6*te, keep = 1 - te;
-  const cpx = camX + parX*.2*keep;
-  camera.position.set(cpx, 1.55 - parY*.08*keep, cz);
-  infV += ((inInf?1:0) - infV) * (1 - Math.exp(-dt*2.2)); if(!inInf && infV < .003) infV = 0;
-  let lx = cpx + Math.sin(ta)*tl + parX*.08*keep, ly = (1.16 - parY*.04)*keep + 1.5*te, lz = cz - Math.cos(ta)*tl;
+  infV = Math.max(0, Math.min(1, infV + (inInf ? 1 : -1) * dt / (reduce ? .3 : 1.7)));
+  const ie = .5 - .5*Math.cos(Math.PI*infV); // eases in and out, like turning your head
+  const cpx = camX + parX*.2*keep - .45*ie*te, cpy = 1.55 - parY*.08*keep - .06*ie;
+  camera.position.set(cpx, cpy, cz);
+  let lx = cpx + .45*ie*te + Math.sin(ta)*tl + parX*.08*keep, ly = (1.16 - parY*.04)*keep + 1.5*te, lz = cz - Math.cos(ta)*tl;
   if(infV > 0){ // tilt the head back to look up at the ceiling
-    const ie = infV*infV*(3 - 2*infV), dx = lx - cpx, dy = ly - camera.position.y, dz = lz - cz, hz = Math.hypot(dx, dz) || 1, L = Math.hypot(hz, dy);
+    const dx = lx - cpx, dy = ly - camera.position.y, dz = lz - cz, hz = Math.hypot(dx, dz) || 1, L = Math.hypot(hz, dy);
     const p = Math.atan2(dy, hz) + (1.32 - Math.atan2(dy, hz))*ie;
     lx = cpx + dx/hz*Math.cos(p)*L; ly = camera.position.y + Math.sin(p)*L; lz = cz + dz/hz*Math.cos(p)*L;
     ceil.material.emissive.setRGB(.55*ie, .54*ie, .52*ie);
@@ -773,7 +775,7 @@ function startSpin(cv){
 /* ---------- about overlay: the bio, sprayed word by word, with drips ---------- */
 const aboutEl = $('#about'), aboutBody = $('#aboutBody');
 let aboutBuilt = false, aboutObs = null;
-const INF_COL = ['#D3242C','#2F6FD0','#E2387F','#E08A12','#2E9E5B','#7C4FC9','#0E9BB0','#C9A12B','#D8322F'];
+const INF_COL = ['#d8233d','#2F6FD0','#E2387F','#E08A12','#2E9E5B','#7C4FC9','#0E9BB0','#C9A12B','#D8322F'];
 function buildAbout(){
   if(aboutBuilt || !about) return; aboutBuilt = true;
   const words = (el, text) => { text.split(/(\s+)/).forEach(tok => { if(!tok) return; if(/^\s+$/.test(tok)){ el.appendChild(document.createTextNode(' ')); return; } const s=document.createElement('span'); s.className='w'; s.textContent=tok; el.appendChild(s); }); };
@@ -817,7 +819,7 @@ function startSpray(){
   aboutObs = new IntersectionObserver(es => es.forEach(en => { if(en.isIntersecting){ en.target.classList.add('on'); aboutObs.unobserve(en.target); } }), { root: aboutEl.querySelector('.about-scroll'), threshold: .25 });
   els.forEach(e => aboutObs.observe(e));
 }
-function showAboutText(){ if(inAbout && !inInf && aboutPhase === 'turn'){ aboutEl.classList.add('show'); startSpray(); } }
+function showAboutText(){ if(inAbout && !inInf && !infQueued && aboutPhase === 'turn'){ aboutEl.classList.add('show'); startSpray(); } }
 function openAbout(fromHistory, instant){
   if(inAbout) return;
   if(openIdx >= 0) closeDetail(true);
@@ -834,29 +836,29 @@ function openAbout(fromHistory, instant){
 }
 function closeAbout(fromHistory){
   if(!inAbout) return;
-  inAbout = false; aboutTurn = false; aboutPhase = 'out';
+  inAbout = false; aboutTurn = false; aboutPhase = 'out'; infQueued = false; document.body.classList.remove('in-inf');
   aboutEl.classList.remove('show'); document.body.classList.remove('in-about');
   if(!fromHistory) history.pushState({gallery:true}, '', '/');
   document.title = baseTitle;
   setTimeout(() => { if(!inAbout) aboutEl.hidden = true; }, 500);
   canvas.focus({preventScroll:true});
 }
-$('#aboutBtn').onclick = e => { e.preventDefault(); if(inInf) closeInf(); else if(inAbout) closeAbout(); else openAbout(); };
+$('#aboutBtn').onclick = e => { e.preventDefault(); if(inInf || infQueued) closeInf(); else if(inAbout) closeAbout(); else openAbout(); };
 $('#aboutBack').onclick = () => closeAbout();
 
 /* ---------- influences: from the About wall, look up at a ceiling tagged with the artists Mark rates ---------- */
-let inInf = false, infV = 0, infBuilt = false, infTimer = 0, infKey = null;
+let inInf = false, infQueued = false, infV = 0, infBuilt = false, infTimer = 0, infKey = null;
 const infEl = $('#inf'), infBoard = $('#infBoard'), inspires = about && about.inspires;
 // hand-placed spots for the desktop ceiling, in % of the screen: [x, y, size px at 1440 wide, rotation, hand]
 const INF_NAME_POS = [[38,20,64,-4,'f1'],[52,12,24,7,'f4'],[56,25,32,3,'f2'],[23,15,26,6,'f5'],[87,30,24,-5,'f3'],[41,33,26,-3,'f4'],[28,42,17,-8,'f8'],[62,37,38,-5,'f7'],[76,41,32,4,'f5'],[26,54,42,-6,'f3'],[40,62,50,5,'f1'],[60,62,36,-3,'f4'],[76,56,34,-7,'f2'],[77,67,24,-3,'f5'],[50,75,30,4,'f1'],[20,85,30,4,'f7'],[50,84,17,-3,'f6'],[80,88,24,-3,'f8'],[54,90,15,3,'f6']];
 const INF_PHOTO_POS = [[15,34,142,-5],[10,69,160,3],[34,79,176,4],[71,22,200,3],[89,50,200,-4],[65,79,140,-3],[91,80,126,5]];
-const INF_SPARE = [[12,50],[45,48],[88,64],[30,26],[68,50],[60,86]]; // extra names land here
+const INF_SPARE = [[12,51,30,-5,'f3'],[88,64,20,4,'f5'],[30,26,20,-4,'f7'],[67,51,20,3,'f6'],[60,86,18,-3,'f5']]; // extra names land here
 const HANDS = ['f1','f4','f2','f5','f3','f7','f8','f6'];
 function buildInf(){
   if(infBuilt || !inspires) return; infBuilt = true;
   const names = inspires.names, photos = inspires.photos;
   const esc = t => String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;');
-  const nameEl = (n, i) => { const p = INF_NAME_POS[i] || [...(INF_SPARE[i - INF_NAME_POS.length] || [50, 50]), 24, (i%2?4:-4), HANDS[i % HANDS.length]];
+  const nameEl = (n, i) => { const p = INF_NAME_POS[i] || INF_SPARE[i - INF_NAME_POS.length] || [50, 50, 22, (i%2?4:-4), HANDS[i % HANDS.length]];
     return '<'+(n.key?'button type="button"':'span')+' class="inf-name '+p[4]+'"'+(n.key?' data-k="'+n.key+'"':'')+' style="--x:'+p[0]+'%;--y:'+p[1]+'%;--s:'+p[2]+';--r:'+p[3]+'deg;--d:'+(i*70)+'ms">'+esc(n.name)+(n.met?'<i class="heart" aria-label="met">&hearts;</i>':'')+'</'+(n.key?'button':'span')+'>'; };
   const photoEl = (ph, i) => { const p = INF_PHOTO_POS[i] || [50, 50, 150, 0];
     return '<figure class="inf-photo'+(i%2?' r':'')+'" data-ks="'+ph.keys.join(' ')+'" style="--x:'+p[0]+'%;--y:'+p[1]+'%;--w:'+p[2]+';--r:'+p[3]+'deg;--d:'+(300+i*120)+'ms;--ar:'+(ph.w/ph.h).toFixed(3)+'"><i class="tape t1"></i><i class="tape t2"></i><img src="'+ph.src+'" width="'+ph.w+'" height="'+ph.h+'" alt="'+esc(ph.caption)+'" decoding="async"><figcaption>'+esc(ph.caption)+'</figcaption></figure>'; };
@@ -877,20 +879,24 @@ function buildInf(){
     if(k && coarse){ const ph = infBoard.querySelector('.inf-photo.on'); ph && ph.scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block: 'center'}); } });
 }
 function openInf(fromHistory, instant){
-  if(!inspires) return;
+  if(!inspires || inInf || infQueued) return;
+  if(!fromHistory) history.pushState({gallery:true, about:true, inf:true}, '', '/influences');
+  document.title = 'Who inspires Mark Staples'; document.body.classList.add('in-inf');
+  if(!inAbout && !instant){ infQueued = true; openAbout(true); return; }
   if(!inAbout) openAbout(true, true);
-  if(inInf) return;
+  if(aboutPhase !== 'turn'){ infQueued = true; return; }
+  startInf(instant);
+}
+function startInf(instant){
   inInf = true; clearTimeout(infTimer);
   aboutEl.classList.remove('show'); document.body.classList.add('in-inf');
   buildInf(); infEl.hidden = false; infEl.querySelector('.inf-scroll').scrollTop = 0;
-  if(!fromHistory) history.pushState({gallery:true, about:true, inf:true}, '', '/influences');
-  document.title = 'Who inspires Mark Staples';
   if(instant) infV = 1;
-  infTimer = setTimeout(() => { if(inInf) infEl.classList.add('show'); }, instant || reduce ? 80 : 1500);
+  infTimer = setTimeout(() => { if(inInf) infEl.classList.add('show'); }, instant || reduce ? 80 : 1050);
 }
 function closeInf(fromHistory, toGallery){
-  if(!inInf) return;
-  inInf = false; clearTimeout(infTimer);
+  if(!inInf && !infQueued) return;
+  inInf = false; infQueued = false; clearTimeout(infTimer);
   infEl.classList.remove('show'); document.body.classList.remove('in-inf');
   setTimeout(() => { if(!inInf) infEl.hidden = true; }, 600);
   if(toGallery) return;
@@ -899,6 +905,7 @@ function closeInf(fromHistory, toGallery){
   infTimer = setTimeout(() => { if(inAbout && !inInf) aboutEl.classList.add('show'); }, reduce ? 80 : 1100);
 }
 $('#infBack').onclick = () => closeInf();
+$('#infBtn').onclick = e => { e.preventDefault(); if(!inInf && !infQueued) openInf(); };
 
 /* ---------- grid view ---------- */
 const grid=$('#grid');
@@ -933,8 +940,8 @@ function buildTorsoTexOnly(){
   on(window, 'popstate', () => {
     const m = location.pathname.match(/^\/work\/([^/]+)/);
     if(location.pathname === '/influences'){ openInf(true); return; }
-    if(location.pathname === '/about'){ if(inInf) closeInf(true); else openAbout(true); return; }
-    if(inInf) closeInf(true, true);
+    if(location.pathname === '/about'){ if(inInf || infQueued) closeInf(true); else openAbout(true); return; }
+    closeInf(true, true);
     if(inAbout) closeAbout(true);
     if(m){ const i = PIECES.findIndex(p=>p.slug===m[1]); if(i>=0){ camTarget=camX=PIECES[i].x; openDetail(i, true); } }
     else if(openIdx>=0) closeDetail(true);
