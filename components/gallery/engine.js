@@ -267,7 +267,7 @@ function placeCredit(dt){
   if(!creditLink) return;
   creditHover += (creditHoverT - creditHover)*(1-Math.exp(-dt*10));
   creditMat.opacity = .7 + .3*creditHover;
-  const hide = inAbout || aboutV > .02 || openIdx >= 0 || !grid.hidden;
+  const hide = inAbout || inInf || aboutV > .02 || infV > .02 || openIdx >= 0 || !grid.hidden;
   let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9, behind=false;
   [[-1,-1],[1,-1],[1,1],[-1,1]].forEach(([sx,sz],i)=>{ const v=crCorners[i].set(credit.position.x+sx*CR_W*crS/2, credit.position.y+sz*CR_H*crS/2, credit.position.z).project(camera); if(v.z>1) behind=true;
     const px=(v.x*.5+.5)*vw, py=(-v.y*.5+.5)*vh; x0=Math.min(x0,px); x1=Math.max(x1,px); y0=Math.min(y0,py); y1=Math.max(y1,py); });
@@ -475,18 +475,18 @@ canvas.addEventListener('pointerdown', e=>{ lastType=e.pointerType; down={x:e.cl
 canvas.addEventListener('pointermove', e=>{
   lastType = e.pointerType;
   if(e.pointerType==='mouse'){ parXT=(e.clientX/vw-.5); parYT=(e.clientY/vh-.5); mx=e.clientX; my=e.clientY; }
-  if(down && !inAbout){
+  if(down && !inAbout && !inInf){
     const dx=e.clientX-down.lx, now=performance.now();
     if(!dragging && Math.abs(e.clientX-down.x)>6) { dragging=true; dismissHint(); }
     if(dragging){ camTarget = clampX(camTarget - dx*mpp*1.15); camX = camTarget; vel = -dx*mpp/Math.max(1,now-down.lt); }
     down.lx=e.clientX; down.lt=now;
-  } else if(e.pointerType==='mouse' && openIdx<0 && !inAbout){
+  } else if(e.pointerType==='mouse' && openIdx<0 && !inAbout && !inInf){
     hovered = pick(e.clientX,e.clientY); endHover = hovered<0 && pickEnd(e.clientX,e.clientY); canvas.style.cursor = hovered>=0 ? 'none' : endHover ? 'pointer' : 'grab';
   }
 });
 canvas.addEventListener('pointerup', e=>{
   if(!down) return;
-  if(inAbout){ down=null; dragging=false; return; }
+  if(inAbout || inInf){ down=null; dragging=false; return; }
   if(dragging){
     const proj = camTarget + vel*260;
     if(e.pointerType==='mouse') camTarget = clampX(proj); else goTo(nearestStation(proj));
@@ -499,11 +499,11 @@ canvas.addEventListener('pointerup', e=>{
 });
 canvas.addEventListener('pointercancel', ()=>{ down=null; dragging=false; });
 canvas.addEventListener('pointerleave', e=>{ if(e.pointerType==='mouse'){ hovered=-1; parXT=parYT=0; } });
-canvas.addEventListener('wheel', e=>{ e.preventDefault(); if(inAbout){ aboutEl.querySelector('.about-scroll').scrollBy(0, e.deltaY); return; } if(openIdx>=0) return; camTarget = clampX(camTarget + (e.deltaY+e.deltaX)*mpp*.8); dismissHint();
+canvas.addEventListener('wheel', e=>{ e.preventDefault(); if(inInf){ infEl.querySelector('.inf-scroll').scrollBy(0, e.deltaY); return; } if(inAbout){ aboutEl.querySelector('.about-scroll').scrollBy(0, e.deltaY); return; } if(openIdx>=0) return; camTarget = clampX(camTarget + (e.deltaY+e.deltaX)*mpp*.8); dismissHint();
   clearTimeout(wheelTimer); if(coarse) wheelTimer=setTimeout(()=>goTo(nearestStation(camTarget)),220); }, {passive:false});
 on(window,'keydown', e=>{
   if(e.key==='Escape'){ if(!$('#detail').hidden) closeDetail(); else if(!$('#grid').hidden) closeGrid(); else if(inInf) closeInf(); else if(inAbout) closeAbout(); return; }
-  if(inAbout) return;
+  if(inAbout || inInf) return;
   if(!$('#detail').hidden){ if(e.key==='ArrowRight') detailStep(1); if(e.key==='ArrowLeft') detailStep(-1); return; }
   if(!$('#grid').hidden) return;
   if(e.key==='ArrowRight'){ step(1); e.preventDefault(); }
@@ -534,7 +534,8 @@ tag.addEventListener('click', ()=>{ if(active>=0) openDetail(active); });
 /* counter and progress rail */
 const railEl=$('#rail'), railFill=$('#railFill');
 stations.forEach(s=>{ const e=document.createElement('s'); e.style.left=((s.x-minX)/(maxX-minX)*100)+'%'; railEl.appendChild(e); s.tick=e; });
-$('#brand').addEventListener('click', e=>{ e.preventDefault(); if(inAbout){ originX = minX; closeInf(true, true); closeAbout(); return; } if(!$('#detail').hidden) closeDetail(); if(!$('#grid').hidden) closeGrid(); goTo(0); });
+$('#brand').addEventListener('click', e=>{ e.preventDefault(); if(inInf && !inAbout){ closeInf(true, true); history.pushState({gallery:true}, '', '/'); document.title = baseTitle; goTo(0); return; }
+  if(inAbout){ originX = minX; closeInf(true, true); closeAbout(); return; } if(!$('#detail').hidden) closeDetail(); if(!$('#grid').hidden) closeGrid(); goTo(0); });
 let countFor=-1;
 function setCount(si){
   if(si===countFor) return; countFor=si;
@@ -586,19 +587,20 @@ function frame(now){
   // About: glide to the far end, then turn right to face the end wall; reverse on the way out
   if(inAbout && aboutPhase === 'travel' && Math.abs(camX - ABOUT_X) < .06){ aboutPhase = 'turn'; aboutTurn = true; setTimeout(showAboutText, 950); }
   if(!inAbout && aboutPhase === 'out' && aboutV < .03){ aboutPhase = null; camTarget = clampX(originX); }
-  if(infQueued && inAbout && aboutPhase === 'turn' && aboutV > .82){ infQueued = false; startInf(); }
   aboutV += ((aboutTurn?1:0) - aboutV) * (1 - Math.exp(-dt*2.4));
   if(!aboutTurn && aboutV < .004) aboutV = 0;
   const te = aboutV*aboutV*(3 - 2*aboutV), ta = te*Math.PI/2, tl = cz*(1-te) + 2.6*te, keep = 1 - te;
   infV = Math.max(0, Math.min(1, infV + (inInf ? 1 : -1) * dt / (reduce ? .3 : 1.7)));
   const ie = .5 - .5*Math.cos(Math.PI*infV); // eases in and out, like turning your head
-  const cpx = camX + parX*.2*keep - .45*ie*te, cpy = 1.55 - parY*.08*keep - .06*ie;
-  camera.position.set(cpx, cpy, cz);
-  let lx = cpx + .45*ie*te + Math.sin(ta)*tl + parX*.08*keep, ly = (1.16 - parY*.04)*keep + 1.5*te, lz = cz - Math.cos(ta)*tl;
+  const cpx = camX + parX*.2*keep - .45*ie*te, cpy = 1.55 - parY*.08*keep - .06*ie, cpz = cz + .45*ie*(1-te);
+  camera.position.set(cpx, cpy, cpz);
+  let lx = cpx + .45*ie*te + Math.sin(ta)*tl + parX*.08*keep, ly = (1.16 - parY*.04)*keep + 1.5*te, lz = cpz - .45*ie*(1-te) - Math.cos(ta)*tl;
+  if(inInf && !infShown && infV > .62){ infShown = true; infEl.classList.add('show'); }
+  if(bioPending && !inInf && infV < .25){ bioPending = false; if(inAbout) aboutEl.classList.add('show'); }
   if(infV > 0){ // tilt the head back to look up at the ceiling
-    const dx = lx - cpx, dy = ly - camera.position.y, dz = lz - cz, hz = Math.hypot(dx, dz) || 1, L = Math.hypot(hz, dy);
+    const dx = lx - cpx, dy = ly - camera.position.y, dz = lz - cpz, hz = Math.hypot(dx, dz) || 1, L = Math.hypot(hz, dy);
     const p = Math.atan2(dy, hz) + (1.32 - Math.atan2(dy, hz))*ie;
-    lx = cpx + dx/hz*Math.cos(p)*L; ly = camera.position.y + Math.sin(p)*L; lz = cz + dz/hz*Math.cos(p)*L;
+    lx = cpx + dx/hz*Math.cos(p)*L; ly = camera.position.y + Math.sin(p)*L; lz = cpz + dz/hz*Math.cos(p)*L;
     ceil.material.emissive.setRGB(.55*ie, .54*ie, .52*ie);
   } else if(ceil.material.emissive.r) ceil.material.emissive.setRGB(0,0,0);
   camera.lookAt(lx, ly, lz);
@@ -611,8 +613,8 @@ function frame(now){
   if(openIdx>=0) active=openIdx;
   else if(mouseMode) active = hovered;
   else active = settled ? stations[si].idx : -1;
-  if(inAbout || aboutV > .05) active = -1;
-  const focusIdx = openIdx<0 && mouseMode && !inAbout ? hovered : -1;
+  if(inAbout || inInf || aboutV > .05 || infV > .05) active = -1;
+  const focusIdx = openIdx<0 && mouseMode && !inAbout && !inInf ? hovered : -1;
 
   // lights switch on as you reach each piece and off again once you've moved on
   const half = vw*mpp/2, reach = half*.62;
@@ -819,7 +821,7 @@ function startSpray(){
   aboutObs = new IntersectionObserver(es => es.forEach(en => { if(en.isIntersecting){ en.target.classList.add('on'); aboutObs.unobserve(en.target); } }), { root: aboutEl.querySelector('.about-scroll'), threshold: .25 });
   els.forEach(e => aboutObs.observe(e));
 }
-function showAboutText(){ if(inAbout && !inInf && !infQueued && aboutPhase === 'turn'){ aboutEl.classList.add('show'); startSpray(); } }
+function showAboutText(){ if(inAbout && !inInf && aboutPhase === 'turn'){ aboutEl.classList.add('show'); startSpray(); } }
 function openAbout(fromHistory, instant){
   if(inAbout) return;
   if(openIdx >= 0) closeDetail(true);
@@ -836,18 +838,18 @@ function openAbout(fromHistory, instant){
 }
 function closeAbout(fromHistory){
   if(!inAbout) return;
-  inAbout = false; aboutTurn = false; aboutPhase = 'out'; infQueued = false; document.body.classList.remove('in-inf');
+  inAbout = false; aboutTurn = false; aboutPhase = 'out';
   aboutEl.classList.remove('show'); document.body.classList.remove('in-about');
   if(!fromHistory) history.pushState({gallery:true}, '', '/');
   document.title = baseTitle;
   setTimeout(() => { if(!inAbout) aboutEl.hidden = true; }, 500);
   canvas.focus({preventScroll:true});
 }
-$('#aboutBtn').onclick = e => { e.preventDefault(); if(inInf || infQueued) closeInf(); else if(inAbout) closeAbout(); else openAbout(); };
+$('#aboutBtn').onclick = e => { e.preventDefault(); if(inInf && inAbout) closeInf(); else if(inInf){ closeInf(true, true); openAbout(); } else if(inAbout) closeAbout(); else openAbout(); };
 $('#aboutBack').onclick = () => closeAbout();
 
 /* ---------- influences: from the About wall, look up at a ceiling tagged with the artists Mark rates ---------- */
-let inInf = false, infQueued = false, infV = 0, infBuilt = false, infTimer = 0, infKey = null;
+let inInf = false, infShown = false, bioPending = false, infV = 0, infBuilt = false, infTimer = 0, infKey = null;
 const infEl = $('#inf'), infBoard = $('#infBoard'), inspires = about && about.inspires;
 // hand-placed spots for the desktop ceiling, in % of the screen: [x, y, size px at 1440 wide, rotation, hand]
 const INF_NAME_POS = [[38,20,64,-4,'f1'],[52,12,24,7,'f4'],[56,25,32,3,'f2'],[23,15,26,6,'f5'],[87,30,24,-5,'f3'],[41,33,26,-3,'f4'],[28,42,17,-8,'f8'],[62,37,38,-5,'f7'],[76,41,32,4,'f5'],[26,54,42,-6,'f3'],[40,62,50,5,'f1'],[60,62,36,-3,'f4'],[76,56,34,-7,'f2'],[77,67,24,-3,'f5'],[50,75,30,4,'f1'],[20,85,30,4,'f7'],[50,84,17,-3,'f6'],[80,88,24,-3,'f8'],[54,90,15,3,'f6']];
@@ -878,34 +880,38 @@ function buildInf(){
     const k = infKey === t.dataset.k && !coarse ? null : t.dataset.k; light(k);
     if(k && coarse){ const ph = infBoard.querySelector('.inf-photo.on'); ph && ph.scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block: 'center'}); } });
 }
+/* look up from wherever you are: in the gallery it tilts up on the spot; on the About wall it looks up from the bio */
 function openInf(fromHistory, instant){
-  if(!inspires || inInf || infQueued) return;
-  if(!fromHistory) history.pushState({gallery:true, about:true, inf:true}, '', '/influences');
-  document.title = 'Who inspires Mark Staples'; document.body.classList.add('in-inf');
-  if(!inAbout && !instant){ infQueued = true; openAbout(true); return; }
-  if(!inAbout) openAbout(true, true);
-  if(aboutPhase !== 'turn'){ infQueued = true; return; }
-  startInf(instant);
-}
-function startInf(instant){
-  inInf = true; clearTimeout(infTimer);
+  if(!inspires || inInf) return;
+  if(openIdx >= 0) closeDetail(true);
+  if(!grid.hidden) closeGrid(true);
+  if(!fromHistory) history.pushState({gallery:true, about:inAbout, inf:true}, '', '/influences');
+  document.title = 'Who inspires Mark Staples';
+  inInf = true; hovered = -1; dragging = false; down = null; clearTimeout(infTimer);
   aboutEl.classList.remove('show'); document.body.classList.add('in-inf');
   buildInf(); infEl.hidden = false; infEl.querySelector('.inf-scroll').scrollTop = 0;
+  $('#infBack').innerHTML = inAbout ? '&darr; Back to the bio' : '&darr; Back to the gallery';
   if(instant) infV = 1;
-  infTimer = setTimeout(() => { if(inInf) infEl.classList.add('show'); }, instant || reduce ? 80 : 1050);
+  infShown = false; bioPending = false;
+  dismissHint();
 }
-function closeInf(fromHistory, toGallery){
-  if(!inInf && !infQueued) return;
-  inInf = false; infQueued = false; clearTimeout(infTimer);
+function closeInf(fromHistory, silent){
+  if(!inInf) return;
+  inInf = false; infShown = false; clearTimeout(infTimer);
   infEl.classList.remove('show'); document.body.classList.remove('in-inf');
   setTimeout(() => { if(!inInf) infEl.hidden = true; }, 600);
-  if(toGallery) return;
-  if(!fromHistory) history.pushState({gallery:true, about:true}, '', '/about');
-  document.title = 'About Mark Staples';
-  infTimer = setTimeout(() => { if(inAbout && !inInf) aboutEl.classList.add('show'); }, reduce ? 80 : 1100);
+  if(silent) return;
+  if(inAbout){
+    if(!fromHistory) history.pushState({gallery:true, about:true}, '', '/about');
+    document.title = 'About Mark Staples';
+    bioPending = true;
+  } else {
+    if(!fromHistory) history.pushState({gallery:true}, '', '/');
+    document.title = baseTitle; canvas.focus({preventScroll:true});
+  }
 }
 $('#infBack').onclick = () => closeInf();
-$('#infBtn').onclick = e => { e.preventDefault(); if(!inInf && !infQueued) openInf(); };
+$('#infBtn').onclick = e => { e.preventDefault(); openInf(); };
 
 /* ---------- grid view ---------- */
 const grid=$('#grid');
@@ -928,7 +934,7 @@ Promise.all([Promise.race([fontsReady, new Promise(r=>setTimeout(r,2500))]), new
   if(torsoMat){ const old=torsoMat.map; buildTorsoTexOnly(); old.dispose(); }
   intro.classList.add('gone'); started=true; t0=last=performance.now();
   if(initialView==='about') openAbout(true, true);
-  else if(initialView==='influences'){ openAbout(true, true); openInf(true, true); }
+  else if(initialView==='influences') openInf(true, true);
   else if(initialSlug){ const i=PIECES.findIndex(p=>p.slug===initialSlug); if(i>=0){ camTarget=camX=PIECES[i].x; if(openOnLoad) openDetail(i, true); } }
 });
 function buildTorsoTexOnly(){
@@ -940,8 +946,8 @@ function buildTorsoTexOnly(){
   on(window, 'popstate', () => {
     const m = location.pathname.match(/^\/work\/([^/]+)/);
     if(location.pathname === '/influences'){ openInf(true); return; }
-    if(location.pathname === '/about'){ if(inInf || infQueued) closeInf(true); else openAbout(true); return; }
-    closeInf(true, true);
+    if(location.pathname === '/about'){ if(inInf && inAbout) closeInf(true); else { closeInf(true, true); openAbout(true); } return; }
+    if(inInf && !inAbout) closeInf(true); else closeInf(true, true);
     if(inAbout) closeAbout(true);
     if(m){ const i = PIECES.findIndex(p=>p.slug===m[1]); if(i>=0){ camTarget=camX=PIECES[i].x; openDetail(i, true); } }
     else if(openIdx>=0) closeDetail(true);

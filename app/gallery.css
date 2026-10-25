@@ -200,7 +200,7 @@ a.venue{color:var(--ink);text-decoration:underline;text-underline-offset:3px;tex
 .navlink:hover,body.in-about:not(.in-inf) #aboutBtn,body.in-inf #infBtn{border-bottom-color:var(--ink);}
 
 /* ---------- about: the bio sprayed onto the end wall ---------- */
-body.in-about .bottom,body.in-about .tag,body.in-about .hint,body.in-about .vcursor,body.in-about .room{opacity:0!important;pointer-events:none!important;transition:opacity .4s;}
+body.in-about .bottom,body.in-about .tag,body.in-about .hint,body.in-about .vcursor,body.in-about .room,body.in-inf .bottom,body.in-inf .tag,body.in-inf .hint,body.in-inf .vcursor,body.in-inf .room{opacity:0!important;pointer-events:none!important;transition:opacity .4s;}
 .about{position:fixed;inset:0;z-index:4;opacity:0;pointer-events:none;transition:opacity .7s var(--ease);}
 .about.show{opacity:1;pointer-events:auto;}
 .about-scroll{height:100%;overflow-y:auto;overscroll-behavior:contain;padding:calc(env(safe-area-inset-top,0px) + 112px) max(24px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 190px) max(24px,env(safe-area-inset-left,0px));
