@@ -95,9 +95,12 @@ const aoDown = canvasTex(8,256,(c,w,h)=>{ const g=c.createLinearGradient(0,h,0,0
 function aoStrip(tex,w,h,pos,rot){ const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h), new THREE.MeshBasicMaterial({map:tex, transparent:true, depthWrite:false})); m.position.copy(pos); if(rot) m.rotation.set(rot[0],rot[1],rot[2]); m.renderOrder=1; scene.add(m); }
 aoStrip(aoDown, len, .55, new THREE.Vector3(mid,.275,.0015));
 aoStrip(aoUp, len, .75, new THREE.Vector3(mid,.0015,.375), [-Math.PI/2,0,0]);
-aoStrip(aoUp, len, .6, new THREE.Vector3(mid,H-.3,.0015));
+const aoSoft = canvasTex(8,256,(c,w,h)=>{ const g=c.createLinearGradient(0,0,0,h); g.addColorStop(0,'rgba(60,50,40,.16)'); g.addColorStop(.5,'rgba(60,50,40,.05)'); g.addColorStop(1,'rgba(60,50,40,0)'); c.fillStyle=g; c.fillRect(0,0,w,h); });
+aoStrip(aoSoft, len, .9, new THREE.Vector3(mid,H-.45,.0015));
+aoStrip(aoSoft, len, .8, new THREE.Vector3(mid,H-.0015,.4), [Math.PI/2,0,0]);
 [ROOM.start, ROOM.end].forEach((x,i)=>{ aoStrip(aoDown, D, .55, new THREE.Vector3(x+(i?-.0015:.0015),.275,D/2), [0,i?-Math.PI/2:Math.PI/2,0]); });
-const ceil = new THREE.Mesh(new THREE.PlaneGeometry(len,D), new THREE.MeshLambertMaterial({color:0xF6F4F0}));
+const ceil = new THREE.Mesh(new THREE.PlaneGeometry(len,D), new THREE.MeshLambertMaterial({color:0xF6F4F0, emissive:0x8f8c86}));
+const CEIL_E = new THREE.Color(0x8f8c86);
 ceil.rotation.x=Math.PI/2; ceil.position.set(mid,H,D/2); scene.add(ceil);
 const skirt = new THREE.Mesh(new THREE.BoxGeometry(len,.12,.018), new THREE.MeshStandardMaterial({color:0xF5F2EC, roughness:.6})); skirt.position.set(mid,.06,.009); skirt.receiveShadow=true; scene.add(skirt);
 const black = new THREE.MeshStandardMaterial({color:0x1a1a1a, roughness:.5});
@@ -595,14 +598,14 @@ function frame(now){
   const cpx = camX + parX*.2*keep - .45*ie*te, cpy = 1.55 - parY*.08*keep - .06*ie, cpz = cz + .45*ie*(1-te);
   camera.position.set(cpx, cpy, cpz);
   let lx = cpx + .45*ie*te + Math.sin(ta)*tl + parX*.08*keep, ly = (1.16 - parY*.04)*keep + 1.5*te, lz = cpz - .45*ie*(1-te) - Math.cos(ta)*tl;
-  if(inInf && !infShown && infV > .62){ infShown = true; infEl.classList.add('show'); }
+  if(inInf && !infShown && infV > .62){ infShown = true; infEl.classList.add('show'); clearTimeout(infTimer); infTimer = setTimeout(() => { if(inInf) infEl.classList.add('settled'); }, 70*(inspires.names.length) + 1300); }
   if(bioPending && !inInf && infV < .25){ bioPending = false; if(inAbout) aboutEl.classList.add('show'); }
   if(infV > 0){ // tilt the head back to look up at the ceiling
     const dx = lx - cpx, dy = ly - camera.position.y, dz = lz - cpz, hz = Math.hypot(dx, dz) || 1, L = Math.hypot(hz, dy);
     const p = Math.atan2(dy, hz) + (1.32 - Math.atan2(dy, hz))*ie;
     lx = cpx + dx/hz*Math.cos(p)*L; ly = camera.position.y + Math.sin(p)*L; lz = cpz + dz/hz*Math.cos(p)*L;
-    ceil.material.emissive.setRGB(.55*ie, .54*ie, .52*ie);
-  } else if(ceil.material.emissive.r) ceil.material.emissive.setRGB(0,0,0);
+    ceil.material.emissive.setRGB(CEIL_E.r + (.62 - CEIL_E.r)*ie, CEIL_E.g + (.61 - CEIL_E.g)*ie, CEIL_E.b + (.59 - CEIL_E.b)*ie);
+  } else if(ceil.material.emissive.r !== CEIL_E.r) ceil.material.emissive.copy(CEIL_E);
   camera.lookAt(lx, ly, lz);
   railFill.style.width = Math.min(100, Math.max(0, (camX-minX)/(maxX-minX)*100)).toFixed(2)+'%';
 
@@ -865,7 +868,7 @@ function buildInf(){
   const photoEl = (ph, i) => { const p = INF_PHOTO_POS[i] || [50, 50, 150, 0];
     return '<figure class="inf-photo'+(i%2?' r':'')+'" data-ks="'+ph.keys.join(' ')+'" style="--x:'+p[0]+'%;--y:'+p[1]+'%;--w:'+p[2]+';--r:'+p[3]+'deg;--d:'+(300+i*120)+'ms;--ar:'+(ph.w/ph.h).toFixed(3)+'"><i class="tape t1"></i><i class="tape t2"></i><img src="'+ph.src+'" width="'+ph.w+'" height="'+ph.h+'" alt="'+esc(ph.caption)+'" decoding="async"><figcaption>'+esc(ph.caption)+'</figcaption></figure>'; };
   // interleave in the DOM (a few names, then a photo) so the phone layout flows; desktop places everything absolutely
-  let html = '<header class="inf-title"><small>Look up</small><h2>'+esc(inspires.heading)+'</h2><p>'+esc(inspires.intro)+' <i>&hearts;</i> = met them</p></header>';
+  let html = '<header class="inf-title"><h2>'+esc(inspires.heading)+'</h2><p>'+esc(inspires.intro)+'</p></header>';
   const per = Math.ceil(names.length / (photos.length + 1));
   names.forEach((n, i) => { html += nameEl(n, i); if((i + 1) % per === 0){ const k = (i + 1) / per - 1; if(photos[k]) html += photoEl(photos[k], k); } });
   photos.forEach((ph, k) => { if(k >= Math.floor(names.length / per)) html += photoEl(ph, k); });
@@ -874,8 +877,10 @@ function buildInf(){
   const light = k => { if(k === infKey) return; infKey = k; infBoard.classList.toggle('hov', !!k);
     infBoard.querySelectorAll('[data-k]').forEach(e => e.classList.toggle('on', e.dataset.k === k));
     infBoard.querySelectorAll('.inf-photo').forEach(e => e.classList.toggle('on', !!k && e.dataset.ks.split(' ').includes(k))); };
-  on(infBoard, 'pointerover', e => { if(e.pointerType !== 'mouse') return; const t = e.target.closest('[data-k]'); light(t ? t.dataset.k : null); });
-  on(infBoard, 'pointerleave', e => { if(e.pointerType === 'mouse') light(null); });
+  let clearT = 0;
+  const hoverTo = k => { clearTimeout(clearT); if(k) light(k); else clearT = setTimeout(() => light(null), 260); };
+  on(infBoard, 'pointerover', e => { if(e.pointerType !== 'mouse') return; const t = e.target.closest('[data-k],.inf-photo'); if(t && t.classList.contains('inf-photo')){ if(infKey && t.dataset.ks.split(' ').includes(infKey)) { clearTimeout(clearT); return; } } hoverTo(t && t.dataset.k ? t.dataset.k : null); });
+  on(infBoard, 'pointerleave', e => { if(e.pointerType === 'mouse') hoverTo(null); });
   on(infBoard, 'click', e => { const t = e.target.closest('[data-k]'); if(!t) { if(!e.target.closest('.inf-photo')) light(null); return; }
     const k = infKey === t.dataset.k && !coarse ? null : t.dataset.k; light(k);
     if(k && coarse){ const ph = infBoard.querySelector('.inf-photo.on'); ph && ph.scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block: 'center'}); } });
@@ -899,7 +904,7 @@ function closeInf(fromHistory, silent){
   if(!inInf) return;
   inInf = false; infShown = false; clearTimeout(infTimer);
   infEl.classList.remove('show'); document.body.classList.remove('in-inf');
-  setTimeout(() => { if(!inInf) infEl.hidden = true; }, 600);
+  setTimeout(() => { if(!inInf){ infEl.hidden = true; infEl.classList.remove('settled'); } }, 600);
   if(silent) return;
   if(inAbout){
     if(!fromHistory) history.pushState({gallery:true, about:true}, '', '/about');

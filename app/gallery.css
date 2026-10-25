@@ -268,7 +268,7 @@ body.in-inf .about-back{opacity:0;pointer-events:none;}
 .inf-title p{margin:10px 0 0;font-size:13px;color:#5d5852;}
 .inf-title p i,.inf-name .heart{font-style:normal;color:var(--red);font-family:"Permanent Marker",cursive;}
 .inf-name{position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,-50%) rotate(var(--r));font-size:calc(var(--s) * var(--u));line-height:1;white-space:nowrap;color:var(--ink);background:none;border:0;padding:4px 6px;margin:0;font-weight:400;
-  opacity:0;filter:blur(8px);transition:opacity .3s,color .3s,text-shadow .3s;}
+  opacity:0;filter:blur(8px);transition:opacity .45s ease,color .4s ease,text-shadow .4s ease;}
 button.inf-name{cursor:pointer;}
 .inf-name .heart{font-size:.55em;margin-left:.12em;vertical-align:.5em;}
 .infl.show .inf-name{animation:inftag .6s cubic-bezier(.2,.7,.2,1) forwards;animation-delay:var(--d);}
@@ -276,7 +276,7 @@ button.inf-name{cursor:pointer;}
 .f1{font-family:"Sedgwick Ave Display",cursive} .f2{font-family:"Rubik Spray Paint",cursive} .f3{font-family:"Knewave",cursive} .f4{font-family:"Permanent Marker",cursive}
 .f5{font-family:"Caveat Brush",cursive} .f6{font-family:"Rock Salt",cursive} .f7{font-family:"Nanum Pen Script",cursive} .f8{font-family:"Archivo Variable",sans-serif;font-weight:800;font-stretch:125%;letter-spacing:.04em}
 .inf-photo{position:absolute;left:var(--x);top:var(--y);width:calc(var(--w) * var(--u) + 14px);margin:0;background:#fbfaf7;padding:7px 7px 26px;box-shadow:0 18px 30px -16px rgba(0,0,0,.45),0 2px 5px rgba(0,0,0,.08);
-  transform:translate(-50%,-50%) rotate(var(--r));opacity:0;transition:transform .35s var(--ease),box-shadow .35s,opacity .35s;}
+  transform:translate(-50%,-50%) rotate(var(--r));opacity:0;transition:transform .55s cubic-bezier(.2,.8,.2,1),box-shadow .55s ease,opacity .45s ease;will-change:transform,opacity;}
 .infl.show .inf-photo{animation:infph .7s var(--ease) forwards;animation-delay:var(--d);}
 @keyframes infph{from{opacity:0;translate:0 -14px}to{opacity:1;translate:0 0}}
 .inf-photo img{display:block;width:100%;height:auto;aspect-ratio:var(--ar);object-fit:cover;}
@@ -285,7 +285,8 @@ button.inf-name{cursor:pointer;}
 .inf-photo .t1{left:-10px;transform:rotate(-32deg)} .inf-photo .t2{right:-10px;transform:rotate(30deg)}
 .inf-down{position:absolute;left:var(--x);top:var(--y);width:24px;height:24px;margin:-12px 0 0 -12px;border-radius:50%;background:radial-gradient(circle,#fff 30%,#e8e4dc 34%,#cfcac2 60%);box-shadow:0 0 0 5px #ece8e1,0 0 60px 30px rgba(255,248,232,.5);}
 /* hover a name: its photos lift, everything else steps back */
-.inf-board.hov .inf-name:not(.on),.inf-board.hov .inf-photo:not(.on){opacity:.3!important;}
+.infl.settled .inf-name,.infl.settled .inf-photo{animation:none;opacity:1;filter:none;}
+.inf-board.hov .inf-name:not(.on),.inf-board.hov .inf-photo:not(.on){opacity:.3;}
 .inf-board .inf-name.on{color:var(--red);text-shadow:0 0 18px rgba(216,35,61,.3);}
 .inf-board .inf-photo.on{transform:translate(-50%,-50%) rotate(0deg) scale(1.16);box-shadow:0 34px 50px -18px rgba(0,0,0,.55),0 0 0 4px var(--blue);z-index:5;}
 .inf-back{white-space:nowrap;position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 22px);transform:translateX(-50%);z-index:6;cursor:pointer;}
