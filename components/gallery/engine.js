@@ -68,7 +68,7 @@ stripeTex.wrapS = THREE.RepeatWrapping;
 const ROOM = {start:-2.6, gap:.95};
 let cursor = 1.95;
 PIECES.forEach(p=>{ const fw = p.sculpture ? p.w : p.w + 2*FRAMES[p.frame].t; p.x = cursor + fw/2; cursor += fw + ROOM.gap; });
-ROOM.end = cursor + 1.2;
+ROOM.end = cursor + 3.6; // extra floor at the far end: you turn right here to face the About wall
 const len = ROOM.end - ROOM.start, mid = (ROOM.start+ROOM.end)/2, H = 3.6, D = 14;
 
 const plaster = (()=>{ const c=document.createElement('canvas'); c.width=c.height=512; const x=c.getContext('2d'); x.fillStyle='#808080'; x.fillRect(0,0,512,512);
@@ -301,16 +301,11 @@ const LIGHTABLE=[NAME].concat(PIECES), N_SPOTS=4, SMAP=coarse?512:1024, SPOTS=[]
 for(let i=0;i<N_SPOTS;i++){ const s=new THREE.SpotLight(0xFFEFD6, 0, 6, .6, .62, 1.1); s.castShadow=true; s.shadow.mapSize.set(SMAP,SMAP); s.shadow.bias=-.0006; s.shadow.radius=3; s.shadow.camera.near=.05; s.shadow.camera.far=6; scene.add(s); scene.add(s.target); SPOTS.push(s); }
 
 /* ---------- about: turn right to a side wall where the bio gets sprayed on ---------- */
-let inAbout = false, aboutV = 0, aboutWallX = 0;
-const aboutWall = new THREE.Group(); aboutWall.visible = false; scene.add(aboutWall);
-{
-  const L = 9;
-  const w = new THREE.Mesh(new THREE.BoxGeometry(.12, H, L), wallMat); w.position.set(.06, H/2, 0); w.receiveShadow = true; aboutWall.add(w);
-  const sk = new THREE.Mesh(new THREE.BoxGeometry(.018,.09,L), skirt.material); sk.position.set(-.009,.045,0); aboutWall.add(sk);
-  const ao = new THREE.Mesh(new THREE.PlaneGeometry(L,.55), new THREE.MeshBasicMaterial({map:aoDown, transparent:true, depthWrite:false})); ao.rotation.y = -Math.PI/2; ao.position.set(-.002,.275,0); aboutWall.add(ao);
-}
+let inAbout = false, aboutV = 0, aboutTurn = false, aboutPhase = null, originX = 0;
+const ABOUT_X = ROOM.end - 2.6; // where you stand to read the end wall
+{ const sk = new THREE.Mesh(new THREE.BoxGeometry(.018,.09,D), skirt.material); sk.position.set(ROOM.end-.009,.045,D/2); sk.receiveShadow = true; scene.add(sk); }
 const ABOUT_L = { x:0, lit:0, onAt:null, focus:1, seen:true, on:false, glowMat:new THREE.MeshBasicMaterial({color:0}), beamMat:new THREE.MeshBasicMaterial(), beamMax:0,
-  spotPos:new THREE.Vector3(), spotTgt:new THREE.Vector3(), spotAngle:.95, spotI:1.7 };
+  spotPos:new THREE.Vector3(), spotTgt:new THREE.Vector3(), spotAngle:1.0, spotI:2.3 };
 LIGHTABLE.push(ABOUT_L);
 
 /* ---------- camera + controls ---------- */
@@ -449,13 +444,16 @@ function frame(now){
   distMul += (distMulT-distMul)*(1-Math.exp(-dt*5));
   parX += (parXT-parX)*(1-Math.exp(-dt*3)); parY += (parYT-parY)*(1-Math.exp(-dt*3));
   const cz = camDist*distMul;
-  aboutV += ((inAbout?1:0) - aboutV) * (1 - Math.exp(-dt*2.4));
-  if(!inAbout && aboutV < .004){ aboutV = 0; aboutWall.visible = false; }
+  // About: glide to the far end, then turn right to face the end wall; reverse on the way out
+  if(inAbout && aboutPhase === 'travel' && Math.abs(camX - ABOUT_X) < .06){ aboutPhase = 'turn'; aboutTurn = true; setTimeout(showAboutText, 950); }
+  if(!inAbout && aboutPhase === 'out' && aboutV < .03){ aboutPhase = null; camTarget = clampX(originX); }
+  aboutV += ((aboutTurn?1:0) - aboutV) * (1 - Math.exp(-dt*2.4));
+  if(!aboutTurn && aboutV < .004) aboutV = 0;
   const te = aboutV*aboutV*(3 - 2*aboutV), ta = te*Math.PI/2, tl = cz*(1-te) + 2.6*te, keep = 1 - te;
   const cpx = camX + parX*.2*keep;
   camera.position.set(cpx, 1.55 - parY*.08*keep, cz);
   camera.lookAt(cpx + Math.sin(ta)*tl + parX*.08*keep, (1.16 - parY*.04)*keep + 1.5*te, cz - Math.cos(ta)*tl);
-  railFill.style.width = ((camX-minX)/(maxX-minX)*100).toFixed(2)+'%';
+  railFill.style.width = Math.min(100, Math.max(0, (camX-minX)/(maxX-minX)*100)).toFixed(2)+'%';
 
   // which piece is "active"
   const si = nearestStation(camX); setCount(si);
@@ -469,7 +467,7 @@ function frame(now){
 
   // lights switch on as you reach each piece and off again once you've moved on
   const half = vw*mpp/2, reach = half*.62;
-  shade(ABOUT_L, T, dt, inAbout && aboutV > .45, 1);
+  shade(ABOUT_L, T, dt, inAbout && aboutPhase === 'turn' && aboutV > .35, 1);
   const nL = shade(NAME, T, dt, T>.35 && Math.abs(NAME.x-camX) < Math.max(reach,1.2), focusIdx>=0 ? .45 : 1);
 
   updateDrips(T, dt);
@@ -643,21 +641,8 @@ function buildAbout(){
   const sig = document.createElement('p'); sig.className = 'spray sig'; words(sig, about.signoff);
   sig.insertAdjacentHTML('beforeend', ' <span class="w tagmark"><svg viewBox="'+TAG_VB.join(' ')+'" aria-hidden="true"><use href="#ms-tag"/></svg></span><span class="w">MS11</span>');
   aboutBody.appendChild(sig);
-  // number the words for the stagger, and hang a few drips off random letters
-  aboutBody.querySelectorAll('.spray').forEach((el, k) => {
-    const ws = [...el.querySelectorAll('.w')]; ws.forEach((w, i) => w.style.setProperty('--i', i));
-    const r = seed(900 + k), title = el.classList.contains('spray-title');
-    const n = title ? 4 : (r() < .45 ? 1 : 0);
-    for(let j=0;j<n;j++){
-      const w = ws[Math.floor(r()*ws.length)]; if(!w || w.querySelector('.drip') || w.classList.contains('tagmark')) continue;
-      const d = document.createElement('i'); d.className = 'drip';
-      d.style.left = (25 + r()*50) + '%';
-      d.style.setProperty('--h', (title ? 18 + r()*40 : 7 + r()*14).toFixed(0) + 'px');
-      d.style.setProperty('--dw', (title ? 4 + r()*3 : 2.4 + r()*1.4).toFixed(1) + 'px');
-      d.style.setProperty('--dd', (2.2 + r()*3.5).toFixed(1) + 's');
-      w.appendChild(d);
-    }
-  });
+  // number the words so they're sprayed on one after another
+  aboutBody.querySelectorAll('.spray').forEach(el => [...el.querySelectorAll('.w')].forEach((w, i) => w.style.setProperty('--i', i)));
 }
 function startSpray(){
   const els = aboutBody.querySelectorAll('.spray');
@@ -666,26 +651,25 @@ function startSpray(){
   aboutObs = new IntersectionObserver(es => es.forEach(en => { if(en.isIntersecting){ en.target.classList.add('on'); aboutObs.unobserve(en.target); } }), { root: aboutEl.querySelector('.about-scroll'), threshold: .25 });
   els.forEach(e => aboutObs.observe(e));
 }
+function showAboutText(){ if(inAbout && aboutPhase === 'turn'){ aboutEl.classList.add('show'); startSpray(); } }
 function openAbout(fromHistory, instant){
   if(inAbout) return;
   if(openIdx >= 0) closeDetail(true);
-  inAbout = true; hovered = -1; camTarget = camX;
+  inAbout = true; hovered = -1; originX = instant ? maxX : camX;
   const cz = camDist*distMul;
-  aboutWallX = camX + 2.6;
-  const zMin = 1.45, zMax = cz + 4.5;
-  aboutWall.position.set(aboutWallX, 0, (zMin+zMax)/2); aboutWall.scale.set(1, 1, (zMax-zMin)/9); aboutWall.visible = true;
-  ABOUT_L.x = camX; ABOUT_L.spotPos.set(aboutWallX - 1.6, H - .15, cz); ABOUT_L.spotTgt.set(aboutWallX, 1.4, cz);
-  if(instant) aboutV = 1;
+  ABOUT_L.x = ABOUT_X; ABOUT_L.spotPos.set(ROOM.end - 1.7, H - .15, cz); ABOUT_L.spotTgt.set(ROOM.end, 1.4, cz);
   document.body.classList.add('in-about');
   if(!fromHistory) history.pushState({gallery:true, about:true}, '', '/about');
   document.title = 'About Mark Staples';
   buildAbout(); aboutEl.hidden = false; aboutEl.querySelector('.about-scroll').scrollTop = 0;
-  setTimeout(() => { if(inAbout){ aboutEl.classList.add('show'); startSpray(); } }, instant ? 60 : 1000);
+  if(instant || reduce){ camX = camTarget = ABOUT_X; aboutTurn = true; aboutPhase = 'turn'; if(instant) aboutV = 1; setTimeout(showAboutText, instant ? 60 : 600); }
+  else { aboutPhase = 'travel'; aboutTurn = false; camTarget = ABOUT_X; }
   dismissHint();
 }
 function closeAbout(fromHistory){
   if(!inAbout) return;
-  inAbout = false; aboutEl.classList.remove('show'); document.body.classList.remove('in-about');
+  inAbout = false; aboutTurn = false; aboutPhase = 'out';
+  aboutEl.classList.remove('show'); document.body.classList.remove('in-about');
   if(!fromHistory) history.pushState({gallery:true}, '', '/');
   document.title = baseTitle;
   setTimeout(() => { if(!inAbout) aboutEl.hidden = true; }, 500);
