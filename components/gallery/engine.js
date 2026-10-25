@@ -502,7 +502,7 @@ canvas.addEventListener('pointerleave', e=>{ if(e.pointerType==='mouse'){ hovere
 canvas.addEventListener('wheel', e=>{ e.preventDefault(); if(inAbout){ aboutEl.querySelector('.about-scroll').scrollBy(0, e.deltaY); return; } if(openIdx>=0) return; camTarget = clampX(camTarget + (e.deltaY+e.deltaX)*mpp*.8); dismissHint();
   clearTimeout(wheelTimer); if(coarse) wheelTimer=setTimeout(()=>goTo(nearestStation(camTarget)),220); }, {passive:false});
 on(window,'keydown', e=>{
-  if(e.key==='Escape'){ if(!$('#detail').hidden) closeDetail(); else if(!$('#grid').hidden) closeGrid(); else if(inAbout) closeAbout(); return; }
+  if(e.key==='Escape'){ if(!$('#detail').hidden) closeDetail(); else if(!$('#grid').hidden) closeGrid(); else if(inInf) closeInf(); else if(inAbout) closeAbout(); return; }
   if(inAbout) return;
   if(!$('#detail').hidden){ if(e.key==='ArrowRight') detailStep(1); if(e.key==='ArrowLeft') detailStep(-1); return; }
   if(!$('#grid').hidden) return;
@@ -534,7 +534,7 @@ tag.addEventListener('click', ()=>{ if(active>=0) openDetail(active); });
 /* counter and progress rail */
 const railEl=$('#rail'), railFill=$('#railFill');
 stations.forEach(s=>{ const e=document.createElement('s'); e.style.left=((s.x-minX)/(maxX-minX)*100)+'%'; railEl.appendChild(e); s.tick=e; });
-$('#brand').addEventListener('click', e=>{ e.preventDefault(); if(inAbout){ originX = minX; closeAbout(); return; } if(!$('#detail').hidden) closeDetail(); if(!$('#grid').hidden) closeGrid(); goTo(0); });
+$('#brand').addEventListener('click', e=>{ e.preventDefault(); if(inAbout){ originX = minX; if(inInf) closeInf(true, true); closeAbout(); return; } if(!$('#detail').hidden) closeDetail(); if(!$('#grid').hidden) closeGrid(); goTo(0); });
 let countFor=-1;
 function setCount(si){
   if(si===countFor) return; countFor=si;
@@ -591,7 +591,15 @@ function frame(now){
   const te = aboutV*aboutV*(3 - 2*aboutV), ta = te*Math.PI/2, tl = cz*(1-te) + 2.6*te, keep = 1 - te;
   const cpx = camX + parX*.2*keep;
   camera.position.set(cpx, 1.55 - parY*.08*keep, cz);
-  camera.lookAt(cpx + Math.sin(ta)*tl + parX*.08*keep, (1.16 - parY*.04)*keep + 1.5*te, cz - Math.cos(ta)*tl);
+  infV += ((inInf?1:0) - infV) * (1 - Math.exp(-dt*2.2)); if(!inInf && infV < .003) infV = 0;
+  let lx = cpx + Math.sin(ta)*tl + parX*.08*keep, ly = (1.16 - parY*.04)*keep + 1.5*te, lz = cz - Math.cos(ta)*tl;
+  if(infV > 0){ // tilt the head back to look up at the ceiling
+    const ie = infV*infV*(3 - 2*infV), dx = lx - cpx, dy = ly - camera.position.y, dz = lz - cz, hz = Math.hypot(dx, dz) || 1, L = Math.hypot(hz, dy);
+    const p = Math.atan2(dy, hz) + (1.32 - Math.atan2(dy, hz))*ie;
+    lx = cpx + dx/hz*Math.cos(p)*L; ly = camera.position.y + Math.sin(p)*L; lz = cz + dz/hz*Math.cos(p)*L;
+    ceil.material.emissive.setRGB(.55*ie, .54*ie, .52*ie);
+  } else if(ceil.material.emissive.r) ceil.material.emissive.setRGB(0,0,0);
+  camera.lookAt(lx, ly, lz);
   railFill.style.width = Math.min(100, Math.max(0, (camX-minX)/(maxX-minX)*100)).toFixed(2)+'%';
 
   // which piece is "active"
@@ -784,6 +792,8 @@ function buildAbout(){
   const sig = document.createElement('p'); sig.className = 'spray sig'; words(sig, about.signoff);
   sig.insertAdjacentHTML('beforeend', ' <span class="w">MS11</span>');
   aboutBody.appendChild(sig);
+  if(about.inspires){ const cta = document.createElement('p'); cta.className = 'inf-cta'; cta.innerHTML = '<button class="chip" type="button" id="infGo">Who inspires me &uarr;</button>'; aboutBody.appendChild(cta); cta.firstChild.onclick = () => openInf();
+    aboutBody.querySelectorAll('.inf').forEach(s => { s.setAttribute('role','link'); s.tabIndex = 0; s.onclick = () => openInf(); s.onkeydown = e => { if(e.key === 'Enter') openInf(); }; }); }
   // photos: three taped beside the text, the rest in a reel that scrolls past forever
   const photos = about.photos || [];
   const print = (ph, n) => '<figure class="print'+(ph.w > ph.h ? ' wide' : '')+'" style="--ar:'+(ph.w && ph.h ? (ph.w/ph.h).toFixed(3) : '0.8')+'"><i class="tape t1"></i><i class="tape t2"></i>' +
@@ -807,7 +817,7 @@ function startSpray(){
   aboutObs = new IntersectionObserver(es => es.forEach(en => { if(en.isIntersecting){ en.target.classList.add('on'); aboutObs.unobserve(en.target); } }), { root: aboutEl.querySelector('.about-scroll'), threshold: .25 });
   els.forEach(e => aboutObs.observe(e));
 }
-function showAboutText(){ if(inAbout && aboutPhase === 'turn'){ aboutEl.classList.add('show'); startSpray(); } }
+function showAboutText(){ if(inAbout && !inInf && aboutPhase === 'turn'){ aboutEl.classList.add('show'); startSpray(); } }
 function openAbout(fromHistory, instant){
   if(inAbout) return;
   if(openIdx >= 0) closeDetail(true);
@@ -817,7 +827,7 @@ function openAbout(fromHistory, instant){
   document.body.classList.add('in-about');
   if(!fromHistory) history.pushState({gallery:true, about:true}, '', '/about');
   document.title = 'About Mark Staples';
-  buildAbout(); aboutEl.hidden = false; aboutEl.querySelector('.about-scroll').scrollTop = 0;
+  buildAbout(); buildInf(); aboutEl.hidden = false; aboutEl.querySelector('.about-scroll').scrollTop = 0;
   if(instant || reduce){ camX = camTarget = ABOUT_X; aboutTurn = true; aboutPhase = 'turn'; if(instant) aboutV = 1; setTimeout(showAboutText, instant ? 60 : 600); }
   else { aboutPhase = 'travel'; aboutTurn = false; camTarget = ABOUT_X; }
   dismissHint();
@@ -831,8 +841,64 @@ function closeAbout(fromHistory){
   setTimeout(() => { if(!inAbout) aboutEl.hidden = true; }, 500);
   canvas.focus({preventScroll:true});
 }
-$('#aboutBtn').onclick = e => { e.preventDefault(); inAbout ? closeAbout() : openAbout(); };
+$('#aboutBtn').onclick = e => { e.preventDefault(); if(inInf) closeInf(); else if(inAbout) closeAbout(); else openAbout(); };
 $('#aboutBack').onclick = () => closeAbout();
+
+/* ---------- influences: from the About wall, look up at a ceiling tagged with the artists Mark rates ---------- */
+let inInf = false, infV = 0, infBuilt = false, infTimer = 0, infKey = null;
+const infEl = $('#inf'), infBoard = $('#infBoard'), inspires = about && about.inspires;
+// hand-placed spots for the desktop ceiling, in % of the screen: [x, y, size px at 1440 wide, rotation, hand]
+const INF_NAME_POS = [[38,20,64,-4,'f1'],[52,12,24,7,'f4'],[56,25,32,3,'f2'],[23,15,26,6,'f5'],[87,30,24,-5,'f3'],[41,33,26,-3,'f4'],[28,42,17,-8,'f8'],[62,37,38,-5,'f7'],[76,41,32,4,'f5'],[26,54,42,-6,'f3'],[40,62,50,5,'f1'],[60,62,36,-3,'f4'],[76,56,34,-7,'f2'],[77,67,24,-3,'f5'],[50,75,30,4,'f1'],[20,85,30,4,'f7'],[50,84,17,-3,'f6'],[80,88,24,-3,'f8'],[54,90,15,3,'f6']];
+const INF_PHOTO_POS = [[15,34,142,-5],[10,69,160,3],[34,79,176,4],[71,22,200,3],[89,50,200,-4],[65,79,140,-3],[91,80,126,5]];
+const INF_SPARE = [[12,50],[45,48],[88,64],[30,26],[68,50],[60,86]]; // extra names land here
+const HANDS = ['f1','f4','f2','f5','f3','f7','f8','f6'];
+function buildInf(){
+  if(infBuilt || !inspires) return; infBuilt = true;
+  const names = inspires.names, photos = inspires.photos;
+  const esc = t => String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+  const nameEl = (n, i) => { const p = INF_NAME_POS[i] || [...(INF_SPARE[i - INF_NAME_POS.length] || [50, 50]), 24, (i%2?4:-4), HANDS[i % HANDS.length]];
+    return '<'+(n.key?'button type="button"':'span')+' class="inf-name '+p[4]+'"'+(n.key?' data-k="'+n.key+'"':'')+' style="--x:'+p[0]+'%;--y:'+p[1]+'%;--s:'+p[2]+';--r:'+p[3]+'deg;--d:'+(i*70)+'ms">'+esc(n.name)+(n.met?'<i class="heart" aria-label="met">&hearts;</i>':'')+'</'+(n.key?'button':'span')+'>'; };
+  const photoEl = (ph, i) => { const p = INF_PHOTO_POS[i] || [50, 50, 150, 0];
+    return '<figure class="inf-photo'+(i%2?' r':'')+'" data-ks="'+ph.keys.join(' ')+'" style="--x:'+p[0]+'%;--y:'+p[1]+'%;--w:'+p[2]+';--r:'+p[3]+'deg;--d:'+(300+i*120)+'ms;--ar:'+(ph.w/ph.h).toFixed(3)+'"><i class="tape t1"></i><i class="tape t2"></i><img src="'+ph.src+'" width="'+ph.w+'" height="'+ph.h+'" alt="'+esc(ph.caption)+'" decoding="async"><figcaption>'+esc(ph.caption)+'</figcaption></figure>'; };
+  // interleave in the DOM (a few names, then a photo) so the phone layout flows; desktop places everything absolutely
+  let html = '<header class="inf-title"><small>Look up</small><h2>'+esc(inspires.heading)+'</h2><p>'+esc(inspires.intro)+' <i>&hearts;</i> = met them</p></header>';
+  const per = Math.ceil(names.length / (photos.length + 1));
+  names.forEach((n, i) => { html += nameEl(n, i); if((i + 1) % per === 0){ const k = (i + 1) / per - 1; if(photos[k]) html += photoEl(photos[k], k); } });
+  photos.forEach((ph, k) => { if(k >= Math.floor(names.length / per)) html += photoEl(ph, k); });
+  html += '<i class="inf-down" style="--x:7%;--y:19%"></i><i class="inf-down" style="--x:97%;--y:38%"></i><i class="inf-down" style="--x:65%;--y:12%"></i>';
+  infBoard.innerHTML = html;
+  const light = k => { if(k === infKey) return; infKey = k; infBoard.classList.toggle('hov', !!k);
+    infBoard.querySelectorAll('[data-k]').forEach(e => e.classList.toggle('on', e.dataset.k === k));
+    infBoard.querySelectorAll('.inf-photo').forEach(e => e.classList.toggle('on', !!k && e.dataset.ks.split(' ').includes(k))); };
+  on(infBoard, 'pointerover', e => { if(e.pointerType !== 'mouse') return; const t = e.target.closest('[data-k]'); light(t ? t.dataset.k : null); });
+  on(infBoard, 'pointerleave', e => { if(e.pointerType === 'mouse') light(null); });
+  on(infBoard, 'click', e => { const t = e.target.closest('[data-k]'); if(!t) { if(!e.target.closest('.inf-photo')) light(null); return; }
+    const k = infKey === t.dataset.k && !coarse ? null : t.dataset.k; light(k);
+    if(k && coarse){ const ph = infBoard.querySelector('.inf-photo.on'); ph && ph.scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block: 'center'}); } });
+}
+function openInf(fromHistory, instant){
+  if(!inspires) return;
+  if(!inAbout) openAbout(true, true);
+  if(inInf) return;
+  inInf = true; clearTimeout(infTimer);
+  aboutEl.classList.remove('show'); document.body.classList.add('in-inf');
+  buildInf(); infEl.hidden = false; infEl.querySelector('.inf-scroll').scrollTop = 0;
+  if(!fromHistory) history.pushState({gallery:true, about:true, inf:true}, '', '/influences');
+  document.title = 'Who inspires Mark Staples';
+  if(instant) infV = 1;
+  infTimer = setTimeout(() => { if(inInf) infEl.classList.add('show'); }, instant || reduce ? 80 : 1500);
+}
+function closeInf(fromHistory, toGallery){
+  if(!inInf) return;
+  inInf = false; clearTimeout(infTimer);
+  infEl.classList.remove('show'); document.body.classList.remove('in-inf');
+  setTimeout(() => { if(!inInf) infEl.hidden = true; }, 600);
+  if(toGallery) return;
+  if(!fromHistory) history.pushState({gallery:true, about:true}, '', '/about');
+  document.title = 'About Mark Staples';
+  infTimer = setTimeout(() => { if(inAbout && !inInf) aboutEl.classList.add('show'); }, reduce ? 80 : 1100);
+}
+$('#infBack').onclick = () => closeInf();
 
 /* ---------- grid view ---------- */
 const grid=$('#grid');
@@ -855,6 +921,7 @@ Promise.all([Promise.race([fontsReady, new Promise(r=>setTimeout(r,2500))]), new
   if(torsoMat){ const old=torsoMat.map; buildTorsoTexOnly(); old.dispose(); }
   intro.classList.add('gone'); started=true; t0=last=performance.now();
   if(initialView==='about') openAbout(true, true);
+  else if(initialView==='influences'){ openAbout(true, true); openInf(true, true); }
   else if(initialSlug){ const i=PIECES.findIndex(p=>p.slug===initialSlug); if(i>=0){ camTarget=camX=PIECES[i].x; if(openOnLoad) openDetail(i, true); } }
 });
 function buildTorsoTexOnly(){
@@ -865,7 +932,9 @@ function buildTorsoTexOnly(){
   /* back/forward buttons open and close artworks */
   on(window, 'popstate', () => {
     const m = location.pathname.match(/^\/work\/([^/]+)/);
-    if(location.pathname === '/about'){ openAbout(true); return; }
+    if(location.pathname === '/influences'){ openInf(true); return; }
+    if(location.pathname === '/about'){ if(inInf) closeInf(true); else openAbout(true); return; }
+    if(inInf) closeInf(true, true);
     if(inAbout) closeAbout(true);
     if(m){ const i = PIECES.findIndex(p=>p.slug===m[1]); if(i>=0){ camTarget=camX=PIECES[i].x; openDetail(i, true); } }
     else if(openIdx>=0) closeDetail(true);

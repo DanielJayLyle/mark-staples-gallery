@@ -1,6 +1,9 @@
 /* Mark's bio, as he wrote it (light punctuation tidy only). Move into the CMS later if he wants to edit it himself.
    {influences} is replaced by the list below, each name sprayed in its own colour. */
+import { INFLUENCES } from './influences';
+
 export const ABOUT = {
+  inspires: INFLUENCES,
   heading: 'Meet the artist',
   paragraphs: [
     'Original 70s council estate kid. Mark always loved cartoons and characters.',

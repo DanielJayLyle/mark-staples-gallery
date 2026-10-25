@@ -10,8 +10,13 @@
   },
   "dependencies": {
     "@fontsource-variable/archivo": "5.3.0",
+    "@fontsource/caveat-brush": "^5.3.0",
+    "@fontsource/knewave": "^5.3.0",
+    "@fontsource/nanum-pen-script": "^5.3.0",
     "@fontsource/permanent-marker": "5.3.0",
+    "@fontsource/rock-salt": "^5.3.0",
     "@fontsource/rubik-spray-paint": "5.3.0",
+    "@fontsource/sedgwick-ave-display": "^5.3.0",
     "@sanity/client": "6.29.1",
     "@sanity/image-url": "1.1.0",
     "next": "14.2.35",

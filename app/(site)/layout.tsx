@@ -2,6 +2,12 @@
 import '@fontsource-variable/archivo/wdth.css';
 import '@fontsource/permanent-marker';
 import '@fontsource/rubik-spray-paint';
+/* hand styles for the influences ceiling */
+import '@fontsource/rock-salt';
+import '@fontsource/sedgwick-ave-display';
+import '@fontsource/knewave';
+import '@fontsource/caveat-brush';
+import '@fontsource/nanum-pen-script';
 import '../gallery.css';
 import '../site.css';
 export default function SiteLayout({ children }: { children: React.ReactNode }) { return <>{children}</>; }

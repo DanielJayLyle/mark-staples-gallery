@@ -4,7 +4,7 @@ import { MARKUP } from './gallery/markup';
 
 import type { AboutContent } from '@/content/about';
 
-type Props = { artworks: unknown[]; initialSlug?: string | null; openOnLoad?: boolean; about?: AboutContent; initialView?: 'gallery' | 'about' };
+type Props = { artworks: unknown[]; initialSlug?: string | null; openOnLoad?: boolean; about?: AboutContent; initialView?: 'gallery' | 'about' | 'influences' };
 
 /** Mounts the 3D gallery. The engine is loaded on the client only, after the page's HTML has rendered. */
 export default function Gallery({ artworks, initialSlug = null, openOnLoad = false, about, initialView = 'gallery' }: Props) {
