@@ -68,7 +68,7 @@ stripeTex.wrapS = THREE.RepeatWrapping;
 const ROOM = {start:-2.6, gap:.95};
 let cursor = 1.95;
 PIECES.forEach(p=>{ const fw = p.sculpture ? p.w : p.w + 2*FRAMES[p.frame].t; p.x = cursor + fw/2; cursor += fw + ROOM.gap; });
-ROOM.end = cursor + 3.6; // extra floor at the far end: you turn right here to face the About wall
+ROOM.end = cursor - ROOM.gap + 1.6; // the end wall always sits 1.6 m past the last piece, however many pieces hang
 const len = ROOM.end - ROOM.start, mid = (ROOM.start+ROOM.end)/2, H = 3.6, D = 14;
 
 const plaster = (()=>{ const c=document.createElement('canvas'); c.width=c.height=512; const x=c.getContext('2d'); x.fillStyle='#808080'; x.fillRect(0,0,512,512);
@@ -362,7 +362,7 @@ canvas.addEventListener('pointerup', e=>{
 });
 canvas.addEventListener('pointercancel', ()=>{ down=null; dragging=false; });
 canvas.addEventListener('pointerleave', e=>{ if(e.pointerType==='mouse'){ hovered=-1; parXT=parYT=0; } });
-canvas.addEventListener('wheel', e=>{ e.preventDefault(); if(openIdx>=0 || inAbout) return; camTarget = clampX(camTarget + (e.deltaY+e.deltaX)*mpp*.8); dismissHint();
+canvas.addEventListener('wheel', e=>{ e.preventDefault(); if(inAbout){ aboutEl.querySelector('.about-scroll').scrollBy(0, e.deltaY); return; } if(openIdx>=0) return; camTarget = clampX(camTarget + (e.deltaY+e.deltaX)*mpp*.8); dismissHint();
   clearTimeout(wheelTimer); if(coarse) wheelTimer=setTimeout(()=>goTo(nearestStation(camTarget)),220); }, {passive:false});
 on(window,'keydown', e=>{
   if(e.key==='Escape'){ if(!$('#detail').hidden) closeDetail(); else if(!$('#grid').hidden) closeGrid(); else if(inAbout) closeAbout(); return; }
@@ -397,7 +397,7 @@ tag.addEventListener('click', ()=>{ if(active>=0) openDetail(active); });
 /* counter and progress rail */
 const railEl=$('#rail'), railFill=$('#railFill');
 stations.forEach(s=>{ const e=document.createElement('s'); e.style.left=((s.x-minX)/(maxX-minX)*100)+'%'; railEl.appendChild(e); s.tick=e; });
-$('#brand').addEventListener('click', e=>{ e.preventDefault(); if(!$('#detail').hidden) closeDetail(); if(!$('#grid').hidden) closeGrid(); goTo(0); });
+$('#brand').addEventListener('click', e=>{ e.preventDefault(); if(inAbout){ originX = minX; closeAbout(); return; } if(!$('#detail').hidden) closeDetail(); if(!$('#grid').hidden) closeGrid(); goTo(0); });
 let countFor=-1;
 function setCount(si){
   if(si===countFor) return; countFor=si;
@@ -641,6 +641,19 @@ function buildAbout(){
   const sig = document.createElement('p'); sig.className = 'spray sig'; words(sig, about.signoff);
   sig.insertAdjacentHTML('beforeend', ' <span class="w tagmark"><svg viewBox="'+TAG_VB.join(' ')+'" aria-hidden="true"><use href="#ms-tag"/></svg></span><span class="w">MS11</span>');
   aboutBody.appendChild(sig);
+  // photos: three taped beside the text, the rest in a reel that scrolls past forever
+  const photos = about.photos || [];
+  const print = (ph, n) => '<figure class="print"><i class="tape t1"></i><i class="tape t2"></i>' +
+    (ph.src ? '<img src="'+ph.src+'" alt="'+(ph.caption || 'Mark Staples')+'" loading="lazy">' : '<div class="ph"><span>Photo '+String(n).padStart(2,'0')+'<small>placeholder</small></span></div>') +
+    (ph.caption ? '<figcaption>'+ph.caption+'</figcaption>' : '') + '</figure>';
+  $('#aboutPhotos').innerHTML = photos.slice(0, 3).map((ph, i) => print(ph, i + 1)).join('');
+  const rest = photos.slice(3);
+  if(rest.length){
+    const once = rest.map((ph, i) => '<div class="reel-item">' + print(ph, i + 4) + '</div>').join('');
+    const reel = $('#aboutReel');
+    reel.innerHTML = '<div class="reel-track" style="--dur:' + (rest.length * 4.5) + 's">' + once + once.replace(/class="reel-item"/g, 'class="reel-item" aria-hidden="true"') + '</div>';
+    reel.hidden = false;
+  }
   // number the words so they're sprayed on one after another
   aboutBody.querySelectorAll('.spray').forEach(el => [...el.querySelectorAll('.w')].forEach((w, i) => w.style.setProperty('--i', i)));
 }

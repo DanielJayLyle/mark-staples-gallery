@@ -14,5 +14,8 @@ export const ABOUT = {
   ],
   influences: ['Arron Crascall', 'Banksy', 'Ripper', 'Tboy', 'Postman', 'Mr Brainwash', 'Lewis McClean', 'Zinsky', 'Bobby Guy'],
   signoff: 'Peace and love always x',
+  /* Photos of Mark. The first 3 are taped up beside the text; the rest scroll past in the reel underneath.
+     Drop files into public/about/ and set src, e.g. { src: '/about/mark-01.webp', caption: 'In the studio' }. */
+  photos: Array.from({ length: 18 }, (_, i) => ({ src: '', caption: i === 0 ? 'Mark in the studio' : '' })),
 };
 export type AboutContent = typeof ABOUT;
