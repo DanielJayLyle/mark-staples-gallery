@@ -1,8 +1,6 @@
 /* Standard pages (all work, single artwork). Share the gallery's tokens. */
 .page{min-height:100vh;background:var(--paper);}
-.page-top{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px max(20px,env(safe-area-inset-left,0px));border-bottom:1px solid var(--line);}
-.page-top .brand svg,.page-top .brand img{height:34px;width:auto;}
-.page-top nav{display:flex;gap:10px;flex-wrap:wrap;}
+.page-top{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:calc(env(safe-area-inset-top,0px) + 18px) max(20px,env(safe-area-inset-right,0px)) 14px max(20px,env(safe-area-inset-left,0px));border-bottom:1px solid var(--line);}
 .wrap{max-width:1240px;margin:0 auto;padding:40px 20px 80px;}
 .crumbs{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);margin-bottom:28px;}
 .crumbs a{color:inherit;}
@@ -28,8 +26,6 @@
 @media (max-width:820px){ .art{grid-template-columns:1fr;gap:32px;} .art-media{position:static;} .work-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:30px 14px;} }
 a.chip,a.brand,.crumbs a{text-decoration:none;color:var(--ink);}
 .crumbs a:hover{text-decoration:underline;}
-@media (max-width:520px){ .page-top{padding:14px 16px;} .page-top nav{gap:12px;flex-wrap:nowrap;align-items:center;} .page-top nav .chip{padding:9px 12px;font-size:10px;letter-spacing:.1em;} .page-top .brand span{display:none;} .page-top .brand img{height:28px;width:auto;} }
-.page-top nav{align-items:center;gap:18px;}
 /* archive */
 .arch-bar{position:sticky;top:0;z-index:5;background:rgba(248,246,242,.92);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);margin:0 -20px 10px;padding:14px 20px;border-bottom:1px solid var(--line);display:grid;gap:12px;}
 .arch-filters{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
@@ -47,11 +43,9 @@ a.chip,a.brand,.crumbs a{text-decoration:none;color:var(--ink);}
 .work-card h3{margin:0;font-weight:800;font-stretch:72%;text-transform:uppercase;font-size:19px;line-height:1;}
 .arch-more{margin-top:26px;}
 
-.page-top nav a{white-space:nowrap;}
 
 /* footer credit on the normal pages */
 .site-foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:72px;padding:22px 0 30px;border-top:1px solid rgba(20,19,18,.12);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);}
 .site-foot a{color:var(--ink-2);text-decoration:none;}
 .site-foot a:hover{color:var(--ink);}
 .site-foot b{font-weight:800;color:var(--ink);}
-@media (max-width:520px){ .page-top nav{gap:12px;} .page-top .navlink{font-size:10px;letter-spacing:.1em;padding:8px 0;} .hide-sm{display:none;} }

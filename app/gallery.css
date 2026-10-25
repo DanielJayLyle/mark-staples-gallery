@@ -35,7 +35,7 @@ button{font:inherit;color:inherit;}
   padding-top:calc(env(safe-area-inset-top,0px) + 18px);padding-bottom:12px;
   padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px));pointer-events:none;}
 .brand{display:flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none;pointer-events:auto;}
-.brand svg{height:38px;width:auto;display:block;}
+.brand svg,.brand img{height:38px;width:auto;display:block;}
 .brand span{font-weight:850;font-size:17px;line-height:.9;letter-spacing:.01em;font-stretch:100%;}
 .top-r{display:flex;align-items:center;gap:18px;pointer-events:auto;}
 .room{font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--ink-2);}
@@ -183,10 +183,10 @@ a.venue{color:var(--ink);text-decoration:underline;text-underline-offset:3px;tex
   .info{max-width:none;}
   .cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:30px 14px;}
   .card h3{font-size:16px;}
-  .brand svg{height:30px;}
+  .brand svg,.brand img{height:30px;}
   .brand span{display:none;} /* the tag alone on phones, so All work can keep its label */
   .room{display:none;}
-  .top .chip{padding:10px 14px;gap:8px;font-size:11px;letter-spacing:.14em;}
+  .top .chip,.page-top .chip{padding:10px 14px;gap:8px;font-size:11px;letter-spacing:.14em;}
   .bottom{gap:14px;}
 }
 @media (prefers-reduced-motion: reduce){
@@ -304,5 +304,6 @@ button.inf-name{cursor:pointer;}
 }
 @media (prefers-reduced-motion: reduce){ .infl.show .inf-name,.infl.show .inf-photo{animation:none;opacity:1;filter:none;} }
 
-@media (max-width:360px){ .top-r{gap:8px;} .navlink{font-size:10px;letter-spacing:.08em;} .top .chip{padding:9px 10px;gap:6px;font-size:10px;letter-spacing:.08em;} }
-.top .chip span{white-space:nowrap;}
+@media (max-width:360px){ .top-r{gap:8px;} .navlink{font-size:10px;letter-spacing:.08em;} .top .chip,.page-top .chip{padding:9px 10px;gap:6px;font-size:10px;letter-spacing:.08em;} }
+.top .chip span,.page-top .chip span{white-space:nowrap;}
+.page-top .navlink{white-space:nowrap;}
