@@ -232,7 +232,7 @@ body.in-about .bottom,body.in-about .tag,body.in-about .hint,body.in-about .vcur
 .print .tape{position:absolute;top:-11px;width:70px;height:22px;background:linear-gradient(180deg,rgba(203,166,75,.92),rgba(178,140,52,.92));clip-path:polygon(0 10%,4% 0,96% 8%,100% 0,98% 92%,95% 100%,3% 94%,0 100%);}
 .print .t1{left:-14px;transform:rotate(-32deg);} .print .t2{right:-14px;transform:rotate(30deg);}
 .about-reel{margin:80px calc(50% - 50vw) 0;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);}
-.reel-track{display:flex;width:max-content;padding:26px 0 80px;margin-bottom:-44px;animation:reel var(--dur,60s) linear infinite;}
+.reel-track{display:flex;width:max-content;padding:26px 0 80px;animation:reel var(--dur,60s) linear infinite;}
 .about-reel:hover .reel-track{animation-play-state:paused;}
 .reel-item .print .tape{width:50px;height:17px;top:-8px;}
 /* every reel print is the same height; width follows the photo's shape, so landscape shots get wide prints */
