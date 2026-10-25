@@ -36,6 +36,10 @@ export const ABOUT = {
     { src: '/about/mark-17.webp', w: 547, h: 760, caption: '' },
     { src: '/about/mark-18.webp', w: 471, h: 760, caption: '' },
     { src: '/about/mark-19.webp', w: 570, h: 760, caption: '' },
+    { src: '/about/mark-20.webp', w: 570, h: 760, caption: '' },
+    { src: '/about/mark-21.webp', w: 567, h: 760, caption: '' },
+    { src: '/about/mark-22.webp', w: 471, h: 760, caption: '' },
+    { src: '/about/mark-23.webp', w: 570, h: 760, caption: '' },
   ] as { src: string; w: number; h: number; caption?: string }[],
 };
 export type AboutContent = typeof ABOUT;
