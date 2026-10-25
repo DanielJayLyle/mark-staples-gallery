@@ -41,8 +41,8 @@ export default async function ArtworkPage({ params }: { params: { slug: string }
   };
   // only the details we actually have
   const specs: [string, React.ReactNode][] = [...([['Medium', a.medium], ['Size', sizeText(a)], ['Frame', a.frameText], ['Year', a.year]] as [string, React.ReactNode][]).filter(([, v]) => v),
-    ...(a.currentVenue && !sold ? [['On show at', <a key="v" className="venue" href={a.currentVenue.url} target="_blank" rel="noopener">{a.currentVenue.name} &#8599;</a>] as [string, React.ReactNode]] : []),
-    ...(a.pastVenue ? [[sold ? 'Sold via' : 'Shown at', <a key="p" className="venue" href={a.pastVenue.url} target="_blank" rel="noopener">{a.pastVenue.name} &#8599;</a>] as [string, React.ReactNode]] : [])];
+    ...(a.currentVenue && !sold ? [['On show at', <a key="v" className="venue" href={a.currentVenue.url} target="_blank" rel="noopener">{a.currentVenue.name} &#8599;&#xFE0E;</a>] as [string, React.ReactNode]] : []),
+    ...(a.pastVenue ? [[sold ? 'Sold via' : 'Shown at', <a key="p" className="venue" href={a.pastVenue.url} target="_blank" rel="noopener">{a.pastVenue.name} &#8599;&#xFE0E;</a>] as [string, React.ReactNode]] : [])];
   return (
     <div className="page">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
@@ -59,7 +59,7 @@ export default async function ArtworkPage({ params }: { params: { slug: string }
             <div className="price">
               {sold ? <><strong><span className="dot" aria-hidden="true" /> Sold</strong><span>{a.soldNote ? a.soldNote + '. ' : ''}Ask about similar work or commissions.</span></>
                 : <><strong>{a.currentVenue && !(SHOW_PRICES && a.price) ? 'Available' : priceOrStatus(a)}</strong><span>{SHOW_PRICES && a.price ? 'Free UK delivery' : 'Enquire for details'}</span></>}
-              {!sold && a.currentVenue && <div className="onshow"><i aria-hidden="true" /><span>On show now at <a className="venue" href={a.currentVenue.url} target="_blank" rel="noopener">{a.currentVenue.name} &#8599;</a></span><small>{a.currentVenue.address}. Pop in and see it in person.</small></div>}
+              {!sold && a.currentVenue && <div className="onshow"><i aria-hidden="true" /><span>On show now at <a className="venue" href={a.currentVenue.url} target="_blank" rel="noopener">{a.currentVenue.name} &#8599;&#xFE0E;</a></span><small>{a.currentVenue.address}. Pop in and see it in person.</small></div>}
             </div>
             {specs.length > 0 && <dl className="specs">{specs.map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}</dl>}
             {a.story && <p className="story">{a.story}</p>}

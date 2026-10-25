@@ -235,7 +235,6 @@ function drawCredit(){
   const c = creditTex.image.getContext('2d'); c.clearRect(0,0,2000,200); c.fillStyle = INK; c.textBaseline = 'middle';
   c.font = '500 104px "Archivo Variable", Archivo, sans-serif'; c.fillText('Exhibition design by ', 0, 104); let x = c.measureText('Exhibition design by ').width;
   c.font = '800 104px "Archivo Variable", Archivo, sans-serif'; c.fillText('Future Faced', x, 104); x += c.measureText('Future Faced').width;
-  c.font = '500 96px "Archivo Variable", Archivo, sans-serif'; c.fillText(' \u2197', x, 100);
   creditTex.needsUpdate = true;
 }
 const creditMat = new THREE.MeshBasicMaterial({map:creditTex, transparent:true, opacity:.7, depthWrite:false, color:0xffffff});
@@ -253,7 +252,7 @@ if(document.fonts){ Promise.all(['800 80px "Archivo Variable"','500 40px "Archiv
 /* wide screens: the vinyl hangs to the right of the tag; tall phones: tucked under it */
 function placeEntrance(aspect){
   const narrow = aspect < .8;
-  if(narrow){ vinyl.scale.setScalar(.8); vinyl.position.set(.02 + VIN_W*.8/2, .64, .003); }
+  if(narrow){ vinyl.scale.setScalar(1.05); vinyl.position.set(-.14 + VIN_W*1.05/2, .62, .003); }
   else { vinyl.scale.setScalar(1); vinyl.position.set(.9 + VIN_W/2, 1.32, .003); }
   canA.position.set(narrow ? .58 : .3, 0, .17); canA.rotation.y = -.5;
   canB.position.set(narrow ? -.7 : -.62, CAN_R*CAN_S, .34); canB.rotation.set(0, .55, Math.PI/2);
@@ -693,7 +692,7 @@ function openDetail(i, fromHistory){
   }
   const eb = [p.kind, p.year].filter(Boolean).join(', '); $('#dEyebrow').textContent = eb ? '/ ' + eb : '';
   $('#dTitle').textContent = p.title;
-  const vLink = v => '<a class="venue" href="'+v.url+'" target="_blank" rel="noopener">'+v.name+' <span aria-hidden="true">\u2197</span></a>';
+  const vLink = v => '<a class="venue" href="'+v.url+'" target="_blank" rel="noopener">'+v.name+' <span aria-hidden="true">\u2197\uFE0E</span></a>';
   $('#dPrice').innerHTML = p.sold
     ? '<strong><span class="dot" aria-hidden="true"></span> Sold</strong><span>'+(p.soldNote && p.soldNote!=='Sold' ? p.soldNote+'. ' : '')+'Ask about similar work or commissions.</span>'
     : (p.priceText ? '<strong>'+p.priceText+'</strong><span>'+(p.sculpture?'Free UK delivery, carefully packed':'Free UK delivery, ready to hang')+'</span>'
