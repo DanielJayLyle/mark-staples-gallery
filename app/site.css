@@ -28,4 +28,23 @@
 @media (max-width:820px){ .art{grid-template-columns:1fr;gap:32px;} .art-media{position:static;} .work-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:30px 14px;} }
 a.chip,a.brand,.crumbs a{text-decoration:none;color:var(--ink);}
 .crumbs a:hover{text-decoration:underline;}
-@media (max-width:520px){ .page-top{padding:14px 16px;} .page-top nav .chip{padding:9px 12px;font-size:10px;letter-spacing:.12em;} .page-top .brand span{display:none;} }
+@media (max-width:520px){ .page-top{padding:14px 16px;} .page-top nav{gap:12px;flex-wrap:nowrap;align-items:center;} .page-top nav .chip{padding:9px 12px;font-size:10px;letter-spacing:.1em;} .page-top .brand span{display:none;} .page-top .brand img{height:28px;width:auto;} }
+.page-top nav{align-items:center;gap:18px;}
+/* archive */
+.arch-bar{position:sticky;top:0;z-index:5;background:rgba(248,246,242,.92);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);margin:0 -20px 10px;padding:14px 20px;border-bottom:1px solid var(--line);display:grid;gap:12px;}
+.arch-filters{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.pill{border:1px solid rgba(19,18,17,.3);background:transparent;border-radius:999px;padding:8px 14px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;cursor:pointer;}
+.pill.on{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+.arch-count{margin-left:auto;font-size:12px;color:var(--ink-2);font-variant-numeric:tabular-nums;}
+.arch-jump{display:flex;gap:18px;overflow-x:auto;scrollbar-width:none;font-size:13px;font-weight:600;white-space:nowrap;}
+.arch-jump::-webkit-scrollbar{display:none;}
+.arch-jump a{color:var(--ink);text-decoration:none;}
+.arch-jump a span{color:var(--ink-2);font-weight:400;margin-left:2px;}
+.arch-section{padding-top:44px;scroll-margin-top:110px;}
+.arch-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid var(--line);}
+.arch-head h2{margin:0;font-weight:850;font-stretch:72%;text-transform:uppercase;font-size:clamp(28px,4vw,44px);line-height:.95;}
+.arch-head p{margin:0;color:var(--ink-2);font-size:14px;}
+.work-card h3{margin:0;font-weight:800;font-stretch:72%;text-transform:uppercase;font-size:19px;line-height:1;}
+.arch-more{margin-top:26px;}
+
+.page-top nav a{white-space:nowrap;}

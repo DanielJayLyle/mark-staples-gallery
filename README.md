@@ -17,6 +17,18 @@ A 3D gallery website for Mark Staples, built with Next.js. Visitors walk a lit g
 
 When a piece opens in the gallery, the address bar changes to `/work/<slug>`, and the browser back button closes it. Anyone arriving at that link directly gets the full artwork page, with a "Walk the gallery from here" link that drops them into the room at that piece (`/?piece=<slug>`).
 
+## Live and dev versions
+
+- `main` is the live site. Only merge into it when a change has been checked.
+- `dev` is the working version. Every push to `dev` gets its own Vercel preview link, which is private to your Vercel account (Settings, Deployment Protection) and hidden from Google (`robots.txt` blocks everything outside production).
+- To release: open a pull request from `dev` into `main` on GitHub and merge it. Vercel deploys the live site automatically.
+
+## Content while building
+
+- `content/samples.ts` and `public/art/sample/` are 95 clearly labelled placeholders that fill the All work archive. Delete both once Mark's real work is in the CMS.
+- `content/about.ts` holds Mark's bio for the About wall.
+- The 3D room shows up to 15 pieces marked "Hang in the 3D gallery"; everything else lives on All work, grouped by section.
+
 ## Run it on your computer
 
 Needs Node.js 18.17 or newer.

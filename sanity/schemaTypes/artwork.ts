@@ -16,12 +16,21 @@ export const artwork = defineType({
     defineField({ name: 'image', type: 'image', group: 'main', options: { hotspot: true }, validation: (r) => r.required(),
       description: 'Straight-on photo, evenly lit, no glare. For mirrors and sculptures, upload a PNG with the background removed.',
       fields: [defineField({ name: 'alt', type: 'string', title: 'Describe the image (for screen readers and Google)' })] }),
+    defineField({ name: 'collection', title: 'Section', type: 'reference', to: [{ type: 'collection' }], group: 'main', description: 'Which section of All work it sits in' }),
     defineField({ name: 'kind', type: 'string', group: 'main', initialValue: 'Original painting',
       options: { list: ['Original painting', 'Mixed media on canvas', 'Mirror art', 'Sculpture', 'Limited edition print', 'Commission'] } }),
     defineField({ name: 'medium', type: 'string', group: 'main', description: 'e.g. Spray paint and acrylic on canvas' }),
     defineField({ name: 'year', type: 'number', group: 'main', initialValue: new Date().getFullYear() }),
     defineField({ name: 'story', type: 'text', rows: 4, group: 'main', description: 'Two or three sentences about the piece' }),
 
+    defineField({ name: 'featured', title: 'Hang in the 3D gallery', type: 'boolean', group: 'gallery', initialValue: false,
+      description: 'The 3D room shows up to 15 pieces. Everything else lives on the All work page.',
+      validation: (r) => r.custom(async (val, ctx) => {
+        if (!val) return true;
+        const client = ctx.getClient({ apiVersion: '2025-01-01' });
+        const n = await client.fetch<number>('count(*[_type=="artwork" && featured == true && !(_id in path("drafts.**")) && _id != $id])', { id: (ctx.document?._id || '').replace('drafts.', '') });
+        return n >= 15 ? 'The gallery already has 15 pieces. Unhang one first.' : true;
+      }) }),
     defineField({ name: 'display', title: 'Display in the 3D room as', type: 'string', group: 'gallery', initialValue: 'canvas', validation: (r) => r.required(),
       options: { layout: 'radio', list: [
         { title: 'Canvas or framed piece on the wall', value: 'canvas' },

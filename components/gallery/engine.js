@@ -4,7 +4,7 @@
 import * as THREE from 'three';
 
 export function mountGallery(root, opts){
-  const { artworks, initialSlug = null, openOnLoad = false } = opts;
+  const { artworks, initialSlug = null, openOnLoad = false, about = null, initialView = 'gallery' } = opts;
   let alive = true; const offs = [];
   const on = (el, ev, fn, o) => { el.addEventListener(ev, fn, o); offs.push(() => el.removeEventListener(ev, fn, o)); };
   const baseTitle = document.title;
@@ -300,6 +300,19 @@ PIECES.forEach(p=>{ p.seen=true; }); // only the opening canvas flickers; the re
 const LIGHTABLE=[NAME].concat(PIECES), N_SPOTS=4, SMAP=coarse?512:1024, SPOTS=[];
 for(let i=0;i<N_SPOTS;i++){ const s=new THREE.SpotLight(0xFFEFD6, 0, 6, .6, .62, 1.1); s.castShadow=true; s.shadow.mapSize.set(SMAP,SMAP); s.shadow.bias=-.0006; s.shadow.radius=3; s.shadow.camera.near=.05; s.shadow.camera.far=6; scene.add(s); scene.add(s.target); SPOTS.push(s); }
 
+/* ---------- about: turn right to a side wall where the bio gets sprayed on ---------- */
+let inAbout = false, aboutV = 0, aboutWallX = 0;
+const aboutWall = new THREE.Group(); aboutWall.visible = false; scene.add(aboutWall);
+{
+  const L = 9;
+  const w = new THREE.Mesh(new THREE.BoxGeometry(.12, H, L), wallMat); w.position.set(.06, H/2, 0); w.receiveShadow = true; aboutWall.add(w);
+  const sk = new THREE.Mesh(new THREE.BoxGeometry(.018,.09,L), skirt.material); sk.position.set(-.009,.045,0); aboutWall.add(sk);
+  const ao = new THREE.Mesh(new THREE.PlaneGeometry(L,.55), new THREE.MeshBasicMaterial({map:aoDown, transparent:true, depthWrite:false})); ao.rotation.y = -Math.PI/2; ao.position.set(-.002,.275,0); aboutWall.add(ao);
+}
+const ABOUT_L = { x:0, lit:0, onAt:null, focus:1, seen:true, on:false, glowMat:new THREE.MeshBasicMaterial({color:0}), beamMat:new THREE.MeshBasicMaterial(), beamMax:0,
+  spotPos:new THREE.Vector3(), spotTgt:new THREE.Vector3(), spotAngle:.95, spotI:1.7 };
+LIGHTABLE.push(ABOUT_L);
+
 /* ---------- camera + controls ---------- */
 const stations = [{x:-.1, idx:-1}].concat(PIECES.map((p,i)=>({x:p.x, idx:i})));
 const minX = stations[0].x, maxX = stations[stations.length-1].x;
@@ -331,17 +344,18 @@ canvas.addEventListener('pointerdown', e=>{ lastType=e.pointerType; down={x:e.cl
 canvas.addEventListener('pointermove', e=>{
   lastType = e.pointerType;
   if(e.pointerType==='mouse'){ parXT=(e.clientX/vw-.5); parYT=(e.clientY/vh-.5); mx=e.clientX; my=e.clientY; }
-  if(down){
+  if(down && !inAbout){
     const dx=e.clientX-down.lx, now=performance.now();
     if(!dragging && Math.abs(e.clientX-down.x)>6) { dragging=true; dismissHint(); }
     if(dragging){ camTarget = clampX(camTarget - dx*mpp*1.15); camX = camTarget; vel = -dx*mpp/Math.max(1,now-down.lt); }
     down.lx=e.clientX; down.lt=now;
-  } else if(e.pointerType==='mouse' && openIdx<0){
+  } else if(e.pointerType==='mouse' && openIdx<0 && !inAbout){
     hovered = pick(e.clientX,e.clientY); canvas.style.cursor = hovered>=0 ? 'none' : 'grab';
   }
 });
 canvas.addEventListener('pointerup', e=>{
   if(!down) return;
+  if(inAbout){ down=null; dragging=false; return; }
   if(dragging){
     const proj = camTarget + vel*260;
     if(e.pointerType==='mouse') camTarget = clampX(proj); else goTo(nearestStation(proj));
@@ -353,10 +367,11 @@ canvas.addEventListener('pointerup', e=>{
 });
 canvas.addEventListener('pointercancel', ()=>{ down=null; dragging=false; });
 canvas.addEventListener('pointerleave', e=>{ if(e.pointerType==='mouse'){ hovered=-1; parXT=parYT=0; } });
-canvas.addEventListener('wheel', e=>{ e.preventDefault(); if(openIdx>=0) return; camTarget = clampX(camTarget + (e.deltaY+e.deltaX)*mpp*.8); dismissHint();
+canvas.addEventListener('wheel', e=>{ e.preventDefault(); if(openIdx>=0 || inAbout) return; camTarget = clampX(camTarget + (e.deltaY+e.deltaX)*mpp*.8); dismissHint();
   clearTimeout(wheelTimer); if(coarse) wheelTimer=setTimeout(()=>goTo(nearestStation(camTarget)),220); }, {passive:false});
 on(window,'keydown', e=>{
-  if(e.key==='Escape'){ if(!$('#detail').hidden) closeDetail(); else if(!$('#grid').hidden) closeGrid(); return; }
+  if(e.key==='Escape'){ if(!$('#detail').hidden) closeDetail(); else if(!$('#grid').hidden) closeGrid(); else if(inAbout) closeAbout(); return; }
+  if(inAbout) return;
   if(!$('#detail').hidden){ if(e.key==='ArrowRight') detailStep(1); if(e.key==='ArrowLeft') detailStep(-1); return; }
   if(!$('#grid').hidden) return;
   if(e.key==='ArrowRight'){ step(1); e.preventDefault(); }
@@ -434,8 +449,12 @@ function frame(now){
   distMul += (distMulT-distMul)*(1-Math.exp(-dt*5));
   parX += (parXT-parX)*(1-Math.exp(-dt*3)); parY += (parYT-parY)*(1-Math.exp(-dt*3));
   const cz = camDist*distMul;
-  camera.position.set(camX + parX*.2, 1.55 - parY*.08, cz);
-  camera.lookAt(camX + parX*.08, 1.16 - parY*.04, 0);
+  aboutV += ((inAbout?1:0) - aboutV) * (1 - Math.exp(-dt*2.4));
+  if(!inAbout && aboutV < .004){ aboutV = 0; aboutWall.visible = false; }
+  const te = aboutV*aboutV*(3 - 2*aboutV), ta = te*Math.PI/2, tl = cz*(1-te) + 2.6*te, keep = 1 - te;
+  const cpx = camX + parX*.2*keep;
+  camera.position.set(cpx, 1.55 - parY*.08*keep, cz);
+  camera.lookAt(cpx + Math.sin(ta)*tl + parX*.08*keep, (1.16 - parY*.04)*keep + 1.5*te, cz - Math.cos(ta)*tl);
   railFill.style.width = ((camX-minX)/(maxX-minX)*100).toFixed(2)+'%';
 
   // which piece is "active"
@@ -445,10 +464,12 @@ function frame(now){
   if(openIdx>=0) active=openIdx;
   else if(mouseMode) active = hovered;
   else active = settled ? stations[si].idx : -1;
-  const focusIdx = openIdx<0 && mouseMode ? hovered : -1;
+  if(inAbout || aboutV > .05) active = -1;
+  const focusIdx = openIdx<0 && mouseMode && !inAbout ? hovered : -1;
 
   // lights switch on as you reach each piece and off again once you've moved on
   const half = vw*mpp/2, reach = half*.62;
+  shade(ABOUT_L, T, dt, inAbout && aboutV > .45, 1);
   const nL = shade(NAME, T, dt, T>.35 && Math.abs(NAME.x-camX) < Math.max(reach,1.2), focusIdx>=0 ? .45 : 1);
 
   updateDrips(T, dt);
@@ -599,6 +620,80 @@ function startSpin(cv){
   spin.on = true;
 }
 
+
+/* ---------- about overlay: the bio, sprayed word by word, with drips ---------- */
+const aboutEl = $('#about'), aboutBody = $('#aboutBody');
+let aboutBuilt = false, aboutObs = null;
+const INF_COL = ['#D3242C','#2F6FD0','#E2387F','#E08A12','#2E9E5B','#7C4FC9','#0E9BB0','#C9A12B','#D8322F'];
+function buildAbout(){
+  if(aboutBuilt || !about) return; aboutBuilt = true;
+  const words = (el, text) => { text.split(/(\s+)/).forEach(tok => { if(!tok) return; if(/^\s+$/.test(tok)){ el.appendChild(document.createTextNode(' ')); return; } const s=document.createElement('span'); s.className='w'; s.textContent=tok; el.appendChild(s); }); };
+  const h = document.createElement('h2'); h.className = 'spray spray-title'; words(h, about.heading);
+  h.insertAdjacentHTML('beforeend', '<svg class="swoosh" viewBox="0 0 600 40" preserveAspectRatio="none" aria-hidden="true"><path d="M6 26 C 140 10, 300 34, 594 14"/></svg>');
+  aboutBody.appendChild(h);
+  about.paragraphs.forEach(p => {
+    const el = document.createElement('p'); el.className = 'spray';
+    if(p.includes('{influences}')){
+      const [a, b] = p.split('{influences}'); words(el, a);
+      about.influences.forEach((n, i) => { const s = document.createElement('span'); s.className = 'w inf'; s.style.setProperty('--c', INF_COL[i % INF_COL.length]); s.textContent = n + (i < about.influences.length - 1 ? ',' : ''); el.appendChild(s); el.appendChild(document.createTextNode(' ')); });
+      words(el, b.trim());
+    } else words(el, p);
+    aboutBody.appendChild(el);
+  });
+  const sig = document.createElement('p'); sig.className = 'spray sig'; words(sig, about.signoff);
+  sig.insertAdjacentHTML('beforeend', ' <span class="w tagmark"><svg viewBox="'+TAG_VB.join(' ')+'" aria-hidden="true"><use href="#ms-tag"/></svg></span><span class="w">MS11</span>');
+  aboutBody.appendChild(sig);
+  // number the words for the stagger, and hang a few drips off random letters
+  aboutBody.querySelectorAll('.spray').forEach((el, k) => {
+    const ws = [...el.querySelectorAll('.w')]; ws.forEach((w, i) => w.style.setProperty('--i', i));
+    const r = seed(900 + k), title = el.classList.contains('spray-title');
+    const n = title ? 4 : (r() < .45 ? 1 : 0);
+    for(let j=0;j<n;j++){
+      const w = ws[Math.floor(r()*ws.length)]; if(!w || w.querySelector('.drip') || w.classList.contains('tagmark')) continue;
+      const d = document.createElement('i'); d.className = 'drip';
+      d.style.left = (25 + r()*50) + '%';
+      d.style.setProperty('--h', (title ? 18 + r()*40 : 7 + r()*14).toFixed(0) + 'px');
+      d.style.setProperty('--dw', (title ? 4 + r()*3 : 2.4 + r()*1.4).toFixed(1) + 'px');
+      d.style.setProperty('--dd', (2.2 + r()*3.5).toFixed(1) + 's');
+      w.appendChild(d);
+    }
+  });
+}
+function startSpray(){
+  const els = aboutBody.querySelectorAll('.spray');
+  if(reduce || !('IntersectionObserver' in window)){ els.forEach(e => e.classList.add('on')); return; }
+  aboutObs && aboutObs.disconnect();
+  aboutObs = new IntersectionObserver(es => es.forEach(en => { if(en.isIntersecting){ en.target.classList.add('on'); aboutObs.unobserve(en.target); } }), { root: aboutEl.querySelector('.about-scroll'), threshold: .25 });
+  els.forEach(e => aboutObs.observe(e));
+}
+function openAbout(fromHistory, instant){
+  if(inAbout) return;
+  if(openIdx >= 0) closeDetail(true);
+  inAbout = true; hovered = -1; camTarget = camX;
+  const cz = camDist*distMul;
+  aboutWallX = camX + 2.6;
+  const zMin = 1.45, zMax = cz + 4.5;
+  aboutWall.position.set(aboutWallX, 0, (zMin+zMax)/2); aboutWall.scale.set(1, 1, (zMax-zMin)/9); aboutWall.visible = true;
+  ABOUT_L.x = camX; ABOUT_L.spotPos.set(aboutWallX - 1.6, H - .15, cz); ABOUT_L.spotTgt.set(aboutWallX, 1.4, cz);
+  if(instant) aboutV = 1;
+  document.body.classList.add('in-about');
+  if(!fromHistory) history.pushState({gallery:true, about:true}, '', '/about');
+  document.title = 'About Mark Staples';
+  buildAbout(); aboutEl.hidden = false; aboutEl.querySelector('.about-scroll').scrollTop = 0;
+  setTimeout(() => { if(inAbout){ aboutEl.classList.add('show'); startSpray(); } }, instant ? 60 : 1000);
+  dismissHint();
+}
+function closeAbout(fromHistory){
+  if(!inAbout) return;
+  inAbout = false; aboutEl.classList.remove('show'); document.body.classList.remove('in-about');
+  if(!fromHistory) history.pushState({gallery:true}, '', '/');
+  document.title = baseTitle;
+  setTimeout(() => { if(!inAbout) aboutEl.hidden = true; }, 500);
+  canvas.focus({preventScroll:true});
+}
+$('#aboutBtn').onclick = e => { e.preventDefault(); inAbout ? closeAbout() : openAbout(); };
+$('#aboutBack').onclick = () => closeAbout();
+
 /* ---------- grid view ---------- */
 const grid=$('#grid');
 $('#cards').innerHTML = PIECES.map((p,i)=>`<button class="card" type="button" data-i="${i}">
@@ -608,18 +703,19 @@ $('#cards').innerHTML = PIECES.map((p,i)=>`<button class="card" type="button" da
 $('#cards').addEventListener('click', e=>{ const c=e.target.closest('.card'); if(!c) return; const i=+c.dataset.i; closeGrid(true); camTarget=camX=PIECES[i].x; openDetail(i); });
 function openGrid(){ grid.hidden=false; requestAnimationFrame(()=>grid.classList.add('show')); setTimeout(()=>$('#gClose').focus({preventScroll:true}),50); dismissHint(); }
 function closeGrid(instant){ grid.classList.remove('show'); if(instant) grid.hidden=true; else setTimeout(()=>{ grid.hidden=true; }, 360); }
-$('#gridBtn').onclick=e=>{ e.preventDefault(); openGrid(); }; $('#gClose').onclick=()=>closeGrid();
+/* All work is a real page now (the full archive) */ $('#gClose').onclick=()=>closeGrid();
 
 /* ---------- intro, then start once fonts are ready (they're painted into textures) ---------- */
 try{ const n=document.createElement('canvas'); n.width=n.height=180; const x=n.getContext('2d'), id=x.createImageData(180,180);
   for(let i=0;i<id.data.length;i+=4){ const v=Math.random()*255|0; id.data[i]=id.data[i+1]=id.data[i+2]=v; id.data[i+3]=255; }
   x.putImageData(id,0,0);  }catch(e){}
 const intro=$('#loader'); requestAnimationFrame(()=>intro.classList.add('play'));
-const fontsReady = document.fonts ? Promise.all([document.fonts.load('800 120px Archivo'), document.fonts.load('40px "Permanent Marker"')]) : Promise.resolve();
+const fontsReady = document.fonts ? Promise.all([document.fonts.load('800 120px "Archivo Variable"'), document.fonts.load('40px "Permanent Marker"')]) : Promise.resolve();
 Promise.all([Promise.race([fontsReady, new Promise(r=>setTimeout(r,2500))]), new Promise(r=>setTimeout(r, reduce?150:2300))]).then(()=>{
   if(torsoMat){ const old=torsoMat.map; buildTorsoTexOnly(); old.dispose(); }
   intro.classList.add('gone'); started=true; t0=last=performance.now();
-  if(initialSlug){ const i=PIECES.findIndex(p=>p.slug===initialSlug); if(i>=0){ camTarget=camX=PIECES[i].x; if(openOnLoad) openDetail(i, true); } }
+  if(initialView==='about') openAbout(true, true);
+  else if(initialSlug){ const i=PIECES.findIndex(p=>p.slug===initialSlug); if(i>=0){ camTarget=camX=PIECES[i].x; if(openOnLoad) openDetail(i, true); } }
 });
 function buildTorsoTexOnly(){
   const p=PIECES.find(x=>x.model==='torso'); const g=p.group; g.remove(p.torso);
@@ -629,6 +725,8 @@ function buildTorsoTexOnly(){
   /* back/forward buttons open and close artworks */
   on(window, 'popstate', () => {
     const m = location.pathname.match(/^\/work\/([^/]+)/);
+    if(location.pathname === '/about'){ openAbout(true); return; }
+    if(inAbout) closeAbout(true);
     if(m){ const i = PIECES.findIndex(p=>p.slug===m[1]); if(i>=0){ camTarget=camX=PIECES[i].x; openDetail(i, true); } }
     else if(openIdx>=0) closeDetail(true);
   });

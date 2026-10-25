@@ -1,13 +1,14 @@
 import Link from 'next/link';
 import Gallery from '@/components/Gallery';
-import { getArtworks } from '@/lib/artworks';
+import { getFeatured } from '@/lib/artworks';
 import { toEngine } from '@/lib/toEngine';
 import { SITE } from '@/lib/site';
+import { ABOUT } from '@/content/about';
 
 export const revalidate = 60;
 
 export default async function Home() {
-  const artworks = await getArtworks();
+  const artworks = await getFeatured();
   return (
     <>
       {/* Readable by Google and screen readers; the 3D room sits on top visually */}
@@ -16,10 +17,10 @@ export default async function Home() {
         <p>{SITE.description}</p>
         <nav aria-label="All artworks">
           <ul>{artworks.map((a) => <li key={a.slug}><Link href={`/work/${a.slug}`}>{a.title}, {a.kind}</Link></li>)}</ul>
-          <Link href="/work">Browse all work</Link>
+          <Link href="/work">Browse all work</Link> <Link href="/about">About Mark Staples</Link>
         </nav>
       </div>
-      <Gallery artworks={artworks.map(toEngine)} />
+      <Gallery artworks={artworks.map(toEngine)} about={ABOUT} />
     </>
   );
 }

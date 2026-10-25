@@ -5,6 +5,9 @@ export const SITE = {
     || (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : 'http://localhost:3000'),
   description: 'Pop and street art by Mark Staples: original paintings, mirror art and sculpture. Walk the 3D gallery, see what is on show and enquire about any piece.',
 };
+/** Only the live production site may be indexed. Previews (the dev branch) and local runs are hidden from search engines. */
+export const isProduction = process.env.VERCEL_ENV === 'production';
+
 export const sanityConfig = {
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || '',
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',

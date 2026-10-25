@@ -1,5 +1,6 @@
 /** An artwork as stored in the CMS (Sanity) or the local seed file. */
 export type Venue = { name: string; address: string; url?: string };
+export type Collection = { slug: string; title: string; blurb?: string };
 
 export type Artwork = {
   slug: string;
@@ -22,4 +23,9 @@ export type Artwork = {
   currentVenue?: Venue | null; // on show somewhere right now
   pastVenue?: Venue | null; // shown or sold via
   image: { url: string; width: number; height: number; alt?: string };
+  collection?: Collection | null;
+  /** Hang in the 3D room (the first 15 featured pieces, in hanging order) */
+  featured?: boolean;
+  /** Sample content used while building, never shown on the live site */
+  sample?: boolean;
 };
