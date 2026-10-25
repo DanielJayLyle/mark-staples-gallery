@@ -50,4 +50,11 @@ const REAL: Artwork[] = [
 ];
 
 /** Real pieces first, then the clearly labelled samples standing in for the rest of Mark's archive. */
-export const SEED: Artwork[] = [...REAL, ...SAMPLES.map((s) => ({ ...s, collection: col(s.collection as unknown as string) }))];
+const sparse = (s: Artwork, i: number): Artwork => ({
+  ...s,
+  story: i % 3 === 0 ? undefined : s.story,
+  medium: i % 4 === 1 ? undefined : s.medium,
+  year: i % 5 === 2 ? undefined : s.year,
+  ...(i % 6 === 3 ? { widthCm: undefined, heightCm: undefined } : {}),
+});
+export const SEED: Artwork[] = [...REAL, ...SAMPLES.map((s, i) => sparse({ ...s, collection: col(s.collection as unknown as string) }, i))];

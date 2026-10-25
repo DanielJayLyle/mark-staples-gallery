@@ -12,7 +12,7 @@ const FILTERS = [
   { key: 'sold', label: 'Sold' },
 ] as const;
 const PER_SECTION = 8;
-const price = (n?: number) => (n == null ? 'Price on request' : '£' + n.toLocaleString('en-GB'));
+import { priceOrStatus } from '@/lib/site';
 
 export default function Archive({ groups }: { groups: Group[] }) {
   const [filter, setFilter] = useState<(typeof FILTERS)[number]['key']>('all');
@@ -51,8 +51,8 @@ export default function Archive({ groups }: { groups: Group[] }) {
                   <div className="thumb"><Image src={a.image.url} alt={a.image.alt || a.title} width={a.image.width} height={a.image.height} sizes="(max-width: 820px) 50vw, 25vw" /></div>
                   <h3>{a.title}</h3>
                   <div className="row">
-                    {a.status === 'sold' ? <span><span className="dot" aria-hidden="true" /> <b>Sold</b></span> : <b>{price(a.price)}</b>}
-                    <span>{a.status !== 'sold' && a.currentVenue ? `On show at ${a.currentVenue.name}` : a.status === 'reserved' ? 'Reserved' : a.kind}</span>
+                    {a.status === 'sold' ? <span><span className="dot" aria-hidden="true" /> <b>Sold</b></span> : <b>{priceOrStatus(a)}</b>}
+                    <span>{a.kind}</span>
                   </div>
                 </Link>
               ))}

@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 
-export default function EnquiryForm({ slug, title, sold, priceText }: { slug: string; title: string; sold: boolean; priceText: string }) {
+export default function EnquiryForm({ slug, title, sold }: { slug: string; title: string; sold: boolean }) {
   const [open, setOpen] = useState(false);
   const [state, setState] = useState<{ status: 'idle' | 'sending' | 'done' | 'error'; msg?: string }>({ status: 'idle' });
   async function submit(e: React.FormEvent<HTMLFormElement>) {
@@ -21,7 +21,7 @@ export default function EnquiryForm({ slug, title, sold, priceText }: { slug: st
       <label>Your name<input name="name" required autoComplete="name" /></label>
       <label>Email<input name="email" type="email" required autoComplete="email" /></label>
       <label className="hp" aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
-      <label>Message<textarea name="message" defaultValue={sold ? `Hi, I love "${title}". Do you have anything similar available, or take commissions?` : `Hi, I'm interested in "${title}" (${priceText}). Is it still available?`} /></label>
+      <label>Message<textarea name="message" defaultValue={sold ? `Hi, I love "${title}". Do you have anything similar available, or take commissions?` : `Hi, I'm interested in "${title}". Is it still available?`} /></label>
       <div><button className="btn" type="submit" disabled={state.status === 'sending'}>{state.status === 'sending' ? 'Sending' : 'Send enquiry'}</button></div>
       {state.status === 'error' && <div className="done">{state.msg}</div>}
     </form>

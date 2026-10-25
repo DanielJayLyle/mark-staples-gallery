@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@sanity/client';
 import { getArtwork } from '@/lib/artworks';
-import { SITE, sanityConfig, formatPrice } from '@/lib/site';
+import { SITE, sanityConfig, statusText } from '@/lib/site';
 
 const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
 
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
 
   const found = slug ? await getArtwork(slug) : null;
   const art = found?.artwork;
-  const subject = art ? `Enquiry: ${art.title} (${art.status === 'sold' ? 'sold, similar work' : formatPrice(art.price)})` : 'New enquiry from the website';
+  const subject = art ? `Enquiry: ${art.title} (${art.status === 'sold' ? 'sold, asking about similar work' : statusText(art)})` : 'New enquiry from the website';
   const link = art ? `${SITE.url}/work/${art.slug}` : SITE.url;
 
   let emailed = false, saved = false;

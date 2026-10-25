@@ -388,7 +388,7 @@ function setTag(i){
   if(i<0){ tag.classList.remove('on'); return; }
   const p=PIECES[i];
   const tt=$('#tagTitle'); tt.textContent=p.title; tt.classList.remove('pull'); void tt.offsetWidth; tt.classList.add('pull');
-  $('#tagMeta').innerHTML = (p.sold ? '<span class="dot" aria-hidden="true"></span><b>Sold</b>' : '<b>'+fmt(p.price)+'</b>') + '<span>' + p.size + '</span>' + (p.venue && !p.sold ? '<span class="live">On show at '+p.venue.name+'</span>' : '');
+  $('#tagMeta').innerHTML = (p.sold ? '<span class="dot" aria-hidden="true"></span><b>Sold</b>' : '<b>'+(p.priceText || (p.venue ? 'Available' : p.statusText))+'</b>') + (p.size ? '<span>' + p.size + '</span>' : '') + (p.venue && !p.sold ? '<span class="live">On show at '+p.venue.name+'</span>' : '');
   $('#tagGo').textContent = coarse ? 'Tap to view' : 'Click to view';
   tag.classList.add('on');
 }
@@ -536,20 +536,22 @@ function openDetail(i, fromHistory){
     const cap=document.createElement('div'); cap.className='cap'; cap.textContent= coarse ? 'Tap the image to zoom, drag to look around' : 'Click the image to zoom, move to look around'; media.appendChild(cap);
     setupZoom(box,img);
   }
-  $('#dEyebrow').textContent = '/ ' + p.kind + ', ' + p.year;
+  const eb = [p.kind, p.year].filter(Boolean).join(', '); $('#dEyebrow').textContent = eb ? '/ ' + eb : '';
   $('#dTitle').textContent = p.title;
   const vLink = v => '<a class="venue" href="'+v.url+'" target="_blank" rel="noopener">'+v.name+' <span aria-hidden="true">\u2197</span></a>';
   $('#dPrice').innerHTML = p.sold
-    ? '<strong><span class="dot" aria-hidden="true"></span> Sold</strong><span>'+(p.soldNote||'')+'. Ask about similar work or commissions.</span>'
-    : '<strong>'+fmt(p.price)+'</strong><span>'+(p.sculpture?'Free UK delivery, carefully packed':'Free UK delivery, ready to hang')+'</span>'
+    ? '<strong><span class="dot" aria-hidden="true"></span> Sold</strong><span>'+(p.soldNote && p.soldNote!=='Sold' ? p.soldNote+'. ' : '')+'Ask about similar work or commissions.</span>'
+    : (p.priceText ? '<strong>'+p.priceText+'</strong><span>'+(p.sculpture?'Free UK delivery, carefully packed':'Free UK delivery, ready to hang')+'</span>'
+        : '<strong>'+(p.venue ? 'Available' : p.statusText)+'</strong><span>Enquire for details</span>')
       + (p.venue ? '<div class="onshow"><i aria-hidden="true"></i><span>On show now at '+vLink(p.venue)+'</span><small>'+p.venue.place+'. Pop in and see it in person.</small></div>' : '');
-  const specs=[['Medium',p.medium],['Size',p.size]].concat(p.frameText?[['Frame',p.frameText]]:[]).concat([['Edition','Original, one of one'],['Signed', p.sculpture?'Signed on the base':'Signed on the reverse']])
-    .concat(p.venue?[['Where',vLink(p.venue)]]:[]).concat(p.pastVenue?[[p.sold?'Sold via':'Shown at',vLink(p.pastVenue)]]:[]);
-  $('#dSpecs').innerHTML = specs.map(s=>'<dt>'+s[0]+'</dt><dd>'+s[1]+'</dd>').join('');
-  $('#dStory').textContent = p.story;
+  // only show what we actually know about the piece
+  const specs=[['Medium',p.medium],['Size',p.size],['Frame',p.frameText],['Year',p.year],['On show at',p.venue&&!p.sold?vLink(p.venue):''],[p.sold?'Sold via':'Shown at',p.pastVenue?vLink(p.pastVenue):'']].filter(s=>s[1]);
+  $('#dSpecs').innerHTML = specs.map(s=>'<div><dt>'+s[0]+'</dt><dd>'+s[1]+'</dd></div>').join('');
+  $('#dSpecs').hidden = !specs.length;
+  $('#dStory').textContent = p.story || ''; $('#dStory').hidden = !p.story;
   $('#dEnquire').textContent = p.sold ? 'Ask about similar work' : 'Enquire about this piece';
   $('#dEnquire').hidden=false; $('#dForm').hidden=true; $('#dDone').hidden=true;
-  $('#fMsg').value = p.sold ? `Hi, I love "${p.title}". Do you have anything similar available, or take commissions?` : `Hi, I'm interested in "${p.title}" (${fmt(p.price)}). Is it still available?`;
+  $('#fMsg').value = p.sold ? `Hi, I love "${p.title}". Do you have anything similar available, or take commissions?` : `Hi, I'm interested in "${p.title}". Is it still available?`;
   $('#dCount').textContent = String(i+1).padStart(2,'0') + ' / ' + String(PIECES.length).padStart(2,'0');
   if(!wasOpen){ detail.hidden=false; requestAnimationFrame(()=>detail.classList.add('show')); detail.scrollTop=0; setTimeout(()=>$('#dClose').focus({preventScroll:true}),50); }
   else detail.scrollTop=0;
@@ -696,7 +698,7 @@ const grid=$('#grid');
 $('#cards').innerHTML = PIECES.map((p,i)=>`<button class="card" type="button" data-i="${i}">
   <div class="thumb"><img loading="lazy" alt="" src="${IMG[p.id].src}"></div>
   <h3>${p.title}</h3>
-  <div class="row">${p.sold?'<span><span class="dot" aria-hidden="true"></span> <b>Sold</b></span>':'<b>'+fmt(p.price)+'</b>'}<span>${p.venue&&!p.sold?'On show at '+p.venue.name:p.kind}</span></div></button>`).join('');
+  <div class="row">${p.sold?'<span><span class="dot" aria-hidden="true"></span> <b>Sold</b></span>':'<b>'+(p.priceText||p.statusText)+'</b>'}<span>${p.venue&&!p.sold?'On show at '+p.venue.name:(p.kind||'')}</span></div></button>`).join('');
 $('#cards').addEventListener('click', e=>{ const c=e.target.closest('.card'); if(!c) return; const i=+c.dataset.i; closeGrid(true); camTarget=camX=PIECES[i].x; openDetail(i); });
 function openGrid(){ grid.hidden=false; requestAnimationFrame(()=>grid.classList.add('show')); setTimeout(()=>$('#gClose').focus({preventScroll:true}),50); dismissHint(); }
 function closeGrid(instant){ grid.classList.remove('show'); if(instant) grid.hidden=true; else setTimeout(()=>{ grid.hidden=true; }, 360); }

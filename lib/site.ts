@@ -14,7 +14,14 @@ export const sanityConfig = {
   apiVersion: '2025-01-01',
 };
 export const sanityEnabled = Boolean(sanityConfig.projectId);
-export const formatPrice = (n?: number) => (n == null ? 'Price on request' : '£' + n.toLocaleString('en-GB'));
-export const sizeText = (a: { display: string; shape?: string; widthCm: number; heightCm: number; depthCm?: number }) =>
-  a.display.startsWith('sculpture') ? `${a.widthCm} × ${a.depthCm ?? '?'} × ${a.heightCm} cm`
+/** Prices are switched off. Set NEXT_PUBLIC_SHOW_PRICES=true in Vercel to bring them back everywhere at once. */
+export const SHOW_PRICES = process.env.NEXT_PUBLIC_SHOW_PRICES === 'true';
+export const formatPrice = (n?: number) => (n == null ? 'Price on request' : '\u00a3' + n.toLocaleString('en-GB'));
+type StatusLike = { status: string; price?: number; currentVenue?: { name: string } | null };
+/** What to show where a price would go: the price (if switched on) or the piece's status. */
+export const statusText = (a: StatusLike) =>
+  a.status === 'sold' ? 'Sold' : a.status === 'reserved' ? 'Reserved' : a.status === 'notForSale' ? 'Not for sale' : a.currentVenue ? `On show at ${a.currentVenue.name}` : 'Available';
+export const priceOrStatus = (a: StatusLike) => (SHOW_PRICES && a.status !== 'sold' && a.price != null ? formatPrice(a.price) : statusText(a));
+export const sizeText = (a: { display: string; shape?: string; widthCm?: number; heightCm?: number; depthCm?: number }) =>
+  !a.widthCm || !a.heightCm ? '' : a.display.startsWith('sculpture') ? `${a.widthCm} × ${a.depthCm ?? '?'} × ${a.heightCm} cm`
   : a.shape === 'round' ? `Ø ${a.widthCm} cm` : `${a.widthCm} × ${a.heightCm} cm`;
