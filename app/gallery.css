@@ -184,10 +184,9 @@ a.venue{color:var(--ink);text-decoration:underline;text-underline-offset:3px;tex
   .cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:30px 14px;}
   .card h3{font-size:16px;}
   .brand svg{height:30px;}
-  .brand span{font-size:14px;}
+  .brand span{display:none;} /* the tag alone on phones, so All work can keep its label */
   .room{display:none;}
-  .chip span{display:none;}
-  .chip{padding:12px;}
+  .top .chip{padding:10px 14px;gap:8px;font-size:11px;letter-spacing:.14em;}
   .bottom{gap:14px;}
 }
 @media (prefers-reduced-motion: reduce){
@@ -304,3 +303,6 @@ button.inf-name{cursor:pointer;}
   .inf-down{display:none;}
 }
 @media (prefers-reduced-motion: reduce){ .infl.show .inf-name,.infl.show .inf-photo{animation:none;opacity:1;filter:none;} }
+
+@media (max-width:360px){ .top-r{gap:8px;} .navlink{font-size:10px;letter-spacing:.08em;} .top .chip{padding:9px 10px;gap:6px;font-size:10px;letter-spacing:.08em;} }
+.top .chip span{white-space:nowrap;}
