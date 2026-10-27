@@ -366,7 +366,7 @@
     {
      "url": "/work/paintings-15-1.webp",
      "thumb": "/work/paintings-15-1-t.webp",
-     "width": 696,
+     "width": 882,
      "height": 1400,
      "alt": "Painting by Mark Staples"
     }
@@ -385,8 +385,8 @@
     {
      "url": "/work/doodling-02-1.webp",
      "thumb": "/work/doodling-02-1-t.webp",
-     "width": 647,
-     "height": 1400,
+     "width": 889,
+     "height": 1249,
      "alt": "Drawing by Mark Staples"
     }
    ],
@@ -404,8 +404,8 @@
     {
      "url": "/work/paintings-16-1.webp",
      "thumb": "/work/paintings-16-1-t.webp",
-     "width": 647,
-     "height": 1400,
+     "width": 833,
+     "height": 1228,
      "alt": "Painting by Mark Staples"
     }
    ],
@@ -423,8 +423,8 @@
     {
      "url": "/work/paintings-17-1.webp",
      "thumb": "/work/paintings-17-1-t.webp",
-     "width": 654,
-     "height": 1400,
+     "width": 871,
+     "height": 1290,
      "alt": "Painting by Mark Staples"
     }
    ],
@@ -442,8 +442,8 @@
     {
      "url": "/work/paintings-18-1.webp",
      "thumb": "/work/paintings-18-1-t.webp",
-     "width": 647,
-     "height": 1400,
+     "width": 946,
+     "height": 1331,
      "alt": "Painting by Mark Staples"
     }
    ],
@@ -461,8 +461,8 @@
     {
      "url": "/work/paintings-19-1.webp",
      "thumb": "/work/paintings-19-1-t.webp",
-     "width": 647,
-     "height": 1400,
+     "width": 946,
+     "height": 1331,
      "alt": "Painting by Mark Staples"
     }
    ],
@@ -563,7 +563,7 @@
     {
      "url": "/work/charlie-1.webp",
      "thumb": "/work/charlie-1-t.webp",
-     "width": 644,
+     "width": 870,
      "height": 1400,
      "alt": "Charlie by Mark Staples"
     }
@@ -927,7 +927,7 @@
     {
      "url": "/work/making-the-churchills-3.webp",
      "thumb": "/work/making-the-churchills-3-t.webp",
-     "width": 669,
+     "width": 840,
      "height": 1400,
      "alt": "Making the Churchills by Mark Staples"
     },
@@ -976,24 +976,24 @@
     {
      "url": "/work/making-the-churchills-10.mp4",
      "thumb": "/work/making-the-churchills-10-t.webp",
-     "width": 960,
-     "height": 1706,
+     "width": 720,
+     "height": 1280,
      "video": true,
      "alt": "Making the Churchills by Mark Staples, video"
     },
     {
      "url": "/work/making-the-churchills-11.mp4",
      "thumb": "/work/making-the-churchills-11-t.webp",
-     "width": 960,
-     "height": 1706,
+     "width": 720,
+     "height": 1280,
      "video": true,
      "alt": "Making the Churchills by Mark Staples, video"
     },
     {
      "url": "/work/making-the-churchills-12.mp4",
      "thumb": "/work/making-the-churchills-12-t.webp",
-     "width": 960,
-     "height": 1706,
+     "width": 720,
+     "height": 1280,
      "video": true,
      "alt": "Making the Churchills by Mark Staples, video"
     }
@@ -1369,25 +1369,6 @@
    "seeded": true
   },
   {
-   "slug": "mirror-08",
-   "title": "",
-   "collection": "mirror",
-   "photos": [
-    {
-     "url": "/work/mirror-08-1.webp",
-     "thumb": "/work/mirror-08-1-t.webp",
-     "width": 1050,
-     "height": 1400,
-     "alt": "Hand-etched mirror by Mark Staples"
-    }
-   ],
-   "alt": "Hand-etched mirror by Mark Staples",
-   "addedAt": "2024-06-01",
-   "status": "",
-   "note": "",
-   "seeded": false
-  },
-  {
    "slug": "mirror-09",
    "title": "",
    "collection": "mirror",
@@ -1395,25 +1376,6 @@
     {
      "url": "/work/mirror-09-1.webp",
      "thumb": "/work/mirror-09-1-t.webp",
-     "width": 1050,
-     "height": 1400,
-     "alt": "Hand-etched mirror by Mark Staples"
-    }
-   ],
-   "alt": "Hand-etched mirror by Mark Staples",
-   "addedAt": "2024-06-01",
-   "status": "",
-   "note": "",
-   "seeded": false
-  },
-  {
-   "slug": "mirror-10",
-   "title": "",
-   "collection": "mirror",
-   "photos": [
-    {
-     "url": "/work/mirror-10-1.webp",
-     "thumb": "/work/mirror-10-1-t.webp",
      "width": 1050,
      "height": 1400,
      "alt": "Hand-etched mirror by Mark Staples"
@@ -4680,8 +4642,8 @@
     {
      "url": "/work/paintings-20-1.webp",
      "thumb": "/work/paintings-20-1-t.webp",
-     "width": 647,
-     "height": 1400,
+     "width": 946,
+     "height": 1331,
      "alt": "Painting by Mark Staples"
     }
    ]
@@ -4692,8 +4654,8 @@
     {
      "url": "/work/buddha-08-1.webp",
      "thumb": "/work/buddha-08-1-t.webp",
-     "width": 644,
-     "height": 1400,
+     "width": 942,
+     "height": 1270,
      "alt": "Painted Buddha by Mark Staples"
     },
     {
@@ -4702,6 +4664,30 @@
      "width": 1050,
      "height": 1400,
      "alt": "Painted Buddha by Mark Staples"
+    }
+   ]
+  },
+  {
+   "title": "Graffiti sunburst",
+   "photos": [
+    {
+     "url": "/work/mirror-08-1.webp",
+     "thumb": "/work/mirror-08-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Hand-etched mirror by Mark Staples"
+    }
+   ]
+  },
+  {
+   "title": "Heart, black ornate frame",
+   "photos": [
+    {
+     "url": "/work/mirror-10-1.webp",
+     "thumb": "/work/mirror-10-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Hand-etched mirror by Mark Staples"
     }
    ]
   },
@@ -5063,7 +5049,7 @@
     {
      "url": "/work/misc-44-1.webp",
      "thumb": "/work/misc-44-1-t.webp",
-     "width": 647,
+     "width": 761,
      "height": 1400,
      "alt": "Artwork by Mark Staples"
     }

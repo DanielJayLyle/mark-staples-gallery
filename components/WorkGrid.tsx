@@ -3,10 +3,10 @@ import { useCallback, useEffect, useState } from 'react';
 import Lightbox from './Lightbox';
 import type { Card } from '@/lib/cards';
 
-type Props = { cards: Card[]; limit?: number; expandLabel?: string; studio?: boolean; showCollection?: boolean };
+type Props = { cards: Card[]; limit?: number; expandLabel?: string; studio?: boolean };
 
 /** A grid of pieces. Every card opens the lightbox; the link to a piece (#slug) reopens it. */
-export default function WorkGrid({ cards, limit, expandLabel, studio = false, showCollection = false }: Props) {
+export default function WorkGrid({ cards, limit, expandLabel, studio = false }: Props) {
   const [open, setOpen] = useState<number | null>(null);
   const [all, setAll] = useState(false);
   const shown = limit && !all ? cards.slice(0, limit) : cards;
@@ -30,18 +30,13 @@ export default function WorkGrid({ cards, limit, expandLabel, studio = false, sh
             <span className="thumb">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={c.photos[0].thumb || c.photos[0].url} alt={c.alt} width={c.photos[0].width} height={c.photos[0].height} loading="lazy" decoding="async" />
-              {c.photos.length > 1 && <span className="count" aria-hidden="true">{c.photos.length} photos</span>}
             </span>
-            {!studio && (c.title || c.sold || c.statusText || (showCollection && c.collection)) && (
+            {!studio && (c.title || c.sold) && (
               <span className="meta">
                 {c.title && <span className="t">{c.title}</span>}
-                <span className="row">
-                  {c.sold ? <span><span className="dot" aria-hidden="true" /> <b>Sold</b></span> : c.statusText ? <b>{c.statusText}</b> : <span />}
-                  {showCollection && c.collection && <span>{c.collection}</span>}
-                </span>
+                {c.sold && <span className="row"><span><span className="dot" aria-hidden="true" /> Sold</span></span>}
               </span>
             )}
-            {studio && c.title && <span className="meta"><span className="t s">{c.title}</span></span>}
           </button>
         ))}
       </div>

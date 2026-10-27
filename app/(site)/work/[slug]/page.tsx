@@ -110,8 +110,7 @@ function CollectionPage({ group: g }: { group: Group }) {
         <div className="crumbs"><Link href="/work">All work</Link> / {g.collection.title}</div>
         <h1 className="big">{g.collection.title}</h1>
         {g.collection.blurb && <p className="lede">{g.collection.blurb}</p>}
-        <p className="coll-count">{g.artworks.length} {g.artworks.length === 1 ? 'piece' : 'pieces'}. Tap any piece to see every photo, or to ask about it.</p>
-        <WorkGrid cards={cards} />
+                <WorkGrid cards={cards} />
         <nav className="prevnext" aria-label="Back"><Link href="/work">&larr; All work</Link><span /></nav>
       </main>
       <SiteFoot />

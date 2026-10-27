@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   alternates: { canonical: '/work' },
 };
 
-const PREVIEW = 8;
+const PREVIEW = 4; // one row per collection; the rest is one tap away
 
 export default async function WorkIndex() {
   const [groups, recent, studio] = await Promise.all([getCollections(), getRecent(), getStudio()]);
@@ -23,25 +23,25 @@ export default async function WorkIndex() {
       <PageTop />
       <main className="wrap">
         <h1 className="big">All work</h1>
-        <p className="lede">Everything Mark has made, by collection. The 3D gallery shows a handful; it all lives here. Tap any piece to see every photo of it, or to ask about it.</p>
+        <p className="lede">Everything Mark has made, by collection. Tap any piece to see it up close.</p>
 
         <nav className="arch-jump arch-bar" aria-label="Collections">
-          {recent.length > 0 && <a href="#recent">Recent <span>{recent.length}</span></a>}
-          {groups.map((g) => <a key={g.collection.slug} href={`#${g.collection.slug}`}>{g.collection.title} <span>{g.artworks.length}</span></a>)}
+          {recent.length > 0 && <a href="#recent">Recent</a>}
+          {groups.map((g) => <a key={g.collection.slug} href={`#${g.collection.slug}`}>{g.collection.title}</a>)}
           {studio.length > 0 && <a href="#in-the-studio">In the studio</a>}
         </nav>
 
         {recent.length > 0 && (
           <section id="recent" className="arch-section">
-            <header className="arch-head"><h2>Recent</h2><p>The newest work, whichever collection it lives in.</p></header>
-            <WorkGrid cards={recent.map(toCard)} limit={PREVIEW} expandLabel={`Show all ${recent.length} recent pieces`} showCollection />
+            <header className="arch-head"><h2>Recent</h2></header>
+            <WorkGrid cards={recent.map(toCard)} limit={8} expandLabel={`Show all ${recent.length} recent pieces`} />
           </section>
         )}
 
         {groups.map((g) => (
           <section key={g.collection.slug} id={g.collection.slug} className="arch-section">
             <header className="arch-head">
-              <div><h2><Link href={`/work/${g.collection.slug}`}>{g.collection.title}</Link></h2>{g.collection.blurb && <p>{g.collection.blurb}</p>}</div>
+              <h2><Link href={`/work/${g.collection.slug}`}>{g.collection.title}</Link></h2>
               {g.artworks.length > PREVIEW && <Link className="see-all" href={`/work/${g.collection.slug}`}>See all {g.artworks.length} &rarr;</Link>}
             </header>
             <WorkGrid cards={g.artworks.slice(0, PREVIEW).map(toCard)} />
@@ -50,7 +50,7 @@ export default async function WorkIndex() {
 
         {studio.length > 0 && (
           <section id="in-the-studio" className="arch-section">
-            <header className="arch-head"><h2>In the studio</h2><p>Behind the scenes: paint, stencils, shows and days out.</p></header>
+            <header className="arch-head"><h2>In the studio</h2></header>
             <WorkGrid cards={studioCards} studio />
           </section>
         )}
