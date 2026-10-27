@@ -55,7 +55,19 @@ const fromArchive = (r: Raw): Artwork => {
   };
 };
 
-const pieces = (ARCHIVE.pieces as Raw[]).map(fromArchive);
+/* The strongest pieces lead each collection (picked from the photos); everything else follows. */
+const LEAD = [
+  'endless-love', 'heartfelt', 'the-dreamer', 'paintings-06', 'paintings-13', 'paintings-14', 'if-you-see-darkness', 'paintings-01', 'paintings-07', 'paintings-09', 'level-up', 'paintings-10', 'paintings-11',
+  'acquiesce', 'elvis', 'madonna', 'peggy', 'carry-on', 'sid', 'stevie', 'james-dean', 'blondie', 'hendrix', 'kate-moss', 'icons-13', 'charlie',
+  'brighton-buddy-boi', 'buddha-bill', 'buddha-bob', 'buddha-barry', 'buddha-ba',
+  'only-love-can-hurt-like-this', 'smile', 'hey-you-never-give-up', 'chaos', 'love-you', 'dancefloor', 'harlan',
+  'tagged', 'camper-van', 'models-18', 'models-01', 'models-08', 'models-12', 'the-fallen-angel', 'models-15', 'glideaway', 'models-21',
+  'doodling-65', 'doodling-69', 'doodling-49', 'doodling-10', 'doodling-52', 'doodling-57', 'doodling-47', 'doodling-71', 'doodling-42', 'doodling-37', 'doodling-48', 'doodling-06',
+  'early-09', 'early-06', 'kiss-me', 'early-15', 'early-05', 'early-14', 'early-07',
+  'five-things-i-like-about-me', 'be-you-tiful', 'the-lady-on-the-train', 'poetry-04', 'dear-john', 'poetry-08',
+  'misc-07', 'misc-11', 'misc-10', 'misc-02', 'misc-14', 'misc-09', 'misc-04', 'misc-05',
+];
+const pieces = (ARCHIVE.pieces as Raw[]).map(fromArchive).map((p) => (LEAD.includes(p.slug) ? { ...p, rank: LEAD.indexOf(p.slug) + 1 } : p));
 export const SEED: Artwork[] = [
   ...ROOM_ORDER.map((s) => pieces.find((p) => p.slug === s)!).filter(Boolean),
   ...pieces.filter((p) => !ROOM[p.slug]),

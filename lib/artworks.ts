@@ -23,8 +23,28 @@ const QUERY = `*[_type == "artwork" && defined(slug.current)] | order(_createdAt
 
 export const sanityClient = sanityEnabled ? createClient({ ...sanityConfig, useCdn: true }) : null;
 
-/** All artworks, in hanging order. Falls back to local seed content when Sanity isn't configured. */
+/* Untitled pieces get a simple name from their collection, e.g. "Doodle #37". The number comes from the
+   piece's web address when it has one (stable), otherwise its place in the collection. */
+const LABEL: Record<string, string> = {
+  paintings: 'Painting', 'churchill-collection': 'Churchill', 'icons-collection': 'Icon', 'buddha-collection': 'Buddha', 'mirror-collection': 'Mirror',
+  'models-clothing-and-boards': 'Object', 'always-doodling': 'Doodle', 'early-art': 'Early work', 'poetry-corner': 'Poem', misc: 'Misc',
+};
+function nameUntitled(all: Artwork[]): Artwork[] {
+  const seen: Record<string, number> = {};
+  return all.map((a) => {
+    if (a.title) return a;
+    const col = a.collection?.slug || 'more';
+    seen[col] = (seen[col] || 0) + 1;
+    const n = Number(a.slug.match(/-(\d+)$/)?.[1]) || seen[col];
+    return { ...a, title: `${LABEL[col] || a.collection?.title || 'Piece'} #${n}` };
+  });
+}
+
+/** All artworks. Falls back to local content when Sanity isn't configured. */
 export async function getArtworks(): Promise<Artwork[]> {
+  return nameUntitled(await fetchArtworks());
+}
+async function fetchArtworks(): Promise<Artwork[]> {
   if (!sanityClient) return SEED;
   try {
     const rows = await sanityClient.fetch<Artwork[]>(QUERY, {}, { next: { revalidate: 60, tags: ['artwork'] } });
@@ -71,8 +91,8 @@ export async function getCollectionList(): Promise<Collection[]> {
 /** Collections in page order, each with its pieces (newest first). */
 export async function getCollections(): Promise<{ collection: Collection; artworks: Artwork[] }[]> {
   const [all, order] = await Promise.all([getArtworks(), getCollectionList()]);
-  const newest = (a: Artwork, b: Artwork) => (b.addedAt || '').localeCompare(a.addedAt || '');
-  const groups = order.map((c) => ({ collection: c, artworks: all.filter((a) => a.collection?.slug === c.slug).sort(newest) })).filter((g) => g.artworks.length);
+  const lead = (a: Artwork, b: Artwork) => (a.rank ?? 1e9) - (b.rank ?? 1e9) || (b.addedAt || '').localeCompare(a.addedAt || '');
+  const groups = order.map((c) => ({ collection: c, artworks: all.filter((a) => a.collection?.slug === c.slug).sort(lead) })).filter((g) => g.artworks.length);
   const loose = all.filter((a) => !a.collection || !order.some((c) => c.slug === a.collection!.slug));
   return loose.length ? [...groups, { collection: { slug: 'more', title: 'More work' }, artworks: loose }] : groups;
 }
@@ -82,7 +102,7 @@ export const RECENT_MONTHS = 12;
 export async function getRecent(): Promise<Artwork[]> {
   const cutoff = new Date(); cutoff.setMonth(cutoff.getMonth() - RECENT_MONTHS);
   const iso = cutoff.toISOString().slice(0, 10);
-  return (await getArtworks()).filter((a) => (a.addedAt || '') >= iso).sort((a, b) => (b.addedAt || '').localeCompare(a.addedAt || ''));
+  return (await getArtworks()).filter((a) => (a.addedAt || '') >= iso).sort((a, b) => (b.addedAt || '').localeCompare(a.addedAt || '') || (a.rank ?? 1e9) - (b.rank ?? 1e9));
 }
 
 export async function getCollection(slug: string) {

@@ -441,7 +441,24 @@ drawEnd();
 if(document.fonts) document.fonts.load('80px "Permanent Marker"').then(()=>{ if(alive) drawEnd(); }).catch(()=>{});
 const endMat = new THREE.MeshStandardMaterial({map:endTex, transparent:true, roughness:.3, metalness:0, depthWrite:false, polygonOffset:true, polygonOffsetFactor:-2});
 const endSign = new THREE.Mesh(new THREE.PlaneGeometry(1.1, .55), endMat); endSign.position.set(END_X, 1.3, .003); endSign.renderOrder = 1; scene.add(endSign);
-let endHover = false;
+/* and underneath, in Mark's blue: the way to the rest of his work */
+const workTex = canvasTex(1024, 256, ()=>{});
+function drawWork(){
+  const c = workTex.image.getContext('2d'); c.clearRect(0,0,1024,256);
+  c.lineCap = 'round'; c.lineJoin = 'round';
+  c.save(); c.translate(110, 150); c.rotate(-.04); c.font = '104px "Permanent Marker", cursive';
+  c.lineWidth = 7; c.strokeStyle = '#2b86bf'; c.strokeText('See all work', 0, 0); c.fillStyle = '#76ceff'; c.fillText('See all work', 0, 0); c.restore();
+  c.strokeStyle = '#2b86bf'; c.lineWidth = 26; c.beginPath(); c.moveTo(150, 205); c.bezierCurveTo(400, 236, 640, 228, 860, 196); c.stroke();
+  c.beginPath(); c.moveTo(800, 160); c.lineTo(868, 194); c.lineTo(812, 238); c.stroke();
+  c.strokeStyle = '#76ceff'; c.lineWidth = 14; c.beginPath(); c.moveTo(150, 205); c.bezierCurveTo(400, 236, 640, 228, 860, 196); c.stroke();
+  c.beginPath(); c.moveTo(800, 160); c.lineTo(868, 194); c.lineTo(812, 238); c.stroke();
+  workTex.needsUpdate = true;
+}
+drawWork();
+if(document.fonts) document.fonts.load('80px "Permanent Marker"').then(()=>{ if(alive) drawWork(); }).catch(()=>{});
+const workMat = new THREE.MeshStandardMaterial({map:workTex, transparent:true, roughness:.3, metalness:0, depthWrite:false, polygonOffset:true, polygonOffsetFactor:-2});
+const workSign = new THREE.Mesh(new THREE.PlaneGeometry(1.1, .275), workMat); workSign.position.set(END_X, .84, .003); workSign.renderOrder = 1; scene.add(workSign);
+let endHover = false, workHover = false;
 
 /* ---------- camera + controls ---------- */
 const stations = [{x:-.1, idx:-1}].concat(PIECES.map((p,i)=>({x:p.x, idx:i})), [{x:END_X, idx:-2}]);
@@ -467,7 +484,7 @@ function goTo(i){ i=Math.max(0,Math.min(stations.length-1,i)); camTarget=station
 function step(dir){ const cur = nearestStation(camTarget); goTo(cur+dir); }
 
 const ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
-function pickEnd(cx,cy){ ndc.set(cx/vw*2-1, -(cy/vh)*2+1); ray.setFromCamera(ndc,camera); return ray.intersectObject(endSign,false).length>0; }
+function pickEnd(cx,cy,mesh){ ndc.set(cx/vw*2-1, -(cy/vh)*2+1); ray.setFromCamera(ndc,camera); return ray.intersectObject(mesh||endSign,false).length>0; }
 function pick(cx,cy){ ndc.set(cx/vw*2-1, -(cy/vh)*2+1); ray.setFromCamera(ndc,camera); const h=ray.intersectObjects(hitMeshes,false)[0]; return h ? h.object.userData.idx : -1; }
 
 let mx=0, my=0; const cursorEl=document.getElementById('cursor');
@@ -482,7 +499,7 @@ canvas.addEventListener('pointermove', e=>{
     if(dragging){ camTarget = clampX(camTarget - dx*mpp*1.15); camX = camTarget; vel = -dx*mpp/Math.max(1,now-down.lt); }
     down.lx=e.clientX; down.lt=now;
   } else if(e.pointerType==='mouse' && openIdx<0 && !inAbout && !inInf){
-    hovered = pick(e.clientX,e.clientY); endHover = hovered<0 && pickEnd(e.clientX,e.clientY); canvas.style.cursor = hovered>=0 ? 'none' : endHover ? 'pointer' : 'grab';
+    hovered = pick(e.clientX,e.clientY); endHover = hovered<0 && pickEnd(e.clientX,e.clientY); workHover = hovered<0 && !endHover && pickEnd(e.clientX,e.clientY,workSign); canvas.style.cursor = hovered>=0 ? 'none' : (endHover || workHover) ? 'pointer' : 'grab';
   }
 });
 canvas.addEventListener('pointerup', e=>{
@@ -495,6 +512,7 @@ canvas.addEventListener('pointerup', e=>{
     const hit = pick(e.clientX,e.clientY);
     if(hit>=0){ if(e.pointerType==='mouse' || active===hit) openDetail(hit); else goTo(hit+1); }
     else if(pickEnd(e.clientX,e.clientY)) openAbout();
+    else if(pickEnd(e.clientX,e.clientY,workSign)) location.href = '/work';
   }
   down=null; dragging=false;
 });
@@ -623,7 +641,7 @@ function frame(now){
   const nL = shade(NAME, T, dt, T>.35 && Math.abs(NAME.x-camX) < Math.max(reach,1.2), focusIdx>=0 ? .45 : 1);
 
   updateDrips(T, dt);
-  { const near = Math.abs(END_X-camX) < 1.4 && !inAbout; endMat.color.setScalar(near ? (endHover ? 1.15 : 1) : .78); }
+  { const near = Math.abs(END_X-camX) < 1.4 && !inAbout; endMat.color.setScalar(near ? (endHover ? 1.15 : 1) : .78); workMat.color.setScalar(near ? (workHover ? 1.15 : 1) : .78); }
   PIECES.forEach((p,i)=>{
     const ft = focusIdx<0 ? 1 : (i===focusIdx ? 1 : .45);
     const L = shade(p, T, dt, T>.6 && Math.abs(p.x-camX) < reach, ft);

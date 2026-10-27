@@ -34,6 +34,8 @@ export type Artwork = {
   photos?: Photo[];
   /** When it was added. Drives the automatic Recent section */
   addedAt?: string;
+  /** Lower numbers lead their collection; unranked pieces follow, newest first */
+  rank?: number;
   /** A short line shown with the piece, e.g. a charity auction */
   note?: string;
   collection?: Collection | null;
