@@ -444,13 +444,11 @@ const endSign = new THREE.Mesh(new THREE.PlaneGeometry(1.1, .55), endMat); endSi
 /* and underneath, in Mark's blue: the way to the rest of his work */
 const workTex = canvasTex(1024, 256, ()=>{});
 function drawWork(){
+  // same hand as "Meet the artist": solid marker, no outline. A touch deeper than #76ceff so it reads on the pale wall
   const c = workTex.image.getContext('2d'); c.clearRect(0,0,1024,256);
-  c.lineCap = 'round'; c.lineJoin = 'round';
-  c.save(); c.translate(110, 150); c.rotate(-.04); c.font = '104px "Permanent Marker", cursive';
-  c.lineWidth = 7; c.strokeStyle = '#2b86bf'; c.strokeText('See all work', 0, 0); c.fillStyle = '#76ceff'; c.fillText('See all work', 0, 0); c.restore();
-  c.strokeStyle = '#2b86bf'; c.lineWidth = 26; c.beginPath(); c.moveTo(150, 205); c.bezierCurveTo(400, 236, 640, 228, 860, 196); c.stroke();
-  c.beginPath(); c.moveTo(800, 160); c.lineTo(868, 194); c.lineTo(812, 238); c.stroke();
-  c.strokeStyle = '#76ceff'; c.lineWidth = 14; c.beginPath(); c.moveTo(150, 205); c.bezierCurveTo(400, 236, 640, 228, 860, 196); c.stroke();
+  c.fillStyle = '#4fb4ec'; c.strokeStyle = '#4fb4ec'; c.lineCap = 'round'; c.lineJoin = 'round';
+  c.save(); c.translate(110, 140); c.rotate(-.04); c.font = '104px "Permanent Marker", cursive'; c.fillText('See all work', 0, 0); c.restore();
+  c.lineWidth = 20; c.beginPath(); c.moveTo(150, 205); c.bezierCurveTo(400, 236, 640, 228, 860, 196); c.stroke();
   c.beginPath(); c.moveTo(800, 160); c.lineTo(868, 194); c.lineTo(812, 238); c.stroke();
   workTex.needsUpdate = true;
 }
