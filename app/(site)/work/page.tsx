@@ -3,6 +3,7 @@ import Link from 'next/link';
 import PageTop from '@/components/PageTop';
 import SiteFoot from '@/components/SiteFoot';
 import WorkGrid from '@/components/WorkGrid';
+import JumpPills from '@/components/JumpPills';
 import { getCollections, getRecent, getStudio } from '@/lib/artworks';
 import { toCard } from '@/lib/cards';
 
@@ -25,11 +26,11 @@ export default async function WorkIndex() {
         <h1 className="big">All work</h1>
         <p className="lede">Everything Mark has made, by collection. Tap any piece to see it up close.</p>
 
-        <nav className="arch-jump arch-bar" aria-label="Collections">
-          {recent.length > 0 && <a href="#recent">Recent</a>}
-          {groups.map((g) => <a key={g.collection.slug} href={`#${g.collection.slug}`}>{g.collection.title}</a>)}
-          {studio.length > 0 && <a href="#in-the-studio">In the studio</a>}
-        </nav>
+        <JumpPills items={[
+          ...(recent.length ? [{ id: 'recent', label: 'Recent' }] : []),
+          ...groups.map((g) => ({ id: g.collection.slug, label: g.collection.title })),
+          ...(studio.length ? [{ id: 'in-the-studio', label: 'In the studio' }] : []),
+        ]} />
 
         {recent.length > 0 && (
           <section id="recent" className="arch-section">
