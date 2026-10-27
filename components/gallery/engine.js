@@ -530,9 +530,17 @@ on(window,'keydown', e=>{
 $('#prev').onclick=()=>step(-1); $('#next').onclick=()=>{ if(stations[nearestStation(camTarget)].idx===-2) openAbout(); else step(1); };
 
 /* hint */
-const hint=$('#hint'); hint.textContent = coarse ? 'Swipe to walk the room. The lights come on as you go.' : 'Scroll to walk the room. The lights come on as you go.';
-let hintGone=false; function dismissHint(){ if(!hintGone){ hintGone=true; setTimeout(()=>hint.classList.add('gone'),900); } }
-setTimeout(dismissHint, 7000);
+/* hint: stays until the visitor has actually moved. Every so often the camera leans towards the next piece, to show the room moves */
+const hint=$('#hint');
+hint.innerHTML = (coarse
+  ? '<span class="hint-ico swipe" aria-hidden="true"><i></i></span><span><b>Swipe</b> to walk the room</span>'
+  : '<span class="hint-ico mouse" aria-hidden="true"><i></i></span><span><b>Scroll</b> to walk the room</span>');
+hint.setAttribute('role', 'button'); hint.tabIndex = 0;
+let hintGone=false, peekTimer=0;
+function dismissHint(){ if(!hintGone){ hintGone=true; clearInterval(peekTimer); document.body.classList.remove('hint-on'); setTimeout(()=>hint.classList.add('gone'),600); } }
+function peek(){ if(hintGone || inAbout || inInf || openIdx>=0 || dragging) return; const home=camTarget; camTarget = Math.min(maxX, home + .45); setTimeout(()=>{ if(!hintGone) camTarget = home; }, 700); }
+const startHint = () => { document.body.classList.add('hint-on'); peekTimer = setInterval(peek, 7000); setTimeout(peek, 4000); };
+hint.addEventListener('click', ()=>step(1)); hint.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); step(1); } });
 
 /* label */
 const tag=$('#tag'), v3=new THREE.Vector3();
@@ -952,6 +960,7 @@ const fontsReady = document.fonts ? Promise.all([document.fonts.load('800 120px 
 Promise.all([Promise.race([fontsReady, new Promise(r=>setTimeout(r,2500))]), new Promise(r=>setTimeout(r, reduce?150:2300))]).then(()=>{
   if(torsoMat){ const old=torsoMat.map; buildTorsoTexOnly(); old.dispose(); }
   intro.classList.add('gone'); started=true; t0=last=performance.now();
+  if(initialView==='gallery' && !initialSlug) setTimeout(startHint, 900); else dismissHint();
   if(initialView==='about') openAbout(true, true);
   else if(initialView==='influences') openInf(true, true);
   else if(initialSlug){ const i=PIECES.findIndex(p=>p.slug===initialSlug); if(i>=0){ camTarget=camX=PIECES[i].x; if(openOnLoad) openDetail(i, true); } }

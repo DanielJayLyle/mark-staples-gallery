@@ -307,3 +307,21 @@ button.inf-name{cursor:pointer;}
 @media (max-width:360px){ .top-r{gap:8px;} .navlink{font-size:10px;letter-spacing:.08em;} .top .chip,.page-top .chip{padding:9px 10px;gap:6px;font-size:10px;letter-spacing:.08em;} }
 .top .chip span,.page-top .chip span{white-space:nowrap;}
 .page-top .navlink{white-space:nowrap;}
+
+/* walk hint: bigger, with a moving mouse wheel (desktop) or swiping finger (phones); the next button pulses until you move */
+.hint{display:flex;align-items:center;gap:12px;font-size:13px;letter-spacing:.02em;padding:11px 20px 11px 14px;pointer-events:auto;cursor:pointer;opacity:0;transform:translate(-50%,10px);transition:opacity .6s,transform .6s var(--ease);}
+.hint b{font-weight:800;letter-spacing:.06em;text-transform:uppercase;font-size:12px;margin-right:2px;}
+body.hint-on .hint:not(.gone){opacity:1;transform:translate(-50%,0);animation:hintFloat 2.8s ease-in-out 1s infinite;}
+.hint.gone{opacity:0!important;pointer-events:none;}
+@keyframes hintFloat{50%{transform:translate(-50%,-4px)}}
+.hint-ico{flex:none;position:relative;display:block;}
+.hint-ico.mouse{width:16px;height:24px;border:2px solid currentColor;border-radius:9px;}
+.hint-ico.mouse i{position:absolute;left:50%;top:4px;width:2px;height:5px;margin-left:-1px;border-radius:2px;background:currentColor;animation:wheel 1.4s ease-in-out infinite;}
+@keyframes wheel{0%{transform:translateY(0);opacity:1}70%{transform:translateY(7px);opacity:0}100%{transform:translateY(0);opacity:0}}
+.hint-ico.swipe{width:26px;height:18px;}
+.hint-ico.swipe i{position:absolute;top:3px;left:14px;width:12px;height:12px;border-radius:50%;background:currentColor;animation:swipe 1.6s ease-in-out infinite;}
+.hint-ico.swipe::before{content:"";position:absolute;top:8px;left:2px;right:2px;height:2px;border-radius:2px;background:currentColor;opacity:.35;}
+@keyframes swipe{0%{transform:translateX(0);opacity:0}20%{opacity:1}80%{transform:translateX(-13px);opacity:1}100%{transform:translateX(-13px);opacity:0}}
+body.hint-on #next{animation:nudge 2.4s ease-in-out infinite;}
+@keyframes nudge{0%,60%,100%{box-shadow:0 0 0 0 rgba(19,18,17,.35)}30%{box-shadow:0 0 0 10px rgba(19,18,17,0)}}
+@media (prefers-reduced-motion:reduce){ .hint-ico i,body.hint-on .hint:not(.gone),body.hint-on #next{animation:none!important;} }
