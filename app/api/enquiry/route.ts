@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@sanity/client';
-import { getArtwork } from '@/lib/artworks';
+import { getArtwork, hasPage } from '@/lib/artworks';
 import { SITE, sanityConfig, statusText } from '@/lib/site';
 
 const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
@@ -26,8 +26,9 @@ export async function POST(req: Request) {
 
   const found = slug ? await getArtwork(slug) : null;
   const art = found?.artwork;
-  const subject = art ? `Enquiry: ${art.title} (${art.status === 'sold' ? 'sold, asking about similar work' : statusText(art)})` : 'New enquiry from the website';
-  const link = art ? `${SITE.url}/work/${art.slug}` : SITE.url;
+  const label = art ? (art.title || `an untitled piece (${art.collection?.title || 'All work'})`) : '';
+  const subject = art ? `Enquiry: ${label} (${art.status === 'sold' ? 'sold, asking about similar work' : (statusText(art) || 'status not set')})` : 'New enquiry from the website';
+  const link = art ? (hasPage(art) ? `${SITE.url}/work/${art.slug}` : `${SITE.url}/work/${art.collection?.slug || ''}#${art.slug}`) : SITE.url;
 
   let emailed = false, saved = false;
   const problems: string[] = [];
@@ -36,11 +37,11 @@ export async function POST(req: Request) {
     try {
       await sendEmail({
         from: process.env.ENQUIRY_FROM, to: process.env.ENQUIRY_TO, reply_to: email, subject,
-        html: `<p><b>${esc(name)}</b> (${esc(email)}) asked about <a href="${link}">${esc(art?.title || 'your work')}</a>:</p><blockquote>${esc(message).replace(/\n/g, '<br>')}</blockquote><p>Just hit reply to answer them.</p>`,
+        html: `<p><b>${esc(name)}</b> (${esc(email)}) asked about <a href="${link}">${esc(label || 'your work')}</a>:</p><blockquote>${esc(message).replace(/\n/g, '<br>')}</blockquote><p>Just hit reply to answer them.</p>`,
       });
       await sendEmail({
-        from: process.env.ENQUIRY_FROM, to: email, subject: `Thanks for your enquiry${art ? ' about ' + art.title : ''}`,
-        html: `<p>Hi ${esc(name)},</p><p>Thanks for getting in touch${art ? ` about <a href="${link}">${esc(art.title)}</a>` : ''}. Mark will reply personally, usually within a day or two.</p><p>Mark Staples</p>`,
+        from: process.env.ENQUIRY_FROM, to: email, subject: `Thanks for your enquiry${art?.title ? ' about ' + art.title : ''}`,
+        html: `<p>Hi ${esc(name)},</p><p>Thanks for getting in touch${art ? ` about <a href="${link}">${esc(label)}</a>` : ''}. Mark will reply personally, usually within a day or two.</p><p>Mark Staples</p>`,
       });
       emailed = true;
     } catch (e) { problems.push('email'); console.error(e); }
@@ -50,7 +51,7 @@ export async function POST(req: Request) {
     try {
       const client = createClient({ ...sanityConfig, token: process.env.SANITY_API_WRITE_TOKEN, useCdn: false });
       const ref = art ? await client.fetch<string | null>(`*[_type=="artwork" && slug.current==$slug][0]._id`, { slug: art.slug }) : null;
-      await client.create({ _type: 'enquiry', name, email, message, status: 'new', receivedAt: new Date().toISOString(), artworkTitle: art?.title,
+      await client.create({ _type: 'enquiry', name, email, message, status: 'new', receivedAt: new Date().toISOString(), artworkTitle: label || undefined,
         ...(ref ? { artwork: { _type: 'reference', _ref: ref } } : {}) });
       saved = true;
     } catch (e) { problems.push('cms'); console.error(e); }

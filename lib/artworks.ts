@@ -1,19 +1,23 @@
 import { createClient } from '@sanity/client';
-import { SEED, COLLECTIONS } from '@/content/seed';
+import { SEED, COLLECTIONS, STUDIO } from '@/content/seed';
 import { sanityConfig, sanityEnabled } from './site';
 import type { Artwork, Collection } from './types';
 
-const QUERY = `*[_type == "artwork" && defined(slug.current)] | order(order asc, _createdAt desc){
-  "slug": slug.current, title, kind, medium, year, status, price, display, shape,
-  widthCm, heightCm, depthCm, frame, frameText, story, soldNote, featured,
-  "collection": collection->{title, blurb, "slug": slug.current},
+const QUERY = `*[_type == "artwork" && defined(slug.current)] | order(_createdAt desc){
+  "slug": slug.current, "title": coalesce(title, ""), kind, medium, year, "status": coalesce(status, ""), price, display, shape,
+  widthCm, heightCm, depthCm, frame, frameText, story, soldNote, featured, note, "addedAt": coalesce(addedAt, _createdAt),
+  "collection": collection->{title, blurb, story, "slug": slug.current},
+  "photos": photos[]{
+    _type == "video" => { "url": asset->url, "width": 1024, "height": 576, "video": true },
+    _type != "video" => { "url": asset->url + "?w=1400&fm=webp&q=78", "thumb": asset->url + "?w=480&fm=webp&q=70",
+      "width": asset->metadata.dimensions.width, "height": asset->metadata.dimensions.height, "alt": alt } },
   "currentVenue": currentVenue->{name, address, url},
   "pastVenue": pastVenue->{name, address, url},
-  "image": {
-    "url": image.asset->url + "?w=2000&fm=webp&q=88",
-    "width": image.asset->metadata.dimensions.width,
-    "height": image.asset->metadata.dimensions.height,
-    "alt": image.alt
+  "image": coalesce(image, photos[_type == "image"][0]){
+    "url": asset->url + "?w=2000&fm=webp&q=88",
+    "width": asset->metadata.dimensions.width,
+    "height": asset->metadata.dimensions.height,
+    "alt": alt
   }
 }`;
 
@@ -41,20 +45,48 @@ export const GALLERY_LIMIT = 15;
 
 /** The pieces hanging in the 3D room: featured work, in hanging order, capped at 15. */
 export async function getFeatured(): Promise<Artwork[]> {
-  return (await getArtworks()).filter((a) => a.featured && !a.sample).slice(0, GALLERY_LIMIT);
-}
-
-/** Sections for the archive, in display order, each with its artworks. */
-export async function getCollections(): Promise<{ collection: Collection; artworks: Artwork[] }[]> {
   const all = await getArtworks();
-  let order: Collection[] = COLLECTIONS;
   if (sanityClient) {
-    try {
-      const rows = await sanityClient.fetch<Collection[]>(`*[_type=="collection"]|order(order asc){title, blurb, "slug": slug.current}`, {}, { next: { revalidate: 60, tags: ['artwork'] } });
-      if (rows.length) order = rows;
+    try { // the "3D room" page in the CMS: a hand-ordered list of up to 15 pieces
+      const slugs = await sanityClient.fetch<string[]>(`*[_type=="room"][0].pieces[]->slug.current`, {}, { next: { revalidate: 60, tags: ['artwork'] } });
+      if (slugs?.length) return slugs.map((s) => all.find((a) => a.slug === s)).filter((a): a is Artwork => !!a).slice(0, GALLERY_LIMIT);
     } catch {}
   }
-  const groups = order.map((c) => ({ collection: c, artworks: all.filter((a) => a.collection?.slug === c.slug) })).filter((g) => g.artworks.length);
+  return all.filter((a) => a.featured).slice(0, GALLERY_LIMIT);
+}
+
+/** A piece gets its own page only when there is something to say about it; the rest open in the lightbox. */
+export const hasPage = (a: Artwork) => !!(a.featured || a.story || a.medium || a.year || (a.widthCm && a.heightCm) || a.currentVenue || a.pastVenue);
+
+export async function getCollectionList(): Promise<Collection[]> {
+  if (sanityClient) {
+    try {
+      const rows = await sanityClient.fetch<Collection[]>(`*[_type=="collection"]|order(order asc){title, blurb, story, "slug": slug.current}`, {}, { next: { revalidate: 60, tags: ['artwork'] } });
+      if (rows.length) return rows;
+    } catch {}
+  }
+  return COLLECTIONS.map(({ key, ...c }) => { void key; return c; });
+}
+
+/** Collections in page order, each with its pieces (newest first). */
+export async function getCollections(): Promise<{ collection: Collection; artworks: Artwork[] }[]> {
+  const [all, order] = await Promise.all([getArtworks(), getCollectionList()]);
+  const newest = (a: Artwork, b: Artwork) => (b.addedAt || '').localeCompare(a.addedAt || '');
+  const groups = order.map((c) => ({ collection: c, artworks: all.filter((a) => a.collection?.slug === c.slug).sort(newest) })).filter((g) => g.artworks.length);
   const loose = all.filter((a) => !a.collection || !order.some((c) => c.slug === a.collection!.slug));
   return loose.length ? [...groups, { collection: { slug: 'more', title: 'More work' }, artworks: loose }] : groups;
 }
+
+export const RECENT_MONTHS = 12;
+/** Recent pieces: everything added in the last 12 months, newest first. Nobody files anything into it. */
+export async function getRecent(): Promise<Artwork[]> {
+  const cutoff = new Date(); cutoff.setMonth(cutoff.getMonth() - RECENT_MONTHS);
+  const iso = cutoff.toISOString().slice(0, 10);
+  return (await getArtworks()).filter((a) => (a.addedAt || '') >= iso).sort((a, b) => (b.addedAt || '').localeCompare(a.addedAt || ''));
+}
+
+export async function getCollection(slug: string) {
+  return (await getCollections()).find((g) => g.collection.slug === slug) || null;
+}
+
+export async function getStudio() { return STUDIO; }

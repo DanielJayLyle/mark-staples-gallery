@@ -1,0 +1,5073 @@
+{
+ "pieces": [
+  {
+   "slug": "paintings-01",
+   "title": "",
+   "collection": "paintings",
+   "photos": [
+    {
+     "url": "/work/paintings-01-1.webp",
+     "thumb": "/work/paintings-01-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painting by Mark Staples"
+    }
+   ],
+   "alt": "Painting by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "level-up",
+   "title": "Level Up",
+   "collection": "paintings",
+   "photos": [
+    {
+     "url": "/work/level-up-1.webp",
+     "thumb": "/work/level-up-1-t.webp",
+     "width": 647,
+     "height": 1400,
+     "alt": "Level Up by Mark Staples"
+    }
+   ],
+   "alt": "Level Up by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "misc-01",
+   "title": "",
+   "collection": "misc",
+   "photos": [
+    {
+     "url": "/work/misc-01-1.webp",
+     "thumb": "/work/misc-01-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ],
+   "alt": "Artwork by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "endless-love",
+   "title": "Endless Love",
+   "collection": "paintings",
+   "photos": [
+    {
+     "url": "/work/endless-love-1.webp",
+     "thumb": "/work/endless-love-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Endless Love by Mark Staples"
+    },
+    {
+     "url": "/work/endless-love-2.webp",
+     "thumb": "/work/endless-love-2-t.webp",
+     "width": 787,
+     "height": 1400,
+     "alt": "Endless Love by Mark Staples"
+    },
+    {
+     "url": "/work/endless-love-3.webp",
+     "thumb": "/work/endless-love-3-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Endless Love by Mark Staples"
+    }
+   ],
+   "alt": "Endless Love by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": true
+  },
+  {
+   "slug": "the-dreamer",
+   "title": "The Dreamer",
+   "collection": "paintings",
+   "photos": [
+    {
+     "url": "/work/the-dreamer-1.webp",
+     "thumb": "/work/the-dreamer-1-t.webp",
+     "width": 787,
+     "height": 1400,
+     "alt": "The Dreamer by Mark Staples"
+    }
+   ],
+   "alt": "The Dreamer by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "sold",
+   "note": "",
+   "seeded": true
+  },
+  {
+   "slug": "heartfelt",
+   "title": "Heartfelt",
+   "collection": "paintings",
+   "photos": [
+    {
+     "url": "/work/heartfelt-1.webp",
+     "thumb": "/work/heartfelt-1-t.webp",
+     "width": 1400,
+     "height": 1050,
+     "alt": "Heartfelt by Mark Staples"
+    },
+    {
+     "url": "/work/heartfelt-2.webp",
+     "thumb": "/work/heartfelt-2-t.webp",
+     "width": 1400,
+     "height": 1050,
+     "alt": "Heartfelt by Mark Staples"
+    },
+    {
+     "url": "/work/heartfelt-3.webp",
+     "thumb": "/work/heartfelt-3-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Heartfelt by Mark Staples"
+    }
+   ],
+   "alt": "Heartfelt by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": true
+  },
+  {
+   "slug": "paintings-06",
+   "title": "",
+   "collection": "paintings",
+   "photos": [
+    {
+     "url": "/work/paintings-06-1.webp",
+     "thumb": "/work/paintings-06-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painting by Mark Staples"
+    }
+   ],
+   "alt": "Painting by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "paintings-07",
+   "title": "",
+   "collection": "paintings",
+   "photos": [
+    {
+     "url": "/work/paintings-07-1.webp",
+     "thumb": "/work/paintings-07-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painting by Mark Staples"
+    }
+   ],
+   "alt": "Painting by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "paintings-08",
+   "title": "",
+   "collection": "paintings",
+   "photos": [
+    {
+     "url": "/work/paintings-08-1.webp",
+     "thumb": "/work/paintings-08-1-t.webp",
+     "width": 787,
+     "height": 1400,
+     "alt": "Painting by Mark Staples"
+    }
+   ],
+   "alt": "Painting by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "models-01",
+   "title": "",
+   "collection": "models",
+   "photos": [
+    {
+     "url": "/work/models-01-1.webp",
+     "thumb": "/work/models-01-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painted object by Mark Staples"
+    },
+    {
+     "url": "/work/models-01-2.webp",
+     "thumb": "/work/models-01-2-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painted object by Mark Staples"
+    }
+   ],
+   "alt": "Painted object by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "paintings-09",
+   "title": "",
+   "collection": "paintings",
+   "photos": [
+    {
+     "url": "/work/paintings-09-1.webp",
+     "thumb": "/work/paintings-09-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painting by Mark Staples"
+    }
+   ],
+   "alt": "Painting by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "paintings-10",
+   "title": "",
+   "collection": "paintings",
+   "photos": [
+    {
+     "url": "/work/paintings-10-1.webp",
+     "thumb": "/work/paintings-10-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painting by Mark Staples"
+    }
+   ],
+   "alt": "Painting by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "paintings-11",
+   "title": "",
+   "collection": "paintings",
+   "photos": [
+    {
+     "url": "/work/paintings-11-1.webp",
+     "thumb": "/work/paintings-11-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painting by Mark Staples"
+    }
+   ],
+   "alt": "Painting by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "if-you-see-darkness",
+   "title": "If You See Darkness",
+   "collection": "paintings",
+   "photos": [
+    {
+     "url": "/work/if-you-see-darkness-1.webp",
+     "thumb": "/work/if-you-see-darkness-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "If You See Darkness by Mark Staples"
+    }
+   ],
+   "alt": "If You See Darkness by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "paintings-13",
+   "title": "",
+   "collection": "paintings",
+   "photos": [
+    {
+     "url": "/work/paintings-13-1.webp",
+     "thumb": "/work/paintings-13-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painting by Mark Staples"
+    }
+   ],
+   "alt": "Painting by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-01",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-01-1.webp",
+     "thumb": "/work/doodling-01-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "paintings-14",
+   "title": "",
+   "collection": "paintings",
+   "photos": [
+    {
+     "url": "/work/paintings-14-1.webp",
+     "thumb": "/work/paintings-14-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painting by Mark Staples"
+    }
+   ],
+   "alt": "Painting by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "paintings-15",
+   "title": "",
+   "collection": "paintings",
+   "photos": [
+    {
+     "url": "/work/paintings-15-1.webp",
+     "thumb": "/work/paintings-15-1-t.webp",
+     "width": 696,
+     "height": 1400,
+     "alt": "Painting by Mark Staples"
+    }
+   ],
+   "alt": "Painting by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-02",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-02-1.webp",
+     "thumb": "/work/doodling-02-1-t.webp",
+     "width": 647,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "paintings-16",
+   "title": "",
+   "collection": "paintings",
+   "photos": [
+    {
+     "url": "/work/paintings-16-1.webp",
+     "thumb": "/work/paintings-16-1-t.webp",
+     "width": 647,
+     "height": 1400,
+     "alt": "Painting by Mark Staples"
+    }
+   ],
+   "alt": "Painting by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "paintings-17",
+   "title": "",
+   "collection": "paintings",
+   "photos": [
+    {
+     "url": "/work/paintings-17-1.webp",
+     "thumb": "/work/paintings-17-1-t.webp",
+     "width": 654,
+     "height": 1400,
+     "alt": "Painting by Mark Staples"
+    }
+   ],
+   "alt": "Painting by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "paintings-18",
+   "title": "",
+   "collection": "paintings",
+   "photos": [
+    {
+     "url": "/work/paintings-18-1.webp",
+     "thumb": "/work/paintings-18-1-t.webp",
+     "width": 647,
+     "height": 1400,
+     "alt": "Painting by Mark Staples"
+    }
+   ],
+   "alt": "Painting by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "paintings-19",
+   "title": "",
+   "collection": "paintings",
+   "photos": [
+    {
+     "url": "/work/paintings-19-1.webp",
+     "thumb": "/work/paintings-19-1-t.webp",
+     "width": 647,
+     "height": 1400,
+     "alt": "Painting by Mark Staples"
+    }
+   ],
+   "alt": "Painting by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "acquiesce",
+   "title": "Acquiesce",
+   "collection": "icons",
+   "photos": [
+    {
+     "url": "/work/acquiesce-1.webp",
+     "thumb": "/work/acquiesce-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Acquiesce by Mark Staples"
+    }
+   ],
+   "alt": "Acquiesce by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": true
+  },
+  {
+   "slug": "madonna",
+   "title": "Madonna",
+   "collection": "icons",
+   "photos": [
+    {
+     "url": "/work/madonna-1.webp",
+     "thumb": "/work/madonna-1-t.webp",
+     "width": 998,
+     "height": 1400,
+     "alt": "Madonna by Mark Staples"
+    }
+   ],
+   "alt": "Madonna by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "sold",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "blondie",
+   "title": "Blondie",
+   "collection": "icons",
+   "photos": [
+    {
+     "url": "/work/blondie-1.webp",
+     "thumb": "/work/blondie-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Blondie by Mark Staples"
+    },
+    {
+     "url": "/work/blondie-2.webp",
+     "thumb": "/work/blondie-2-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Blondie by Mark Staples"
+    }
+   ],
+   "alt": "Blondie by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "carry-on",
+   "title": "Carry On",
+   "collection": "icons",
+   "photos": [
+    {
+     "url": "/work/carry-on-1.webp",
+     "thumb": "/work/carry-on-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Carry On by Mark Staples"
+    }
+   ],
+   "alt": "Carry On by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "charlie",
+   "title": "Charlie",
+   "collection": "icons",
+   "photos": [
+    {
+     "url": "/work/charlie-1.webp",
+     "thumb": "/work/charlie-1-t.webp",
+     "width": 644,
+     "height": 1400,
+     "alt": "Charlie by Mark Staples"
+    }
+   ],
+   "alt": "Charlie by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "elvis",
+   "title": "Elvis",
+   "collection": "icons",
+   "photos": [
+    {
+     "url": "/work/elvis-1.webp",
+     "thumb": "/work/elvis-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Elvis by Mark Staples"
+    },
+    {
+     "url": "/work/elvis-2.webp",
+     "thumb": "/work/elvis-2-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Elvis by Mark Staples"
+    },
+    {
+     "url": "/work/elvis-3.webp",
+     "thumb": "/work/elvis-3-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Elvis by Mark Staples"
+    }
+   ],
+   "alt": "Elvis by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "hendrix",
+   "title": "Hendrix",
+   "collection": "icons",
+   "photos": [
+    {
+     "url": "/work/hendrix-1.webp",
+     "thumb": "/work/hendrix-1-t.webp",
+     "width": 1051,
+     "height": 1400,
+     "alt": "Hendrix by Mark Staples"
+    }
+   ],
+   "alt": "Hendrix by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "james-dean",
+   "title": "James Dean",
+   "collection": "icons",
+   "photos": [
+    {
+     "url": "/work/james-dean-1.webp",
+     "thumb": "/work/james-dean-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "James Dean by Mark Staples"
+    },
+    {
+     "url": "/work/james-dean-2.webp",
+     "thumb": "/work/james-dean-2-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "James Dean by Mark Staples"
+    }
+   ],
+   "alt": "James Dean by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "kate-moss",
+   "title": "Kate Moss",
+   "collection": "icons",
+   "photos": [
+    {
+     "url": "/work/kate-moss-1.webp",
+     "thumb": "/work/kate-moss-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Kate Moss by Mark Staples"
+    }
+   ],
+   "alt": "Kate Moss by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "peggy",
+   "title": "Peggy",
+   "collection": "icons",
+   "photos": [
+    {
+     "url": "/work/peggy-1.webp",
+     "thumb": "/work/peggy-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Peggy by Mark Staples"
+    },
+    {
+     "url": "/work/peggy-2.webp",
+     "thumb": "/work/peggy-2-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Peggy by Mark Staples"
+    }
+   ],
+   "alt": "Peggy by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "sid",
+   "title": "Sid",
+   "collection": "icons",
+   "photos": [
+    {
+     "url": "/work/sid-1.webp",
+     "thumb": "/work/sid-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Sid by Mark Staples"
+    }
+   ],
+   "alt": "Sid by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "stevie",
+   "title": "Stevie",
+   "collection": "icons",
+   "photos": [
+    {
+     "url": "/work/stevie-1.webp",
+     "thumb": "/work/stevie-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Stevie by Mark Staples"
+    }
+   ],
+   "alt": "Stevie by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "icons-13",
+   "title": "",
+   "collection": "icons",
+   "photos": [
+    {
+     "url": "/work/icons-13-1.webp",
+     "thumb": "/work/icons-13-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Icon portrait by Mark Staples"
+    }
+   ],
+   "alt": "Icon portrait by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "the-churchill-collection",
+   "title": "The Churchill collection",
+   "collection": "churchill",
+   "photos": [
+    {
+     "url": "/work/the-churchill-collection-1.webp",
+     "thumb": "/work/the-churchill-collection-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "The Churchill collection by Mark Staples"
+    },
+    {
+     "url": "/work/the-churchill-collection-2.webp",
+     "thumb": "/work/the-churchill-collection-2-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "The Churchill collection by Mark Staples"
+    },
+    {
+     "url": "/work/the-churchill-collection-3.webp",
+     "thumb": "/work/the-churchill-collection-3-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "The Churchill collection by Mark Staples"
+    },
+    {
+     "url": "/work/the-churchill-collection-4.webp",
+     "thumb": "/work/the-churchill-collection-4-t.webp",
+     "width": 647,
+     "height": 1400,
+     "alt": "The Churchill collection by Mark Staples"
+    }
+   ],
+   "alt": "The Churchill collection by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "sold",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "churchill-green",
+   "title": "Churchill: Green",
+   "collection": "churchill",
+   "photos": [
+    {
+     "url": "/work/churchill-green-1.webp",
+     "thumb": "/work/churchill-green-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Churchill: Green by Mark Staples"
+    }
+   ],
+   "alt": "Churchill: Green by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "sold",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "churchill-going-through-hell",
+   "title": "Churchill: Going Through Hell",
+   "collection": "churchill",
+   "photos": [
+    {
+     "url": "/work/churchill-going-through-hell-1.webp",
+     "thumb": "/work/churchill-going-through-hell-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Churchill: Going Through Hell by Mark Staples"
+    },
+    {
+     "url": "/work/churchill-going-through-hell-2.webp",
+     "thumb": "/work/churchill-going-through-hell-2-t.webp",
+     "width": 788,
+     "height": 1400,
+     "alt": "Churchill: Going Through Hell by Mark Staples"
+    }
+   ],
+   "alt": "Churchill: Going Through Hell by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "sold",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "churchill-my-tastes-are-simple",
+   "title": "Churchill: My Tastes Are Simple",
+   "collection": "churchill",
+   "photos": [
+    {
+     "url": "/work/churchill-my-tastes-are-simple-1.webp",
+     "thumb": "/work/churchill-my-tastes-are-simple-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Churchill: My Tastes Are Simple by Mark Staples"
+    },
+    {
+     "url": "/work/churchill-my-tastes-are-simple-2.webp",
+     "thumb": "/work/churchill-my-tastes-are-simple-2-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Churchill: My Tastes Are Simple by Mark Staples"
+    },
+    {
+     "url": "/work/churchill-my-tastes-are-simple-3.webp",
+     "thumb": "/work/churchill-my-tastes-are-simple-3-t.webp",
+     "width": 787,
+     "height": 1400,
+     "alt": "Churchill: My Tastes Are Simple by Mark Staples"
+    }
+   ],
+   "alt": "Churchill: My Tastes Are Simple by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "sold",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "churchill-at-the-brighton-box",
+   "title": "Churchill at The Brighton Box",
+   "collection": "churchill",
+   "photos": [
+    {
+     "url": "/work/churchill-at-the-brighton-box-1.webp",
+     "thumb": "/work/churchill-at-the-brighton-box-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Churchill at The Brighton Box by Mark Staples"
+    },
+    {
+     "url": "/work/churchill-at-the-brighton-box-2.webp",
+     "thumb": "/work/churchill-at-the-brighton-box-2-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Churchill at The Brighton Box by Mark Staples"
+    },
+    {
+     "url": "/work/churchill-at-the-brighton-box-3.webp",
+     "thumb": "/work/churchill-at-the-brighton-box-3-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Churchill at The Brighton Box by Mark Staples"
+    }
+   ],
+   "alt": "Churchill at The Brighton Box by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "sold",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "making-the-churchills",
+   "title": "Making the Churchills",
+   "collection": "churchill",
+   "photos": [
+    {
+     "url": "/work/making-the-churchills-1.webp",
+     "thumb": "/work/making-the-churchills-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Making the Churchills by Mark Staples"
+    },
+    {
+     "url": "/work/making-the-churchills-2.webp",
+     "thumb": "/work/making-the-churchills-2-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Making the Churchills by Mark Staples"
+    },
+    {
+     "url": "/work/making-the-churchills-3.webp",
+     "thumb": "/work/making-the-churchills-3-t.webp",
+     "width": 669,
+     "height": 1400,
+     "alt": "Making the Churchills by Mark Staples"
+    },
+    {
+     "url": "/work/making-the-churchills-4.webp",
+     "thumb": "/work/making-the-churchills-4-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Making the Churchills by Mark Staples"
+    },
+    {
+     "url": "/work/making-the-churchills-5.webp",
+     "thumb": "/work/making-the-churchills-5-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Making the Churchills by Mark Staples"
+    },
+    {
+     "url": "/work/making-the-churchills-6.webp",
+     "thumb": "/work/making-the-churchills-6-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Making the Churchills by Mark Staples"
+    },
+    {
+     "url": "/work/making-the-churchills-7.webp",
+     "thumb": "/work/making-the-churchills-7-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Making the Churchills by Mark Staples"
+    },
+    {
+     "url": "/work/making-the-churchills-8.webp",
+     "thumb": "/work/making-the-churchills-8-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Making the Churchills by Mark Staples"
+    },
+    {
+     "url": "/work/making-the-churchills-9.webp",
+     "thumb": "/work/making-the-churchills-9-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Making the Churchills by Mark Staples"
+    },
+    {
+     "url": "/work/making-the-churchills-10.mp4",
+     "thumb": "/work/making-the-churchills-10-t.webp",
+     "width": 960,
+     "height": 1706,
+     "video": true,
+     "alt": "Making the Churchills by Mark Staples, video"
+    },
+    {
+     "url": "/work/making-the-churchills-11.mp4",
+     "thumb": "/work/making-the-churchills-11-t.webp",
+     "width": 960,
+     "height": 1706,
+     "video": true,
+     "alt": "Making the Churchills by Mark Staples, video"
+    },
+    {
+     "url": "/work/making-the-churchills-12.mp4",
+     "thumb": "/work/making-the-churchills-12-t.webp",
+     "width": 960,
+     "height": 1706,
+     "video": true,
+     "alt": "Making the Churchills by Mark Staples, video"
+    }
+   ],
+   "alt": "Making the Churchills by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "sold",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "buddha-barry",
+   "title": "Buddha Barry",
+   "collection": "buddha",
+   "photos": [
+    {
+     "url": "/work/buddha-barry-1.webp",
+     "thumb": "/work/buddha-barry-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Buddha Barry by Mark Staples"
+    },
+    {
+     "url": "/work/buddha-barry-2.webp",
+     "thumb": "/work/buddha-barry-2-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Buddha Barry by Mark Staples"
+    }
+   ],
+   "alt": "Buddha Barry by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "buddha-bill",
+   "title": "Buddha Bill",
+   "collection": "buddha",
+   "photos": [
+    {
+     "url": "/work/buddha-bill-1.webp",
+     "thumb": "/work/buddha-bill-1-t.webp",
+     "width": 942,
+     "height": 1234,
+     "alt": "Buddha Bill by Mark Staples"
+    }
+   ],
+   "alt": "Buddha Bill by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "buddha-bob",
+   "title": "Buddha Bob",
+   "collection": "buddha",
+   "photos": [
+    {
+     "url": "/work/buddha-bob-1.webp",
+     "thumb": "/work/buddha-bob-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Buddha Bob by Mark Staples"
+    },
+    {
+     "url": "/work/buddha-bob-2.webp",
+     "thumb": "/work/buddha-bob-2-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Buddha Bob by Mark Staples"
+    },
+    {
+     "url": "/work/buddha-bob-3.webp",
+     "thumb": "/work/buddha-bob-3-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Buddha Bob by Mark Staples"
+    }
+   ],
+   "alt": "Buddha Bob by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "brighton-buddy-boi",
+   "title": "Brighton Buddy Boi",
+   "collection": "buddha",
+   "photos": [
+    {
+     "url": "/work/brighton-buddy-boi-1.webp",
+     "thumb": "/work/brighton-buddy-boi-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Brighton Buddy Boi by Mark Staples"
+    },
+    {
+     "url": "/work/brighton-buddy-boi-2.webp",
+     "thumb": "/work/brighton-buddy-boi-2-t.webp",
+     "width": 787,
+     "height": 1400,
+     "alt": "Brighton Buddy Boi by Mark Staples"
+    }
+   ],
+   "alt": "Brighton Buddy Boi by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "sold",
+   "note": "",
+   "seeded": true
+  },
+  {
+   "slug": "buddha-ba",
+   "title": "Buddha Ba",
+   "collection": "buddha",
+   "photos": [
+    {
+     "url": "/work/buddha-ba-1.webp",
+     "thumb": "/work/buddha-ba-1-t.webp",
+     "width": 942,
+     "height": 1256,
+     "alt": "Buddha Ba by Mark Staples"
+    },
+    {
+     "url": "/work/buddha-ba-2.webp",
+     "thumb": "/work/buddha-ba-2-t.webp",
+     "width": 942,
+     "height": 1256,
+     "alt": "Buddha Ba by Mark Staples"
+    }
+   ],
+   "alt": "Buddha Ba by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "buddha-06",
+   "title": "",
+   "collection": "buddha",
+   "photos": [
+    {
+     "url": "/work/buddha-06-1.webp",
+     "thumb": "/work/buddha-06-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painted Buddha by Mark Staples"
+    }
+   ],
+   "alt": "Painted Buddha by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "buddha-07",
+   "title": "",
+   "collection": "buddha",
+   "photos": [
+    {
+     "url": "/work/buddha-07-1.webp",
+     "thumb": "/work/buddha-07-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painted Buddha by Mark Staples"
+    },
+    {
+     "url": "/work/buddha-07-2.webp",
+     "thumb": "/work/buddha-07-2-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painted Buddha by Mark Staples"
+    }
+   ],
+   "alt": "Painted Buddha by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "hey-you-never-give-up",
+   "title": "Hey You! Never Give Up",
+   "collection": "mirror",
+   "photos": [
+    {
+     "url": "/work/hey-you-never-give-up-1.webp",
+     "thumb": "/work/hey-you-never-give-up-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Hey You! Never Give Up by Mark Staples"
+    },
+    {
+     "url": "/work/hey-you-never-give-up-2.webp",
+     "thumb": "/work/hey-you-never-give-up-2-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Hey You! Never Give Up by Mark Staples"
+    }
+   ],
+   "alt": "Hey You! Never Give Up by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "Silent bidding, with 50% going to a children’s charity this Christmas.",
+   "seeded": false
+  },
+  {
+   "slug": "only-love-can-hurt-like-this",
+   "title": "Only Love Can Hurt Like This",
+   "collection": "mirror",
+   "photos": [
+    {
+     "url": "/work/only-love-can-hurt-like-this-1.webp",
+     "thumb": "/work/only-love-can-hurt-like-this-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Only Love Can Hurt Like This by Mark Staples"
+    },
+    {
+     "url": "/work/only-love-can-hurt-like-this-3.webp",
+     "thumb": "/work/only-love-can-hurt-like-this-3-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Only Love Can Hurt Like This by Mark Staples"
+    },
+    {
+     "url": "/work/only-love-can-hurt-like-this-4.webp",
+     "thumb": "/work/only-love-can-hurt-like-this-4-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Only Love Can Hurt Like This by Mark Staples"
+    },
+    {
+     "url": "/work/only-love-can-hurt-like-this-5.webp",
+     "thumb": "/work/only-love-can-hurt-like-this-5-t.webp",
+     "width": 1400,
+     "height": 1050,
+     "alt": "Only Love Can Hurt Like This by Mark Staples"
+    }
+   ],
+   "alt": "Only Love Can Hurt Like This by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "chaos",
+   "title": "Chaos",
+   "collection": "mirror",
+   "photos": [
+    {
+     "url": "/work/chaos-1.webp",
+     "thumb": "/work/chaos-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Chaos by Mark Staples"
+    },
+    {
+     "url": "/work/chaos-3.webp",
+     "thumb": "/work/chaos-3-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Chaos by Mark Staples"
+    }
+   ],
+   "alt": "Chaos by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "love-you",
+   "title": "Love You",
+   "collection": "mirror",
+   "photos": [
+    {
+     "url": "/work/love-you-1.webp",
+     "thumb": "/work/love-you-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Love You by Mark Staples"
+    },
+    {
+     "url": "/work/love-you-2.webp",
+     "thumb": "/work/love-you-2-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Love You by Mark Staples"
+    },
+    {
+     "url": "/work/love-you-3.webp",
+     "thumb": "/work/love-you-3-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Love You by Mark Staples"
+    }
+   ],
+   "alt": "Love You by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "harlan",
+   "title": "Harlan",
+   "collection": "mirror",
+   "photos": [
+    {
+     "url": "/work/harlan-1.webp",
+     "thumb": "/work/harlan-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Harlan by Mark Staples"
+    },
+    {
+     "url": "/work/harlan-2.webp",
+     "thumb": "/work/harlan-2-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Harlan by Mark Staples"
+    }
+   ],
+   "alt": "Harlan by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "dancefloor",
+   "title": "Dancefloor",
+   "collection": "mirror",
+   "photos": [
+    {
+     "url": "/work/dancefloor-1.webp",
+     "thumb": "/work/dancefloor-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Dancefloor by Mark Staples"
+    }
+   ],
+   "alt": "Dancefloor by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "smile",
+   "title": "Smile",
+   "collection": "mirror",
+   "photos": [
+    {
+     "url": "/work/smile-1.webp",
+     "thumb": "/work/smile-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Smile by Mark Staples"
+    }
+   ],
+   "alt": "Smile by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": true
+  },
+  {
+   "slug": "mirror-08",
+   "title": "",
+   "collection": "mirror",
+   "photos": [
+    {
+     "url": "/work/mirror-08-1.webp",
+     "thumb": "/work/mirror-08-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Hand-etched mirror by Mark Staples"
+    }
+   ],
+   "alt": "Hand-etched mirror by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "mirror-09",
+   "title": "",
+   "collection": "mirror",
+   "photos": [
+    {
+     "url": "/work/mirror-09-1.webp",
+     "thumb": "/work/mirror-09-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Hand-etched mirror by Mark Staples"
+    }
+   ],
+   "alt": "Hand-etched mirror by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "mirror-10",
+   "title": "",
+   "collection": "mirror",
+   "photos": [
+    {
+     "url": "/work/mirror-10-1.webp",
+     "thumb": "/work/mirror-10-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Hand-etched mirror by Mark Staples"
+    }
+   ],
+   "alt": "Hand-etched mirror by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "mirror-11",
+   "title": "",
+   "collection": "mirror",
+   "photos": [
+    {
+     "url": "/work/mirror-11-1.webp",
+     "thumb": "/work/mirror-11-1-t.webp",
+     "width": 787,
+     "height": 1400,
+     "alt": "Hand-etched mirror by Mark Staples"
+    }
+   ],
+   "alt": "Hand-etched mirror by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "mirror-12",
+   "title": "",
+   "collection": "mirror",
+   "photos": [
+    {
+     "url": "/work/mirror-12-1.webp",
+     "thumb": "/work/mirror-12-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Hand-etched mirror by Mark Staples"
+    }
+   ],
+   "alt": "Hand-etched mirror by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "mirror-13",
+   "title": "",
+   "collection": "mirror",
+   "photos": [
+    {
+     "url": "/work/mirror-13-1.webp",
+     "thumb": "/work/mirror-13-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Hand-etched mirror by Mark Staples"
+    }
+   ],
+   "alt": "Hand-etched mirror by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "mirror-14",
+   "title": "",
+   "collection": "mirror",
+   "photos": [
+    {
+     "url": "/work/mirror-14-1.webp",
+     "thumb": "/work/mirror-14-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Hand-etched mirror by Mark Staples"
+    }
+   ],
+   "alt": "Hand-etched mirror by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "tagged",
+   "title": "Tagged",
+   "collection": "models",
+   "photos": [
+    {
+     "url": "/work/tagged-1.webp",
+     "thumb": "/work/tagged-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Tagged by Mark Staples"
+    },
+    {
+     "url": "/work/tagged-2.webp",
+     "thumb": "/work/tagged-2-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Tagged by Mark Staples"
+    },
+    {
+     "url": "/work/tagged-3.webp",
+     "thumb": "/work/tagged-3-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Tagged by Mark Staples"
+    },
+    {
+     "url": "/work/tagged-4.webp",
+     "thumb": "/work/tagged-4-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Tagged by Mark Staples"
+    },
+    {
+     "url": "/work/tagged-5.webp",
+     "thumb": "/work/tagged-5-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Tagged by Mark Staples"
+    },
+    {
+     "url": "/work/tagged-6.webp",
+     "thumb": "/work/tagged-6-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Tagged by Mark Staples"
+    },
+    {
+     "url": "/work/tagged-7.webp",
+     "thumb": "/work/tagged-7-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Tagged by Mark Staples"
+    },
+    {
+     "url": "/work/tagged-9.webp",
+     "thumb": "/work/tagged-9-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Tagged by Mark Staples"
+    }
+   ],
+   "alt": "Tagged by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": true
+  },
+  {
+   "slug": "camper-van",
+   "title": "Camper Van",
+   "collection": "models",
+   "photos": [
+    {
+     "url": "/work/camper-van-1.webp",
+     "thumb": "/work/camper-van-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Camper Van by Mark Staples"
+    },
+    {
+     "url": "/work/camper-van-2.webp",
+     "thumb": "/work/camper-van-2-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Camper Van by Mark Staples"
+    },
+    {
+     "url": "/work/camper-van-3.webp",
+     "thumb": "/work/camper-van-3-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Camper Van by Mark Staples"
+    },
+    {
+     "url": "/work/camper-van-5.webp",
+     "thumb": "/work/camper-van-5-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Camper Van by Mark Staples"
+    },
+    {
+     "url": "/work/camper-van-6.webp",
+     "thumb": "/work/camper-van-6-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Camper Van by Mark Staples"
+    }
+   ],
+   "alt": "Camper Van by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "models-04",
+   "title": "",
+   "collection": "models",
+   "photos": [
+    {
+     "url": "/work/models-04-1.webp",
+     "thumb": "/work/models-04-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painted object by Mark Staples"
+    },
+    {
+     "url": "/work/models-04-2.webp",
+     "thumb": "/work/models-04-2-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painted object by Mark Staples"
+    },
+    {
+     "url": "/work/models-04-3.webp",
+     "thumb": "/work/models-04-3-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painted object by Mark Staples"
+    },
+    {
+     "url": "/work/models-04-5.webp",
+     "thumb": "/work/models-04-5-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painted object by Mark Staples"
+    },
+    {
+     "url": "/work/models-04-6.webp",
+     "thumb": "/work/models-04-6-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painted object by Mark Staples"
+    }
+   ],
+   "alt": "Painted object by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "models-05",
+   "title": "",
+   "collection": "models",
+   "photos": [
+    {
+     "url": "/work/models-05-1.webp",
+     "thumb": "/work/models-05-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painted object by Mark Staples"
+    },
+    {
+     "url": "/work/models-05-3.webp",
+     "thumb": "/work/models-05-3-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painted object by Mark Staples"
+    }
+   ],
+   "alt": "Painted object by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "models-06",
+   "title": "",
+   "collection": "models",
+   "photos": [
+    {
+     "url": "/work/models-06-1.webp",
+     "thumb": "/work/models-06-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painted object by Mark Staples"
+    }
+   ],
+   "alt": "Painted object by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "models-07",
+   "title": "",
+   "collection": "models",
+   "photos": [
+    {
+     "url": "/work/models-07-1.webp",
+     "thumb": "/work/models-07-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painted object by Mark Staples"
+    },
+    {
+     "url": "/work/models-07-2.webp",
+     "thumb": "/work/models-07-2-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painted object by Mark Staples"
+    }
+   ],
+   "alt": "Painted object by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "models-08",
+   "title": "",
+   "collection": "models",
+   "photos": [
+    {
+     "url": "/work/models-08-1.webp",
+     "thumb": "/work/models-08-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painted object by Mark Staples"
+    },
+    {
+     "url": "/work/models-08-2.webp",
+     "thumb": "/work/models-08-2-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painted object by Mark Staples"
+    },
+    {
+     "url": "/work/models-08-3.webp",
+     "thumb": "/work/models-08-3-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painted object by Mark Staples"
+    },
+    {
+     "url": "/work/models-08-4.webp",
+     "thumb": "/work/models-08-4-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painted object by Mark Staples"
+    },
+    {
+     "url": "/work/models-08-5.webp",
+     "thumb": "/work/models-08-5-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painted object by Mark Staples"
+    }
+   ],
+   "alt": "Painted object by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "glideaway",
+   "title": "Glideaway",
+   "collection": "models",
+   "photos": [
+    {
+     "url": "/work/glideaway-1.webp",
+     "thumb": "/work/glideaway-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Glideaway by Mark Staples"
+    },
+    {
+     "url": "/work/glideaway-2.webp",
+     "thumb": "/work/glideaway-2-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Glideaway by Mark Staples"
+    }
+   ],
+   "alt": "Glideaway by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "models-10",
+   "title": "",
+   "collection": "models",
+   "photos": [
+    {
+     "url": "/work/models-10-1.webp",
+     "thumb": "/work/models-10-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painted object by Mark Staples"
+    }
+   ],
+   "alt": "Painted object by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "models-11",
+   "title": "",
+   "collection": "models",
+   "photos": [
+    {
+     "url": "/work/models-11-1.webp",
+     "thumb": "/work/models-11-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painted object by Mark Staples"
+    }
+   ],
+   "alt": "Painted object by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "models-12",
+   "title": "",
+   "collection": "models",
+   "photos": [
+    {
+     "url": "/work/models-12-1.webp",
+     "thumb": "/work/models-12-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painted object by Mark Staples"
+    },
+    {
+     "url": "/work/models-12-2.webp",
+     "thumb": "/work/models-12-2-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painted object by Mark Staples"
+    },
+    {
+     "url": "/work/models-12-3.webp",
+     "thumb": "/work/models-12-3-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painted object by Mark Staples"
+    }
+   ],
+   "alt": "Painted object by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "models-13",
+   "title": "",
+   "collection": "models",
+   "photos": [
+    {
+     "url": "/work/models-13-1.webp",
+     "thumb": "/work/models-13-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painted object by Mark Staples"
+    }
+   ],
+   "alt": "Painted object by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "the-fallen-angel",
+   "title": "The Fallen Angel",
+   "collection": "models",
+   "photos": [
+    {
+     "url": "/work/the-fallen-angel-1.webp",
+     "thumb": "/work/the-fallen-angel-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "The Fallen Angel by Mark Staples"
+    }
+   ],
+   "alt": "The Fallen Angel by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "models-15",
+   "title": "",
+   "collection": "models",
+   "photos": [
+    {
+     "url": "/work/models-15-1.webp",
+     "thumb": "/work/models-15-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painted object by Mark Staples"
+    },
+    {
+     "url": "/work/models-15-2.webp",
+     "thumb": "/work/models-15-2-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painted object by Mark Staples"
+    }
+   ],
+   "alt": "Painted object by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "models-16",
+   "title": "",
+   "collection": "models",
+   "photos": [
+    {
+     "url": "/work/models-16-1.webp",
+     "thumb": "/work/models-16-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painted object by Mark Staples"
+    }
+   ],
+   "alt": "Painted object by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "models-17",
+   "title": "",
+   "collection": "models",
+   "photos": [
+    {
+     "url": "/work/models-17-1.webp",
+     "thumb": "/work/models-17-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painted object by Mark Staples"
+    }
+   ],
+   "alt": "Painted object by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "models-18",
+   "title": "",
+   "collection": "models",
+   "photos": [
+    {
+     "url": "/work/models-18-1.webp",
+     "thumb": "/work/models-18-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painted object by Mark Staples"
+    },
+    {
+     "url": "/work/models-18-2.webp",
+     "thumb": "/work/models-18-2-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painted object by Mark Staples"
+    }
+   ],
+   "alt": "Painted object by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "models-19",
+   "title": "",
+   "collection": "models",
+   "photos": [
+    {
+     "url": "/work/models-19-1.webp",
+     "thumb": "/work/models-19-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painted object by Mark Staples"
+    }
+   ],
+   "alt": "Painted object by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "models-20",
+   "title": "",
+   "collection": "models",
+   "photos": [
+    {
+     "url": "/work/models-20-1.webp",
+     "thumb": "/work/models-20-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painted object by Mark Staples"
+    }
+   ],
+   "alt": "Painted object by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-03",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-03-1.webp",
+     "thumb": "/work/doodling-03-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "models-21",
+   "title": "",
+   "collection": "models",
+   "photos": [
+    {
+     "url": "/work/models-21-1.webp",
+     "thumb": "/work/models-21-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painted object by Mark Staples"
+    }
+   ],
+   "alt": "Painted object by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "early-01",
+   "title": "",
+   "collection": "early",
+   "photos": [
+    {
+     "url": "/work/early-01-1.webp",
+     "thumb": "/work/early-01-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Early painting by Mark Staples"
+    }
+   ],
+   "alt": "Early painting by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "early-02",
+   "title": "",
+   "collection": "early",
+   "photos": [
+    {
+     "url": "/work/early-02-1.webp",
+     "thumb": "/work/early-02-1-t.webp",
+     "width": 788,
+     "height": 1400,
+     "alt": "Early painting by Mark Staples"
+    }
+   ],
+   "alt": "Early painting by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "early-03",
+   "title": "",
+   "collection": "early",
+   "photos": [
+    {
+     "url": "/work/early-03-1.webp",
+     "thumb": "/work/early-03-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Early painting by Mark Staples"
+    }
+   ],
+   "alt": "Early painting by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "early-04",
+   "title": "",
+   "collection": "early",
+   "photos": [
+    {
+     "url": "/work/early-04-1.webp",
+     "thumb": "/work/early-04-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Early painting by Mark Staples"
+    }
+   ],
+   "alt": "Early painting by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "early-05",
+   "title": "",
+   "collection": "early",
+   "photos": [
+    {
+     "url": "/work/early-05-1.webp",
+     "thumb": "/work/early-05-1-t.webp",
+     "width": 1120,
+     "height": 1400,
+     "alt": "Early painting by Mark Staples"
+    }
+   ],
+   "alt": "Early painting by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "early-06",
+   "title": "",
+   "collection": "early",
+   "photos": [
+    {
+     "url": "/work/early-06-1.webp",
+     "thumb": "/work/early-06-1-t.webp",
+     "width": 1400,
+     "height": 1382,
+     "alt": "Early painting by Mark Staples"
+    }
+   ],
+   "alt": "Early painting by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "early-07",
+   "title": "",
+   "collection": "early",
+   "photos": [
+    {
+     "url": "/work/early-07-1.webp",
+     "thumb": "/work/early-07-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Early painting by Mark Staples"
+    }
+   ],
+   "alt": "Early painting by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "early-08",
+   "title": "",
+   "collection": "early",
+   "photos": [
+    {
+     "url": "/work/early-08-1.webp",
+     "thumb": "/work/early-08-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Early painting by Mark Staples"
+    }
+   ],
+   "alt": "Early painting by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "early-09",
+   "title": "",
+   "collection": "early",
+   "photos": [
+    {
+     "url": "/work/early-09-1.webp",
+     "thumb": "/work/early-09-1-t.webp",
+     "width": 1384,
+     "height": 1400,
+     "alt": "Early painting by Mark Staples"
+    }
+   ],
+   "alt": "Early painting by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "early-10",
+   "title": "",
+   "collection": "early",
+   "photos": [
+    {
+     "url": "/work/early-10-1.webp",
+     "thumb": "/work/early-10-1-t.webp",
+     "width": 1400,
+     "height": 1050,
+     "alt": "Early painting by Mark Staples"
+    }
+   ],
+   "alt": "Early painting by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "early-11",
+   "title": "",
+   "collection": "early",
+   "photos": [
+    {
+     "url": "/work/early-11-1.webp",
+     "thumb": "/work/early-11-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Early painting by Mark Staples"
+    }
+   ],
+   "alt": "Early painting by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "early-12",
+   "title": "",
+   "collection": "early",
+   "photos": [
+    {
+     "url": "/work/early-12-1.webp",
+     "thumb": "/work/early-12-1-t.webp",
+     "width": 788,
+     "height": 1400,
+     "alt": "Early painting by Mark Staples"
+    }
+   ],
+   "alt": "Early painting by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "early-13",
+   "title": "",
+   "collection": "early",
+   "photos": [
+    {
+     "url": "/work/early-13-1.webp",
+     "thumb": "/work/early-13-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Early painting by Mark Staples"
+    }
+   ],
+   "alt": "Early painting by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "early-14",
+   "title": "",
+   "collection": "early",
+   "photos": [
+    {
+     "url": "/work/early-14-1.webp",
+     "thumb": "/work/early-14-1-t.webp",
+     "width": 1120,
+     "height": 1400,
+     "alt": "Early painting by Mark Staples"
+    }
+   ],
+   "alt": "Early painting by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "early-15",
+   "title": "",
+   "collection": "early",
+   "photos": [
+    {
+     "url": "/work/early-15-1.webp",
+     "thumb": "/work/early-15-1-t.webp",
+     "width": 961,
+     "height": 935,
+     "alt": "Early painting by Mark Staples"
+    }
+   ],
+   "alt": "Early painting by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "early-16",
+   "title": "",
+   "collection": "early",
+   "photos": [
+    {
+     "url": "/work/early-16-1.webp",
+     "thumb": "/work/early-16-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Early painting by Mark Staples"
+    }
+   ],
+   "alt": "Early painting by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "early-17",
+   "title": "",
+   "collection": "early",
+   "photos": [
+    {
+     "url": "/work/early-17-1.webp",
+     "thumb": "/work/early-17-1-t.webp",
+     "width": 788,
+     "height": 1400,
+     "alt": "Early painting by Mark Staples"
+    }
+   ],
+   "alt": "Early painting by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "early-18",
+   "title": "",
+   "collection": "early",
+   "photos": [
+    {
+     "url": "/work/early-18-1.webp",
+     "thumb": "/work/early-18-1-t.webp",
+     "width": 927,
+     "height": 1400,
+     "alt": "Early painting by Mark Staples"
+    }
+   ],
+   "alt": "Early painting by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "kiss-me",
+   "title": "Kiss Me",
+   "collection": "early",
+   "photos": [
+    {
+     "url": "/work/kiss-me-1.webp",
+     "thumb": "/work/kiss-me-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Kiss Me by Mark Staples"
+    }
+   ],
+   "alt": "Kiss Me by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "early-20",
+   "title": "",
+   "collection": "early",
+   "photos": [
+    {
+     "url": "/work/early-20-1.webp",
+     "thumb": "/work/early-20-1-t.webp",
+     "width": 788,
+     "height": 1400,
+     "alt": "Early painting by Mark Staples"
+    }
+   ],
+   "alt": "Early painting by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-04",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-04-1.webp",
+     "thumb": "/work/doodling-04-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-05",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-05-1.webp",
+     "thumb": "/work/doodling-05-1-t.webp",
+     "width": 720,
+     "height": 960,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-06",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-06-1.webp",
+     "thumb": "/work/doodling-06-1-t.webp",
+     "width": 1400,
+     "height": 1050,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-07",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-07-1.webp",
+     "thumb": "/work/doodling-07-1-t.webp",
+     "width": 788,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-08",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-08-1.webp",
+     "thumb": "/work/doodling-08-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-09",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-09-1.webp",
+     "thumb": "/work/doodling-09-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-10",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-10-1.webp",
+     "thumb": "/work/doodling-10-1-t.webp",
+     "width": 1319,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-11",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-11-1.webp",
+     "thumb": "/work/doodling-11-1-t.webp",
+     "width": 1400,
+     "height": 1027,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-12",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-12-1.webp",
+     "thumb": "/work/doodling-12-1-t.webp",
+     "width": 1400,
+     "height": 788,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-13",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-13-1.webp",
+     "thumb": "/work/doodling-13-1-t.webp",
+     "width": 1400,
+     "height": 1050,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-14",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-14-1.webp",
+     "thumb": "/work/doodling-14-1-t.webp",
+     "width": 787,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-15",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-15-1.webp",
+     "thumb": "/work/doodling-15-1-t.webp",
+     "width": 788,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-16",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-16-1.webp",
+     "thumb": "/work/doodling-16-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-17",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-17-1.webp",
+     "thumb": "/work/doodling-17-1-t.webp",
+     "width": 1400,
+     "height": 1050,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-18",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-18-1.webp",
+     "thumb": "/work/doodling-18-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-19",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-19-1.webp",
+     "thumb": "/work/doodling-19-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-20",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-20-1.webp",
+     "thumb": "/work/doodling-20-1-t.webp",
+     "width": 787,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-21",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-21-1.webp",
+     "thumb": "/work/doodling-21-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-22",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-22-1.webp",
+     "thumb": "/work/doodling-22-1-t.webp",
+     "width": 647,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-23",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-23-1.webp",
+     "thumb": "/work/doodling-23-1-t.webp",
+     "width": 647,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-24",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-24-1.webp",
+     "thumb": "/work/doodling-24-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-25",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-25-1.webp",
+     "thumb": "/work/doodling-25-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-26",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-26-1.webp",
+     "thumb": "/work/doodling-26-1-t.webp",
+     "width": 787,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-27",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-27-1.webp",
+     "thumb": "/work/doodling-27-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-28",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-28-1.webp",
+     "thumb": "/work/doodling-28-1-t.webp",
+     "width": 1400,
+     "height": 1050,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-29",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-29-1.webp",
+     "thumb": "/work/doodling-29-1-t.webp",
+     "width": 1400,
+     "height": 896,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-30",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-30-1.webp",
+     "thumb": "/work/doodling-30-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-31",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-31-1.webp",
+     "thumb": "/work/doodling-31-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-32",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-32-1.webp",
+     "thumb": "/work/doodling-32-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-33",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-33-1.webp",
+     "thumb": "/work/doodling-33-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-34",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-34-1.webp",
+     "thumb": "/work/doodling-34-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-35",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-35-1.webp",
+     "thumb": "/work/doodling-35-1-t.webp",
+     "width": 1400,
+     "height": 875,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-36",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-36-1.webp",
+     "thumb": "/work/doodling-36-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-37",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-37-1.webp",
+     "thumb": "/work/doodling-37-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-38",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-38-1.webp",
+     "thumb": "/work/doodling-38-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-39",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-39-1.webp",
+     "thumb": "/work/doodling-39-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-40",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-40-1.webp",
+     "thumb": "/work/doodling-40-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-41",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-41-1.webp",
+     "thumb": "/work/doodling-41-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-42",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-42-1.webp",
+     "thumb": "/work/doodling-42-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-43",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-43-1.webp",
+     "thumb": "/work/doodling-43-1-t.webp",
+     "width": 1400,
+     "height": 741,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-44",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-44-1.webp",
+     "thumb": "/work/doodling-44-1-t.webp",
+     "width": 1400,
+     "height": 921,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-45",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-45-1.webp",
+     "thumb": "/work/doodling-45-1-t.webp",
+     "width": 1400,
+     "height": 969,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-46",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-46-1.webp",
+     "thumb": "/work/doodling-46-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-47",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-47-1.webp",
+     "thumb": "/work/doodling-47-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-48",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-48-1.webp",
+     "thumb": "/work/doodling-48-1-t.webp",
+     "width": 1400,
+     "height": 1356,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-49",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-49-1.webp",
+     "thumb": "/work/doodling-49-1-t.webp",
+     "width": 1400,
+     "height": 1020,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-50",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-50-1.webp",
+     "thumb": "/work/doodling-50-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-51",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-51-1.webp",
+     "thumb": "/work/doodling-51-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-52",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-52-1.webp",
+     "thumb": "/work/doodling-52-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-53",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-53-1.webp",
+     "thumb": "/work/doodling-53-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-54",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-54-1.webp",
+     "thumb": "/work/doodling-54-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-55",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-55-1.webp",
+     "thumb": "/work/doodling-55-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-56",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-56-1.webp",
+     "thumb": "/work/doodling-56-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-57",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-57-1.webp",
+     "thumb": "/work/doodling-57-1-t.webp",
+     "width": 1400,
+     "height": 1050,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-58",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-58-1.webp",
+     "thumb": "/work/doodling-58-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-59",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-59-1.webp",
+     "thumb": "/work/doodling-59-1-t.webp",
+     "width": 1400,
+     "height": 654,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-60",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-60-1.webp",
+     "thumb": "/work/doodling-60-1-t.webp",
+     "width": 1400,
+     "height": 1050,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-61",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-61-1.webp",
+     "thumb": "/work/doodling-61-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-62",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-62-1.webp",
+     "thumb": "/work/doodling-62-1-t.webp",
+     "width": 787,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-63",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-63-1.webp",
+     "thumb": "/work/doodling-63-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-64",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-64-1.webp",
+     "thumb": "/work/doodling-64-1-t.webp",
+     "width": 1400,
+     "height": 1050,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-65",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-65-1.webp",
+     "thumb": "/work/doodling-65-1-t.webp",
+     "width": 1400,
+     "height": 991,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-66",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-66-1.webp",
+     "thumb": "/work/doodling-66-1-t.webp",
+     "width": 1141,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-67",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-67-1.webp",
+     "thumb": "/work/doodling-67-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-68",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-68-1.webp",
+     "thumb": "/work/doodling-68-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-69",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-69-1.webp",
+     "thumb": "/work/doodling-69-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-70",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-70-1.webp",
+     "thumb": "/work/doodling-70-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-71",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-71-1.webp",
+     "thumb": "/work/doodling-71-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-72",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-72-1.webp",
+     "thumb": "/work/doodling-72-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-73",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-73-1.webp",
+     "thumb": "/work/doodling-73-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2026-10-26",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-74",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-74-1.webp",
+     "thumb": "/work/doodling-74-1-t.webp",
+     "width": 1400,
+     "height": 738,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-75",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-75-1.webp",
+     "thumb": "/work/doodling-75-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-76",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-76-1.webp",
+     "thumb": "/work/doodling-76-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-77",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-77-1.webp",
+     "thumb": "/work/doodling-77-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-78",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-78-1.webp",
+     "thumb": "/work/doodling-78-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-79",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-79-1.webp",
+     "thumb": "/work/doodling-79-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-80",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-80-1.webp",
+     "thumb": "/work/doodling-80-1-t.webp",
+     "width": 787,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "doodling-81",
+   "title": "",
+   "collection": "doodling",
+   "photos": [
+    {
+     "url": "/work/doodling-81-1.webp",
+     "thumb": "/work/doodling-81-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Drawing by Mark Staples"
+    }
+   ],
+   "alt": "Drawing by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "the-lady-on-the-train",
+   "title": "The Lady on the Train",
+   "collection": "poetry",
+   "photos": [
+    {
+     "url": "/work/the-lady-on-the-train-1.webp",
+     "thumb": "/work/the-lady-on-the-train-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "The Lady on the Train by Mark Staples"
+    },
+    {
+     "url": "/work/the-lady-on-the-train-2.webp",
+     "thumb": "/work/the-lady-on-the-train-2-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "The Lady on the Train by Mark Staples"
+    }
+   ],
+   "alt": "The Lady on the Train by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "poetry-02",
+   "title": "",
+   "collection": "poetry",
+   "photos": [
+    {
+     "url": "/work/poetry-02-1.webp",
+     "thumb": "/work/poetry-02-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Poem by Mark Staples"
+    }
+   ],
+   "alt": "Poem by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "poetry-03",
+   "title": "",
+   "collection": "poetry",
+   "photos": [
+    {
+     "url": "/work/poetry-03-1.webp",
+     "thumb": "/work/poetry-03-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Poem by Mark Staples"
+    },
+    {
+     "url": "/work/poetry-03-2.webp",
+     "thumb": "/work/poetry-03-2-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Poem by Mark Staples"
+    }
+   ],
+   "alt": "Poem by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "poetry-04",
+   "title": "",
+   "collection": "poetry",
+   "photos": [
+    {
+     "url": "/work/poetry-04-1.webp",
+     "thumb": "/work/poetry-04-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Poem by Mark Staples"
+    }
+   ],
+   "alt": "Poem by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "poetry-05",
+   "title": "",
+   "collection": "poetry",
+   "photos": [
+    {
+     "url": "/work/poetry-05-1.webp",
+     "thumb": "/work/poetry-05-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Poem by Mark Staples"
+    }
+   ],
+   "alt": "Poem by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "dear-john",
+   "title": "Dear John",
+   "collection": "poetry",
+   "photos": [
+    {
+     "url": "/work/dear-john-1.webp",
+     "thumb": "/work/dear-john-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Dear John by Mark Staples"
+    }
+   ],
+   "alt": "Dear John by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "be-you-tiful",
+   "title": "Be You Tiful",
+   "collection": "poetry",
+   "photos": [
+    {
+     "url": "/work/be-you-tiful-1.webp",
+     "thumb": "/work/be-you-tiful-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Be You Tiful by Mark Staples"
+    }
+   ],
+   "alt": "Be You Tiful by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "poetry-08",
+   "title": "",
+   "collection": "poetry",
+   "photos": [
+    {
+     "url": "/work/poetry-08-1.webp",
+     "thumb": "/work/poetry-08-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Poem by Mark Staples"
+    }
+   ],
+   "alt": "Poem by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "five-things-i-like-about-me",
+   "title": "Five Things I Like About Me",
+   "collection": "poetry",
+   "photos": [
+    {
+     "url": "/work/five-things-i-like-about-me-1.webp",
+     "thumb": "/work/five-things-i-like-about-me-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Five Things I Like About Me by Mark Staples"
+    }
+   ],
+   "alt": "Five Things I Like About Me by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "never-look-down",
+   "title": "Never Look Down",
+   "collection": "poetry",
+   "photos": [
+    {
+     "url": "/work/never-look-down-1.webp",
+     "thumb": "/work/never-look-down-1-t.webp",
+     "width": 787,
+     "height": 1400,
+     "alt": "Never Look Down by Mark Staples"
+    },
+    {
+     "url": "/work/never-look-down-2.webp",
+     "thumb": "/work/never-look-down-2-t.webp",
+     "width": 787,
+     "height": 1400,
+     "alt": "Never Look Down by Mark Staples"
+    }
+   ],
+   "alt": "Never Look Down by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "poetry-11",
+   "title": "",
+   "collection": "poetry",
+   "photos": [
+    {
+     "url": "/work/poetry-11-1.webp",
+     "thumb": "/work/poetry-11-1-t.webp",
+     "width": 723,
+     "height": 1400,
+     "alt": "Poem by Mark Staples"
+    }
+   ],
+   "alt": "Poem by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "poetry-12",
+   "title": "",
+   "collection": "poetry",
+   "photos": [
+    {
+     "url": "/work/poetry-12-1.webp",
+     "thumb": "/work/poetry-12-1-t.webp",
+     "width": 809,
+     "height": 1400,
+     "alt": "Poem by Mark Staples"
+    }
+   ],
+   "alt": "Poem by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "misc-02",
+   "title": "",
+   "collection": "misc",
+   "photos": [
+    {
+     "url": "/work/misc-02-1.webp",
+     "thumb": "/work/misc-02-1-t.webp",
+     "width": 788,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ],
+   "alt": "Artwork by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "misc-03",
+   "title": "",
+   "collection": "misc",
+   "photos": [
+    {
+     "url": "/work/misc-03-1.webp",
+     "thumb": "/work/misc-03-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ],
+   "alt": "Artwork by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "misc-04",
+   "title": "",
+   "collection": "misc",
+   "photos": [
+    {
+     "url": "/work/misc-04-1.webp",
+     "thumb": "/work/misc-04-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    },
+    {
+     "url": "/work/misc-04-2.webp",
+     "thumb": "/work/misc-04-2-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    },
+    {
+     "url": "/work/misc-04-3.webp",
+     "thumb": "/work/misc-04-3-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ],
+   "alt": "Artwork by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "misc-05",
+   "title": "",
+   "collection": "misc",
+   "photos": [
+    {
+     "url": "/work/misc-05-1.webp",
+     "thumb": "/work/misc-05-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ],
+   "alt": "Artwork by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "misc-06",
+   "title": "",
+   "collection": "misc",
+   "photos": [
+    {
+     "url": "/work/misc-06-1.webp",
+     "thumb": "/work/misc-06-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ],
+   "alt": "Artwork by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "misc-07",
+   "title": "",
+   "collection": "misc",
+   "photos": [
+    {
+     "url": "/work/misc-07-1.webp",
+     "thumb": "/work/misc-07-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ],
+   "alt": "Artwork by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "misc-08",
+   "title": "",
+   "collection": "misc",
+   "photos": [
+    {
+     "url": "/work/misc-08-1.webp",
+     "thumb": "/work/misc-08-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ],
+   "alt": "Artwork by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "misc-09",
+   "title": "",
+   "collection": "misc",
+   "photos": [
+    {
+     "url": "/work/misc-09-1.webp",
+     "thumb": "/work/misc-09-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ],
+   "alt": "Artwork by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "misc-10",
+   "title": "",
+   "collection": "misc",
+   "photos": [
+    {
+     "url": "/work/misc-10-1.webp",
+     "thumb": "/work/misc-10-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ],
+   "alt": "Artwork by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "misc-11",
+   "title": "",
+   "collection": "misc",
+   "photos": [
+    {
+     "url": "/work/misc-11-1.webp",
+     "thumb": "/work/misc-11-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ],
+   "alt": "Artwork by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "misc-12",
+   "title": "",
+   "collection": "misc",
+   "photos": [
+    {
+     "url": "/work/misc-12-1.webp",
+     "thumb": "/work/misc-12-1-t.webp",
+     "width": 1400,
+     "height": 1050,
+     "alt": "Artwork by Mark Staples"
+    },
+    {
+     "url": "/work/misc-12-2.webp",
+     "thumb": "/work/misc-12-2-t.webp",
+     "width": 1400,
+     "height": 1050,
+     "alt": "Artwork by Mark Staples"
+    }
+   ],
+   "alt": "Artwork by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "misc-13",
+   "title": "",
+   "collection": "misc",
+   "photos": [
+    {
+     "url": "/work/misc-13-1.webp",
+     "thumb": "/work/misc-13-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ],
+   "alt": "Artwork by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "misc-14",
+   "title": "",
+   "collection": "misc",
+   "photos": [
+    {
+     "url": "/work/misc-14-1.webp",
+     "thumb": "/work/misc-14-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ],
+   "alt": "Artwork by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "misc-15",
+   "title": "",
+   "collection": "misc",
+   "photos": [
+    {
+     "url": "/work/misc-15-1.webp",
+     "thumb": "/work/misc-15-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ],
+   "alt": "Artwork by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "misc-16",
+   "title": "",
+   "collection": "misc",
+   "photos": [
+    {
+     "url": "/work/misc-16-1.webp",
+     "thumb": "/work/misc-16-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ],
+   "alt": "Artwork by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "misc-17",
+   "title": "",
+   "collection": "misc",
+   "photos": [
+    {
+     "url": "/work/misc-17-1.webp",
+     "thumb": "/work/misc-17-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ],
+   "alt": "Artwork by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "misc-18",
+   "title": "",
+   "collection": "misc",
+   "photos": [
+    {
+     "url": "/work/misc-18-1.webp",
+     "thumb": "/work/misc-18-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ],
+   "alt": "Artwork by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "misc-19",
+   "title": "",
+   "collection": "misc",
+   "photos": [
+    {
+     "url": "/work/misc-19-1.webp",
+     "thumb": "/work/misc-19-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ],
+   "alt": "Artwork by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "misc-20",
+   "title": "",
+   "collection": "misc",
+   "photos": [
+    {
+     "url": "/work/misc-20-1.webp",
+     "thumb": "/work/misc-20-1-t.webp",
+     "width": 1080,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ],
+   "alt": "Artwork by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "misc-21",
+   "title": "",
+   "collection": "misc",
+   "photos": [
+    {
+     "url": "/work/misc-21-1.webp",
+     "thumb": "/work/misc-21-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ],
+   "alt": "Artwork by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "misc-22",
+   "title": "",
+   "collection": "misc",
+   "photos": [
+    {
+     "url": "/work/misc-22-1.webp",
+     "thumb": "/work/misc-22-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ],
+   "alt": "Artwork by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "misc-23",
+   "title": "",
+   "collection": "misc",
+   "photos": [
+    {
+     "url": "/work/misc-23-1.webp",
+     "thumb": "/work/misc-23-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ],
+   "alt": "Artwork by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  },
+  {
+   "slug": "misc-24",
+   "title": "",
+   "collection": "misc",
+   "photos": [
+    {
+     "url": "/work/misc-24-1.webp",
+     "thumb": "/work/misc-24-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    },
+    {
+     "url": "/work/misc-24-2.webp",
+     "thumb": "/work/misc-24-2-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    },
+    {
+     "url": "/work/misc-24-3.webp",
+     "thumb": "/work/misc-24-3-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    },
+    {
+     "url": "/work/misc-24-4.webp",
+     "thumb": "/work/misc-24-4-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ],
+   "alt": "Artwork by Mark Staples",
+   "addedAt": "2024-06-01",
+   "status": "",
+   "note": "",
+   "seeded": false
+  }
+ ],
+ "studio": [
+  {
+   "title": "Gallery window, Brighton",
+   "photos": [
+    {
+     "url": "/work/paintings-20-1.webp",
+     "thumb": "/work/paintings-20-1-t.webp",
+     "width": 647,
+     "height": 1400,
+     "alt": "Painting by Mark Staples"
+    }
+   ]
+  },
+  {
+   "title": "Blank Buddhas",
+   "photos": [
+    {
+     "url": "/work/buddha-08-1.webp",
+     "thumb": "/work/buddha-08-1-t.webp",
+     "width": 644,
+     "height": 1400,
+     "alt": "Painted Buddha by Mark Staples"
+    },
+    {
+     "url": "/work/buddha-08-2.webp",
+     "thumb": "/work/buddha-08-2-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Painted Buddha by Mark Staples"
+    }
+   ]
+  },
+  {
+   "title": "Blank mirrors",
+   "photos": [
+    {
+     "url": "/work/mirror-15-1.webp",
+     "thumb": "/work/mirror-15-1-t.webp",
+     "width": 787,
+     "height": 1400,
+     "alt": "Hand-etched mirror by Mark Staples"
+    }
+   ]
+  },
+  {
+   "title": "Paint and spray cans",
+   "photos": [
+    {
+     "url": "/work/misc-25-1.webp",
+     "thumb": "/work/misc-25-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    },
+    {
+     "url": "/work/misc-25-2.webp",
+     "thumb": "/work/misc-25-2-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    },
+    {
+     "url": "/work/misc-25-3.webp",
+     "thumb": "/work/misc-25-3-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    },
+    {
+     "url": "/work/misc-25-4.webp",
+     "thumb": "/work/misc-25-4-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    },
+    {
+     "url": "/work/misc-25-5.webp",
+     "thumb": "/work/misc-25-5-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    },
+    {
+     "url": "/work/misc-25-6.webp",
+     "thumb": "/work/misc-25-6-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    },
+    {
+     "url": "/work/misc-25-7.webp",
+     "thumb": "/work/misc-25-7-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ]
+  },
+  {
+   "title": "Photo shoot",
+   "photos": [
+    {
+     "url": "/work/misc-26-1.webp",
+     "thumb": "/work/misc-26-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ]
+  },
+  {
+   "title": "Canvases in the car and van",
+   "photos": [
+    {
+     "url": "/work/misc-27-1.webp",
+     "thumb": "/work/misc-27-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    },
+    {
+     "url": "/work/misc-27-2.webp",
+     "thumb": "/work/misc-27-2-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ]
+  },
+  {
+   "title": "Outdoor stall",
+   "photos": [
+    {
+     "url": "/work/misc-28-1.webp",
+     "thumb": "/work/misc-28-1-t.webp",
+     "width": 647,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ]
+  },
+  {
+   "title": "Postal tubes",
+   "photos": [
+    {
+     "url": "/work/misc-29-1.webp",
+     "thumb": "/work/misc-29-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ]
+  },
+  {
+   "title": "Studio",
+   "photos": [
+    {
+     "url": "/work/misc-30-1.webp",
+     "thumb": "/work/misc-30-1-t.webp",
+     "width": 787,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    },
+    {
+     "url": "/work/misc-30-2.webp",
+     "thumb": "/work/misc-30-2-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    },
+    {
+     "url": "/work/misc-30-3.webp",
+     "thumb": "/work/misc-30-3-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    },
+    {
+     "url": "/work/misc-30-4.webp",
+     "thumb": "/work/misc-30-4-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ]
+  },
+  {
+   "title": "Stencils and frames being made",
+   "photos": [
+    {
+     "url": "/work/misc-31-1.webp",
+     "thumb": "/work/misc-31-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    },
+    {
+     "url": "/work/misc-31-2.webp",
+     "thumb": "/work/misc-31-2-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    },
+    {
+     "url": "/work/misc-31-3.webp",
+     "thumb": "/work/misc-31-3-t.webp",
+     "width": 787,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    },
+    {
+     "url": "/work/misc-31-4.webp",
+     "thumb": "/work/misc-31-4-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    },
+    {
+     "url": "/work/misc-31-5.webp",
+     "thumb": "/work/misc-31-5-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ]
+  },
+  {
+   "title": "The Brighton Box shopfront",
+   "photos": [
+    {
+     "url": "/work/misc-32-1.webp",
+     "thumb": "/work/misc-32-1-t.webp",
+     "width": 980,
+     "height": 735,
+     "alt": "Artwork by Mark Staples"
+    }
+   ]
+  },
+  {
+   "title": "Group outside a building",
+   "photos": [
+    {
+     "url": "/work/misc-33-1.webp",
+     "thumb": "/work/misc-33-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ]
+  },
+  {
+   "title": "In a bar",
+   "photos": [
+    {
+     "url": "/work/misc-34-1.webp",
+     "thumb": "/work/misc-34-1-t.webp",
+     "width": 960,
+     "height": 1217,
+     "alt": "Artwork by Mark Staples"
+    }
+   ]
+  },
+  {
+   "title": "Wooden bench",
+   "photos": [
+    {
+     "url": "/work/misc-35-1.webp",
+     "thumb": "/work/misc-35-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ]
+  },
+  {
+   "title": "Graffiti tunnel",
+   "photos": [
+    {
+     "url": "/work/misc-36-1.webp",
+     "thumb": "/work/misc-36-1-t.webp",
+     "width": 960,
+     "height": 1117,
+     "alt": "Artwork by Mark Staples"
+    }
+   ]
+  },
+  {
+   "title": "With Fatboy Slim",
+   "photos": [
+    {
+     "url": "/work/misc-37-1.webp",
+     "thumb": "/work/misc-37-1-t.webp",
+     "width": 1182,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    },
+    {
+     "url": "/work/misc-37-2.webp",
+     "thumb": "/work/misc-37-2-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ]
+  },
+  {
+   "title": "Churchill mural",
+   "photos": [
+    {
+     "url": "/work/misc-38-1.webp",
+     "thumb": "/work/misc-38-1-t.webp",
+     "width": 1202,
+     "height": 1213,
+     "alt": "Artwork by Mark Staples"
+    }
+   ]
+  },
+  {
+   "title": "Living room",
+   "photos": [
+    {
+     "url": "/work/misc-39-1.webp",
+     "thumb": "/work/misc-39-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ]
+  },
+  {
+   "title": "Shirt",
+   "photos": [
+    {
+     "url": "/work/misc-40-1.webp",
+     "thumb": "/work/misc-40-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ]
+  },
+  {
+   "title": "Trainers and CDs",
+   "photos": [
+    {
+     "url": "/work/misc-41-1.webp",
+     "thumb": "/work/misc-41-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ]
+  },
+  {
+   "title": "Coast",
+   "photos": [
+    {
+     "url": "/work/misc-42-1.webp",
+     "thumb": "/work/misc-42-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    },
+    {
+     "url": "/work/misc-42-2.webp",
+     "thumb": "/work/misc-42-2-t.webp",
+     "width": 1400,
+     "height": 1050,
+     "alt": "Artwork by Mark Staples"
+    }
+   ]
+  },
+  {
+   "title": "Record player",
+   "photos": [
+    {
+     "url": "/work/misc-43-1.webp",
+     "thumb": "/work/misc-43-1-t.webp",
+     "width": 1050,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ]
+  },
+  {
+   "title": "Name tag screenshot",
+   "photos": [
+    {
+     "url": "/work/misc-44-1.webp",
+     "thumb": "/work/misc-44-1-t.webp",
+     "width": 647,
+     "height": 1400,
+     "alt": "Artwork by Mark Staples"
+    }
+   ]
+  }
+ ]
+}

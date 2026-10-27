@@ -1,60 +1,65 @@
-import type { Artwork, Collection, Venue } from '@/lib/types';
-import { SAMPLES } from './samples';
+import type { Artwork, Collection, Photo, Venue } from '@/lib/types';
+import ARCHIVE from './archive.json';
 
-/* Local sample content. Used until a Sanity project is connected (NEXT_PUBLIC_SANITY_PROJECT_ID).
-   Prices, sizes and stories are placeholders for the pitch. */
+/* Local content, used until the Sanity project is connected. Generated from Mark's photo folders
+   (content/archive.json) plus the hand-tuned details the 3D room needs for the pieces hanging in it.
+   Only facts we know are here: no invented stories, years or prices. */
 const HATCH: Venue = { name: 'Hatch & Barrel', address: '46 High Street, West End, Southampton', url: 'https://hatchandbarrel.com' };
 const BRIGHTON_BOX: Venue = { name: 'The Brighton Box Gallery', address: '21 Dukes Lane, Brighton', url: 'https://www.thebrightonbox.com' };
 
-export const COLLECTIONS: Collection[] = [
-  { slug: 'love-hearts', title: 'Love & Hearts', blurb: 'Freehand LOVEs, hearts and drips, sprayed loud.' },
-  { slug: 'icons-lyrics', title: 'Icons & Lyrics', blurb: 'Music legends and the words that made them, written out by hand.' },
-  { slug: 'colour-abstract', title: 'Colour & Abstract', blurb: 'Spray-paint colour fields, dots and city-light blur.' },
-  { slug: 'mirror-art', title: 'Mirror Art', blurb: 'Vintage mirrors, rescued and cut by hand.' },
-  { slug: 'sculpture', title: 'Sculpture & Objects', blurb: 'Tagged busts, painted Buddhas and found objects.' },
+/** Collections in page order. Recent is automatic (newest pieces) and sits above these. */
+export const COLLECTIONS: (Collection & { key: string })[] = [
+  { key: 'paintings', slug: 'paintings', title: 'Paintings' },
+  { key: 'churchill', slug: 'churchill-collection', title: 'Churchill collection', story: true,
+    blurb: 'Seven made, in collaboration with the Scottish artist Lewis McClean, who cut the stencils. All seven sold, including one at The Brighton Box.' },
+  { key: 'icons', slug: 'icons-collection', title: 'Icons collection', blurb: 'Various, from 2023 and 2024.' },
+  { key: 'buddha', slug: 'buddha-collection', title: 'Buddha collection' },
+  { key: 'mirror', slug: 'mirror-collection', title: 'Mirror collection' },
+  { key: 'models', slug: 'models-clothing-and-boards', title: 'Models, clothing and boards' },
+  { key: 'doodling', slug: 'always-doodling', title: 'Always doodling' },
+  { key: 'early', slug: 'early-art', title: 'Early art' },
+  { key: 'poetry', slug: 'poetry-corner', title: 'Poetry corner' },
+  { key: 'misc', slug: 'misc', title: 'Misc' },
 ];
-const col = (slug: string) => COLLECTIONS.find((c) => c.slug === slug)!;
+const byKey = (k: string) => { const { key, ...c } = COLLECTIONS.find((x) => x.key === k)!; void key; return c; };
 
-const img = (slug: string, width: number, height: number, alt: string) => ({ url: `/art/${slug}.webp`, width, height, alt });
+/** The pieces hanging in the 3D room: clean cut-out images and the sizes the room hangs them at (sizes are estimates until Mark confirms). */
+const ROOM: Record<string, Partial<Artwork> & { image: Photo }> = {
+  smile: { featured: true, kind: 'Mirror art', display: 'cutout', shape: 'round', widthCm: 90, heightCm: 90, frame: 'original',
+    image: { url: '/art/smile.webp', width: 1196, height: 1215, alt: 'Smile: sunburst mirror with a dripping smiley face cut into the glass' } },
+  acquiesce: { featured: true, kind: 'Mixed media on canvas', display: 'canvas', widthCm: 60, heightCm: 100, frame: 'black',
+    image: { url: '/art/acquiesce.webp', width: 803, height: 1337, alt: 'Acquiesce: portrait of a singer at a microphone over blue spray paint and hand-written lyrics' } },
+  'endless-love': { featured: true, kind: 'Painting', display: 'canvas', widthCm: 100, heightCm: 63, frame: 'oak', currentVenue: HATCH,
+    image: { url: '/art/endless-love.webp', width: 1415, height: 892, alt: 'Endless Love: the word LOVE sprayed repeatedly in bright colours on black' } },
+  'the-dreamer': { featured: true, kind: 'Painting', display: 'canvas', widthCm: 100, heightCm: 64, frame: 'oak', pastVenue: HATCH,
+    image: { url: '/art/the-dreamer.webp', width: 1388, height: 894, alt: 'The Dreamer: soft multicoloured spray-paint dots on black' } },
+  heartfelt: { featured: true, kind: 'Painting', display: 'canvas', widthCm: 150, heightCm: 100, frame: 'none',
+    image: { url: '/art/heartfelt.webp', width: 1427, height: 924, alt: 'Heartfelt: hundreds of colourful spray-painted hearts with drips' } },
+  tagged: { featured: true, kind: 'Sculpture', display: 'sculptureModel', widthCm: 46, depthCm: 30, heightCm: 80,
+    image: { url: '/art/tagged.webp', width: 520, height: 776, alt: 'Tagged: black mannequin bust covered in tags with a gold stripe' } },
+  'brighton-buddy-boi': { featured: true, kind: 'Sculpture', display: 'sculpturePhoto', widthCm: 22, depthCm: 18, heightCm: 34, pastVenue: BRIGHTON_BOX, soldNote: 'Sold at The Brighton Box Gallery',
+    image: { url: '/art/brighton-buddy-boi.webp', width: 916, height: 1460, alt: 'Brighton Buddy Boi: Buddha figure in a teal beanie and round sunglasses' } },
+};
+/** Hanging order in the 3D room */
+const ROOM_ORDER = ['smile', 'acquiesce', 'endless-love', 'the-dreamer', 'heartfelt', 'tagged', 'brighton-buddy-boi'];
 
-const REAL: Artwork[] = [
-  { slug: 'smile', collection: col('mirror-art'), featured: true, title: 'Smile', kind: 'Mirror art', medium: 'Hand-cut mirror art set in an original 1960s sunburst frame', year: 2026,
-    status: 'available', price: 1000, display: 'cutout', shape: 'round', widthCm: 90, heightCm: 90, frame: 'original',
-    frameText: 'Original 1960s sunburst, gilt rays with pearl tips',
-    story: 'A real 1960s sunburst mirror, rescued and reworked. The drippy smile is cut into the glass by hand, so the face only shows up when you look into it. Every person who stands in front of it finishes the piece.',
-    image: img('smile', 1196, 1215, 'Sunburst mirror with a dripping smiley face cut into the glass') },
-  { slug: 'acquiesce', collection: col('icons-lyrics'), featured: true, title: 'Acquiesce', kind: 'Mixed media on canvas', medium: 'Spray paint, acrylic and hand-written lyrics on canvas', year: 2025,
-    status: 'available', price: 1000, display: 'canvas', widthCm: 60, heightCm: 100, frame: 'black', frameText: 'Handmade solid black float frame',
-    story: 'Liam Gallagher mid-chorus over custom blue sprays. The lyrics were chosen by the client and written out by hand across the whole canvas, line after line, until the song became the background.',
-    image: img('acquiesce', 803, 1337, 'Black and white portrait of a singer at a microphone over blue spray paint and hand-written lyrics') },
-  { slug: 'endless-love', collection: col('love-hearts'), featured: true, title: 'Endless Love', kind: 'Original painting', medium: 'Spray paint and acrylic on canvas', year: 2026,
-    status: 'available', price: 1200, display: 'canvas', widthCm: 100, heightCm: 63, frame: 'oak', frameText: 'Oak float frame', currentVenue: HATCH,
-    story: 'Row after row of LOVE, each one sprayed freehand in a different colour over a black ground. It is on the wall at Hatch & Barrel in West End right now, so you can see it in person before you buy.',
-    image: img('endless-love', 1415, 892, 'The word LOVE sprayed repeatedly in bright colours on black') },
-  { slug: 'the-dreamer', collection: col('colour-abstract'), featured: true, title: 'The Dreamer', kind: 'Original painting', medium: 'Layered spray paint and acrylic on canvas', year: 2026,
-    status: 'sold', price: 1100, soldNote: 'Sold this week', display: 'canvas', widthCm: 100, heightCm: 64, frame: 'oak', frameText: 'Oak float frame', pastVenue: HATCH,
-    story: 'Soft orbs of spray paint drifting over black, like city lights through a rainy window. It hung at Hatch & Barrel in West End until it sold this week.',
-    image: img('the-dreamer', 1388, 894, 'Soft multicoloured spray-paint dots on a black background') },
-  { slug: 'heartfelt', collection: col('love-hearts'), featured: true, title: 'Heartfelt', kind: 'Original painting', medium: 'Mixed hearts in spray paint, acrylic and paint pen on canvas', year: 2026,
-    status: 'available', price: 1800, display: 'canvas', widthCm: 150, heightCm: 100, frame: 'none', frameText: 'Unframed, painted deep-edge canvas',
-    story: 'Hundreds of hearts in spray, drips and paint pen, layered until there is no blank canvas left. At 150 × 100 cm it is Mark’s biggest hearts piece so far, made to be the loudest thing in a room.',
-    image: img('heartfelt', 1427, 924, 'Hundreds of colourful spray-painted hearts with drips') },
-  { slug: 'tagged', collection: col('sculpture'), featured: true, title: 'Tagged', kind: 'Sculpture', medium: 'Mannequin bust, paint pen and gold leaf', year: 2025,
-    status: 'available', price: 1200, display: 'sculptureModel', widthCm: 46, depthCm: 30, heightCm: 80,
-    story: 'A shop-window mannequin rescued from a skip, tagged by hand over a month and split down the middle with gold leaf.',
-    image: img('tagged', 520, 776, 'Black mannequin bust covered in colourful tags with a gold stripe') },
-  { slug: 'brighton-buddy-boi', collection: col('sculpture'), featured: true, title: 'Brighton Buddy Boi', kind: 'Sculpture', medium: 'Hand-painted ceramic Buddha with knitted beanie, round shades and smiley pendant', year: 2026,
-    status: 'sold', price: 350, soldNote: 'Sold at The Brighton Box Gallery', display: 'sculpturePhoto', widthCm: 22, depthCm: 18, heightCm: 34, pastVenue: BRIGHTON_BOX,
-    story: 'A little Buddha with a lot of attitude: knitted beanie, round shades and a smiley on a chain, with a robe covered in dripping smileys. He found his new home at The Brighton Box Gallery in Brighton.',
-    image: img('brighton-buddy-boi', 916, 1460, 'Small Buddha figure in a teal beanie and round sunglasses with a smiley-covered robe') },
+type Raw = { slug: string; title: string; collection: string; photos: Photo[]; alt: string; addedAt: string; status: Artwork['status']; note: string };
+const fromArchive = (r: Raw): Artwork => {
+  const room = ROOM[r.slug];
+  const photos = room ? [room.image, ...r.photos] : r.photos;
+  return {
+    slug: r.slug, title: r.title, status: r.status, addedAt: r.addedAt, note: r.note || undefined,
+    display: 'canvas', collection: byKey(r.collection), photos, image: room ? room.image : photos[0],
+    ...(room ? (({ image, ...rest }) => { void image; return rest; })(room) : {}),
+    ...(room ? { sizeEstimated: true } : {}),
+  };
+};
+
+const pieces = (ARCHIVE.pieces as Raw[]).map(fromArchive);
+export const SEED: Artwork[] = [
+  ...ROOM_ORDER.map((s) => pieces.find((p) => p.slug === s)!).filter(Boolean),
+  ...pieces.filter((p) => !ROOM[p.slug]),
 ];
 
-/** Real pieces first, then the clearly labelled samples standing in for the rest of Mark's archive. */
-const sparse = (s: Artwork, i: number): Artwork => ({
-  ...s,
-  story: i % 3 === 0 ? undefined : s.story,
-  medium: i % 4 === 1 ? undefined : s.medium,
-  year: i % 5 === 2 ? undefined : s.year,
-  ...(i % 6 === 3 ? { widthCm: undefined, heightCm: undefined } : {}),
-});
-export const SEED: Artwork[] = [...REAL, ...SAMPLES.map((s, i) => sparse({ ...s, collection: col(s.collection as unknown as string) }, i))];
+/** Behind-the-scenes photos for the "In the studio" strip */
+export const STUDIO: { title: string; photos: Photo[] }[] = ARCHIVE.studio as { title: string; photos: Photo[] }[];

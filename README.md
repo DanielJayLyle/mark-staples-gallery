@@ -12,7 +12,7 @@ A 3D gallery website for Mark Staples, built with Next.js. Visitors walk a lit g
 | All work | `app/(site)/work/page.tsx` | A plain, crawlable grid of every piece. |
 | Enquiries | `app/api/enquiry/route.ts` | Emails Mark (and a thank-you to the buyer) through Resend, and saves the enquiry in the CMS. Has a hidden spam trap. |
 | CMS | `/studio`, `sanity/schemaTypes` | Sanity Studio built into the site. Mark adds work, sets prices and status, and sees enquiries here. |
-| Sample content | `content/seed.ts`, `public/art` | Used until Sanity is connected, so the site works straight away. |
+| Local content | `content/seed.ts`, `content/archive.json`, `public/work`, `public/art` | Mark's real pieces, used until Sanity is connected. `archive.json` was generated from his photo folders; `public/art` holds the cut-outs for the 3D room. |
 | SEO | `app/sitemap.ts`, `app/robots.ts` | Sitemap and robots file, generated from the artworks. |
 
 When a piece opens in the gallery, the address bar changes to `/work/<slug>`, and the browser back button closes it. Anyone arriving at that link directly gets the full artwork page, with a "Walk the gallery from here" link that drops them into the room at that piece (`/?piece=<slug>`).
@@ -25,7 +25,8 @@ When a piece opens in the gallery, the address bar changes to `/work/<slug>`, an
 
 ## Content while building
 
-- `content/samples.ts` and `public/art/sample/` are 95 clearly labelled placeholders that fill the All work archive. Delete both once Mark's real work is in the CMS.
+- Sizes for the pieces in the 3D room are estimates (`sizeEstimated`) and are hidden from visitors until Mark confirms them.
+- Recent is automatic: everything added in the last 12 months. Each piece has one home collection.
 - `content/about.ts` holds Mark's bio for the About wall.
 - The 3D room shows up to 15 pieces marked "Hang in the 3D gallery"; everything else lives on All work, grouped by section.
 
@@ -38,12 +39,12 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000. With no settings it uses the sample content and enquiries are printed to the terminal.
+Open http://localhost:3000. With no settings it uses the local content and enquiries are printed to the terminal.
 
 ## Put it online (about 10 minutes)
 
 1. **GitHub:** create a new private repository and push this folder to it.
-2. **Vercel:** Add New, Project, import the repository, Deploy. You get a live link like `mark-staples-gallery.vercel.app`, already working with the sample content.
+2. **Vercel:** Add New, Project, import the repository, Deploy. You get a live link like `mark-staples-gallery.vercel.app`, already working with the local content.
 3. **Domain:** in Vercel, Settings, Domains, add Mark's domain and copy the DNS records it shows into wherever the domain is managed (Krystal or otherwise). Email is unaffected.
 
 ## Connect the CMS (Sanity)
@@ -55,7 +56,7 @@ Open http://localhost:3000. With no settings it uses the sample content and enqu
    - `NEXT_PUBLIC_SANITY_DATASET` = `production`
    - `SANITY_API_WRITE_TOKEN` = a token from the Sanity project (API, Tokens, Editor role). This lets enquiries be saved.
 4. Redeploy. Mark logs in at `yoursite.com/studio`.
-5. Add the venues (Hatch & Barrel, The Brighton Box Gallery), then the artworks. Until at least one artwork is published, the site keeps showing the sample content.
+5. Add the venues (Hatch & Barrel, The Brighton Box Gallery), then the artworks. Until at least one piece is published, the site keeps showing the local content.
 
 **Instant updates:** add `SANITY_REVALIDATE_SECRET` (any long random string) in Vercel, then in Sanity create a webhook pointing at `https://yoursite.com/api/revalidate?secret=<that string>`. Published changes then appear within seconds. Without it, pages refresh at most a minute after a change.
 

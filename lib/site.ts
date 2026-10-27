@@ -20,8 +20,8 @@ export const formatPrice = (n?: number) => (n == null ? 'Price on request' : '\u
 type StatusLike = { status: string; price?: number; currentVenue?: { name: string } | null };
 /** What to show where a price would go: the price (if switched on) or the piece's status. */
 export const statusText = (a: StatusLike) =>
-  a.status === 'sold' ? 'Sold' : a.status === 'reserved' ? 'Reserved' : a.status === 'notForSale' ? 'Not for sale' : a.currentVenue ? `On show at ${a.currentVenue.name}` : 'Available';
+  a.status === 'sold' ? 'Sold' : a.status === 'reserved' ? 'Reserved' : a.status === 'notForSale' ? 'Not for sale' : a.currentVenue ? `On show at ${a.currentVenue.name}` : a.status === 'available' ? 'Available' : '';
 export const priceOrStatus = (a: StatusLike) => (SHOW_PRICES && a.status !== 'sold' && a.price != null ? formatPrice(a.price) : statusText(a));
-export const sizeText = (a: { display: string; shape?: string; widthCm?: number; heightCm?: number; depthCm?: number }) =>
-  !a.widthCm || !a.heightCm ? '' : a.display.startsWith('sculpture') ? `${a.widthCm} × ${a.depthCm ?? '?'} × ${a.heightCm} cm`
+export const sizeText = (a: { display: string; shape?: string; widthCm?: number; heightCm?: number; depthCm?: number; sizeEstimated?: boolean }) =>
+  a.sizeEstimated || !a.widthCm || !a.heightCm ? '' : a.display.startsWith('sculpture') ? `${a.widthCm} × ${a.depthCm ?? '?'} × ${a.heightCm} cm`
   : a.shape === 'round' ? `Ø ${a.widthCm} cm` : `${a.widthCm} × ${a.heightCm} cm`;

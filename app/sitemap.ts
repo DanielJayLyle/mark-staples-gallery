@@ -1,13 +1,14 @@
 import type { MetadataRoute } from 'next';
-import { getArtworks } from '@/lib/artworks';
+import { getArtworks, getCollectionList, hasPage } from '@/lib/artworks';
 import { SITE } from '@/lib/site';
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const art = await getArtworks();
+  const [art, cols] = await Promise.all([getArtworks(), getCollectionList()]);
   return [
     { url: SITE.url, changeFrequency: 'weekly', priority: 1 },
     { url: `${SITE.url}/work`, changeFrequency: 'weekly', priority: .9 },
     { url: `${SITE.url}/about`, changeFrequency: 'monthly', priority: .7 },
     { url: `${SITE.url}/influences`, changeFrequency: 'monthly', priority: .6 },
-    ...art.map((a) => ({ url: `${SITE.url}/work/${a.slug}`, changeFrequency: 'monthly' as const, priority: .8 })),
+    ...cols.map((c) => ({ url: `${SITE.url}/work/${c.slug}`, changeFrequency: 'weekly' as const, priority: .8 })),
+    ...art.filter(hasPage).map((a) => ({ url: `${SITE.url}/work/${a.slug}`, changeFrequency: 'monthly' as const, priority: .8 })),
   ];
 }
