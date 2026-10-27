@@ -30,6 +30,7 @@ export default function WorkGrid({ cards, limit, expandLabel, studio = false }: 
             <span className="thumb">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={c.photos[0].thumb || c.photos[0].url} alt={c.alt} width={c.photos[0].width} height={c.photos[0].height} loading="lazy" decoding="async" />
+              {c.photos.length > 1 && <span className="count" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="1.5" y="4.5" width="10" height="10" rx="1.5" /><path d="M4.5 1.5h8.5a1.5 1.5 0 0 1 1.5 1.5v8.5" /></svg>{c.photos.length}</span>}
             </span>
             {!studio && (c.title || c.sold) && (
               <span className="meta">

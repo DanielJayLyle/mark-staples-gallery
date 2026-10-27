@@ -120,3 +120,6 @@ nav.arch-jump a{flex:none;border:1px solid rgba(19,18,17,.25);border-radius:999p
 nav.arch-jump a:hover{border-color:var(--ink);}
 nav.arch-jump a.on{background:var(--ink);color:var(--paper);border-color:var(--ink);}
 .arch-section{scroll-margin-top:80px;}
+
+.work-card .count{display:inline-flex;align-items:center;gap:5px;letter-spacing:.04em;padding:4px 8px;font-variant-numeric:tabular-nums;}
+.work-card .count svg{width:12px;height:12px;}
