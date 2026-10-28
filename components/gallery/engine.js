@@ -474,11 +474,14 @@ function grafProgress(now) {
 }
 function buildGrafItems() {
   const r = seed(911), it = [], COLS = ['#d8233d', '#4fb4ec', '#141312', '#f2c230', '#e8317a', '#2e9e5b', '#f4f1ea'];
-  const words = ['MS11', 'Peace & love', 'Be you', 'LOVE', 'MS', 'x', 'Mark was here', 'Be kind'];
+  const words = ['MS11', 'Peace & love', 'Be you', 'LOVE', 'MS', 'x', 'Mark was here', 'Be kind', 'Never give up', 'Chaos', 'Only love', 'Smile', 'Be you tiful', 'Keep going', 'Soton', 'Brighton', 'xoxo', 'Hope', 'MS11 x', 'Dream'];
+  const FONTS = ['"Permanent Marker"', '"Rubik Spray Paint"', '"Sedgwick Ave Display"', 'Knewave', '"Rock Salt"', '"Caveat Brush"'];
+  const SHAPES = ['heart', 'smiley', 'star', 'crown', 'arrow', 'splat', 'drips', 'xs', 'heart', 'smiley'];
   for (let x = ROOM.start + .2; x < ROOM.end - .2; x += .32) {
     if (r() < .75) it.push({ k: 'cloud', x: x + r() * .32, y: .3 + r() * 3, w: 1.3 + r() * 1.8, a: .24 + r() * .26, i: Math.floor(r() * 6), t: .3 + r() * .7 });
     if (r() < .85) { const s = .2 + r() * .75; it.push({ k: 'tag', x: x + r() * .5, y: .5 + r() * 2.5, w: s, rot: (r() - .5) * .5, c: COLS[Math.floor(r() * COLS.length)], t: Math.min(1, s * .55 + r() * .5 - .08), drip: r() < .4 }); }
-    if (r() < .5) it.push({ k: 'word', x: x + r() * .5, y: .35 + r() * 2.9, s: .07 + r() * .12, rot: (r() - .5) * .35, c: COLS[Math.floor(r() * COLS.length)], w: words[Math.floor(r() * words.length)], t: r() * .9 });
+    if (r() < .5) it.push({ k: 'word', x: x + r() * .5, y: .35 + r() * 2.9, s: .07 + r() * .12, rot: (r() - .5) * .35, c: COLS[Math.floor(r() * COLS.length)], w: words[Math.floor(r() * words.length)], t: r() * .9, f: FONTS[Math.floor(r() * FONTS.length)] });
+    if (r() < .75) { const s = .12 + r() * .45; it.push({ k: 'shape', sh: SHAPES[Math.floor(r() * SHAPES.length)], x: x + r() * .32, y: .3 + r() * 3, w: s, rot: (r() - .5) * .6, c: COLS[Math.floor(r() * COLS.length)], t: Math.min(1, s * .7 + r() * .6 - .05), lw: .02 + r() * .025 }); }
   }
   return it.sort((a, b) => a.t - b.t);
 }
@@ -499,10 +502,24 @@ function makeClouds(img) {
 function cleanZones() {
   const z = [];
   // no patches behind the art: the graffiti runs right up to the frames
-  z.push([TAG_CX, TAG_CY, TAG_W + .2, TAG_H + .25]);
-  z.push([vinyl.position.x, vinyl.position.y, VIN_W * vinyl.scale.x + .2, VIN_H * vinyl.scale.y + .2]);
-  z.push([END_X, 1.08, 1.25, .95]);
+  z.push([TAG_CX, TAG_CY, TAG_W + .2, TAG_H + .25, .45]);
+  z.push([vinyl.position.x, vinyl.position.y, VIN_W * vinyl.scale.x + .2, VIN_H * vinyl.scale.y + .2, .72]);
+  z.push([END_X, 1.08, 1.25, .95, .68]);
   return z;
+}
+// simple spray-can shapes in Mark's vocabulary: hearts, smileys, stars, crowns, arrows, splats, drips
+function drawShape(c, o, s) {
+  const r = seed(Math.abs(Math.round(o.x * 1000 + o.y * 77)) + 7); c.strokeStyle = c.fillStyle = o.c; c.lineWidth = Math.max(3, o.lw * PPM); c.lineCap = c.lineJoin = 'round';
+  c.shadowColor = o.c; c.shadowBlur = 6; const h = s / 2;
+  if (o.sh === 'heart') { c.beginPath(); c.moveTo(0, h * .7); c.bezierCurveTo(-h * 1.3, -h * .2, -h * .5, -h * 1.1, 0, -h * .35); c.bezierCurveTo(h * .5, -h * 1.1, h * 1.3, -h * .2, 0, h * .7); r() < .5 ? c.fill() : c.stroke(); }
+  else if (o.sh === 'smiley') { c.beginPath(); c.arc(0, 0, h, 0, Math.PI * 2); c.stroke(); c.beginPath(); c.arc(-h * .35, -h * .2, h * .1, 0, Math.PI * 2); c.arc(h * .35, -h * .2, h * .1, 0, Math.PI * 2); c.fill(); c.beginPath(); c.arc(0, h * .05, h * .5, .15 * Math.PI, .85 * Math.PI); c.stroke(); }
+  else if (o.sh === 'star') { c.beginPath(); for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? h * .42 : h; c.lineTo(Math.cos(a) * rr, Math.sin(a) * rr); } c.closePath(); r() < .5 ? c.fill() : c.stroke(); }
+  else if (o.sh === 'crown') { c.beginPath(); c.moveTo(-h, h * .4); c.lineTo(-h, -h * .4); c.lineTo(-h * .5, h * .05); c.lineTo(0, -h * .6); c.lineTo(h * .5, h * .05); c.lineTo(h, -h * .4); c.lineTo(h, h * .4); c.closePath(); c.stroke(); }
+  else if (o.sh === 'arrow') { c.beginPath(); c.moveTo(-h, h * .2); c.quadraticCurveTo(0, -h * .5, h, 0); c.stroke(); c.beginPath(); c.moveTo(h * .6, -h * .35); c.lineTo(h, 0); c.lineTo(h * .55, h * .3); c.stroke(); }
+  else if (o.sh === 'splat') { c.shadowBlur = 0; c.beginPath(); c.arc(0, 0, h * .35, 0, Math.PI * 2); c.fill(); for (let i = 0; i < 26; i++) { const a = r() * Math.PI * 2, d = h * (.4 + r() * .7), rr = 1.5 + r() * h * .08; c.beginPath(); c.arc(Math.cos(a) * d, Math.sin(a) * d, rr, 0, Math.PI * 2); c.fill(); } }
+  else if (o.sh === 'drips') { c.shadowBlur = 0; c.fillRect(-h, -h * .15, s, h * .25); for (let i = 0; i < 6; i++) { const dx = -h + r() * s, len = h * (.3 + r() * 1.4), w = 3 + r() * 5; c.fillRect(dx, 0, w, len); c.beginPath(); c.arc(dx + w / 2, len, w * .8, 0, Math.PI * 2); c.fill(); } }
+  else if (o.sh === 'xs') { c.font = `${Math.round(h * .9)}px "Permanent Marker", cursive`; c.fillText('x x x', -h, 0); }
+  c.shadowBlur = 0;
 }
 function drawSeg(seg, v) {
   const c = seg.ctx, x0 = seg.x0; c.setTransform(1, 0, 0, 1, 0, 0); c.clearRect(0, 0, SEG_PX, SEG_PX);
@@ -510,7 +527,7 @@ function drawSeg(seg, v) {
   for (const o of GRAF.items) {
     if (o.t > v) break;
     const span = (o.w || 1) * 1.2; if (o.x + span < x0 || o.x - span > x0 + SEG_W) continue;
-    c.save(); c.translate(X(o.x), Y(o.y));
+    c.save(); try { c.translate(X(o.x), Y(o.y));
     if (o.k === 'cloud' && GRAF.clouds.length) { const s = o.w * PPM; c.globalAlpha = o.a; c.drawImage(GRAF.clouds[o.i % GRAF.clouds.length], -s / 2, -s / 2, s, s); }
     else if (o.k === 'tag') {
       const s = o.w * PPM / TAG_VB[2]; c.rotate(o.rot); c.scale(s, s); c.translate(-TAG_VB[0] - TAG_VB[2] / 2, -TAG_VB[1] - TAG_VB[3] / 2);
@@ -521,15 +538,17 @@ function drawSeg(seg, v) {
       const im = GRAF.pastes[o.i % GRAF.pastes.length]; const w = o.w * PPM, h = w * im.height / im.width; c.rotate(o.rot);
       c.globalAlpha = .9; c.fillStyle = '#f6f3ec'; c.fillRect(-w / 2 - 6, -h / 2 - 6, w + 12, h + 12); c.drawImage(im, -w / 2, -h / 2, w, h);
     }
-    else if (o.k === 'word') { c.rotate(o.rot); c.globalAlpha = .85; c.fillStyle = o.c; c.font = `${Math.round(o.s * PPM)}px "Permanent Marker", cursive`; c.fillText(o.w, 0, 0); }
-    c.restore();
+    else if (o.k === 'word') { c.rotate(o.rot); c.globalAlpha = .85; c.fillStyle = o.c; c.font = `${Math.round(o.s * PPM)}px ${o.f || '"Permanent Marker"'}, cursive`; c.fillText(o.w, 0, 0); }
+    else if (o.k === 'shape') { c.rotate(o.rot); c.globalAlpha = .8; drawShape(c, o, o.w * PPM); }
+    } catch (e) { /* skip this one mark, keep drawing the rest */ } c.shadowBlur = 0; c.restore();
   }
   // fade the whole layer back so it reads as texture, then wipe clean patches with soft edges
   c.globalCompositeOperation = 'destination-out';
   c.fillStyle = 'rgba(0,0,0,.2)'; c.fillRect(0, 0, SEG_PX, SEG_PX);
-  for (const [cx, cy, w, h] of cleanZones()) {
+  for (const [cx, cy, w, h, keep] of cleanZones()) {
     if (cx + w < x0 || cx - w > x0 + SEG_W) continue;
-    for (let k = 0; k < 10; k++) { const g = (9 - k) * .022; c.fillStyle = `rgba(0,0,0,${k === 9 ? 1 : .13})`; c.fillRect(X(cx - w / 2 - g), Y(cy + h / 2 + g), (w + 2 * g) * PPM, (h + 2 * g) * PPM); }
+    const step = 1 - Math.pow(1 - keep, 1 / 10); // ten soft steps that add up to `keep`
+    for (let k = 0; k < 10; k++) { const g = (9 - k) * .03; c.fillStyle = `rgba(0,0,0,${step})`; c.fillRect(X(cx - w / 2 - g), Y(cy + h / 2 + g), (w + 2 * g) * PPM, (h + 2 * g) * PPM); }
   }
   c.globalCompositeOperation = 'source-over'; seg.tex.needsUpdate = true;
 }
@@ -557,9 +576,9 @@ function grafInit() {
       const canv = await load(mf.canvases[0]);
       if (!alive) return;
       if (canv) GRAF.clouds = makeClouds(canv);
-      if (document.fonts) await document.fonts.load('80px "Permanent Marker"').catch(() => {});
+      if (document.fonts) await Promise.all(['"Permanent Marker"', '"Rubik Spray Paint"', '"Sedgwick Ave Display"', 'Knewave', '"Rock Salt"', '"Caveat Brush"'].map(f => document.fonts.load('60px ' + f).catch(() => {})));
       GRAF.ready = true; grafUpdate(true);
-    }).catch(() => {});
+    }).catch((e) => console.warn('after hours layer skipped', e));
     const iv = setInterval(() => grafUpdate(false), 5 * 60 * 1000); offs.push(() => clearInterval(iv));
   } catch (e) { console.warn('after hours layer skipped', e); }
 }
