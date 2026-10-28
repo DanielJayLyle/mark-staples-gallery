@@ -105,7 +105,7 @@ const skirt = new THREE.Mesh(new THREE.BoxGeometry(len,.12,.018), new THREE.Mesh
 const black = new THREE.MeshStandardMaterial({color:0x1a1a1a, roughness:.5});
 
 /* the opening wall: Mark's tag painted straight onto the plaster, still wet and dripping */
-const TAG_D = 'M564 871C581 863 587 838 579 809C572 785 573 768 583 762C592 756 614 753 661 753C688 753 696 758 699 778C705 815 736 817 748 783C754 768 758 763 770 760C780 758 796 760 835 767C887 778 896 780 944 792C1052 821 1084 827 1102 821C1125 813 1132 805 1138 784C1149 744 1124 709 1056 666C1008 637 1004 635 978 624C970 621 958 615 951 612C944 609 934 605 930 603C925 602 915 599 908 596C894 591 860 582 842 579C830 576 801 569 798 567C788 562 784 553 787 539C788 535 790 527 791 521C795 498 801 492 821 493C836 494 880 505 902 513C906 515 915 518 923 520C930 522 942 526 950 529C965 535 972 536 982 534C995 530 1005 521 1013 504C1022 486 1018 469 1001 458C985 448 931 427 908 423C905 422 893 419 882 416C871 413 855 410 845 408C816 403 815 402 815 373C816 351 814 347 806 340C795 330 768 330 754 339C744 345 741 352 737 376C732 407 734 406 681 423C641 437 637 438 597 460C576 471 571 472 565 470C560 467 558 461 558 451C560 428 561 418 564 407C566 400 567 390 568 385C569 380 571 366 573 354C574 343 577 328 577 321C578 314 580 304 581 299C584 288 591 251 593 236C596 221 601 196 606 178C612 156 611 149 599 141C578 129 547 136 524 159C514 168 511 173 499 194C495 201 488 212 484 218C462 252 413 349 398 391C396 395 394 400 394 402C393 403 390 412 387 421C373 459 367 471 362 471C357 471 354 466 351 450C347 433 347 418 346 345C346 267 346 268 340 261C335 255 329 253 314 252C285 251 271 260 259 284C250 302 237 348 231 382C229 392 227 405 225 412C221 428 219 439 218 458C216 480 214 488 209 490C204 492 196 485 192 472C185 455 179 437 173 420C170 411 164 393 159 382C155 370 149 354 146 346C140 330 128 301 122 290C114 276 102 269 91 270C70 273 65 292 79 316C86 327 87 331 92 344C94 350 100 364 105 374C114 392 117 400 128 428C131 437 135 446 136 450C138 453 140 460 142 466C144 472 148 483 151 491C155 499 163 522 169 541C182 579 195 615 200 628C202 633 205 640 206 645C208 650 213 663 217 675C222 687 228 708 233 722C247 772 256 786 277 786C287 786 293 783 298 777C303 770 300 751 290 728C285 718 285 717 280 693C275 670 270 640 268 623C267 616 265 607 265 603C263 593 261 561 261 552C263 533 272 529 279 544C283 552 290 572 301 602C306 614 311 629 314 635C316 641 320 654 323 662C326 671 330 682 332 687C334 692 337 701 340 708C343 716 346 726 348 731C350 736 353 744 354 749C360 767 373 784 383 788C399 793 421 785 426 774C430 766 428 746 423 726C421 719 420 710 419 698C418 689 416 668 414 652C411 619 411 610 415 574C420 535 421 528 431 494C440 460 447 448 455 450C461 452 462 457 463 483C464 496 464 514 465 522C465 531 466 544 467 551C468 575 469 592 471 602C472 609 473 619 474 625C475 637 478 649 483 667C486 679 487 693 485 698C483 704 477 710 469 714C449 725 444 736 452 757C458 771 464 776 480 779C491 780 498 784 502 789C506 794 513 812 515 820C517 826 527 848 533 861C539 872 553 877 564 871ZM968 738C964 738 958 736 954 735C950 734 941 732 934 731C928 730 922 729 921 728C919 728 864 720 844 717C835 716 825 714 821 714C812 712 801 710 785 709C764 707 758 702 759 682C759 656 769 638 784 641C798 644 847 659 880 671C930 689 988 723 988 735C988 740 981 741 968 738ZM677 703C676 703 653 702 626 702C581 701 575 701 572 700C562 696 558 689 556 674C556 668 554 659 553 654C550 638 551 606 554 601C559 593 566 593 579 600C599 611 625 619 653 623C681 627 699 631 705 636C711 641 712 646 710 669C707 695 701 702 683 703C680 704 677 704 677 703ZM686 558C680 557 669 555 662 554C645 552 640 549 640 543C640 536 655 526 684 514C719 499 729 504 726 534C723 560 715 565 686 558Z', TAG_VB = [71,133,1075,746], DRIP_PTS = [[232, 721], [272, 785], [312, 631], [352, 742], [392, 789], [472, 776], [512, 810], [552, 873], [592, 756], [632, 753], [680, 753], [720, 806], [760, 763], [800, 760], [840, 768], [884, 776], [924, 786], [964, 797], [1004, 807], [1044, 817], [1084, 823], [1124, 809]];
+const TAG_D = 'M495.8 204C472.6 208.2 467.1 213.9 434 268.5C387.1 345.9 342 447.5 325 513.9C323.8 518.6 322.2 523.7 321.3 525.4L319.7 528.5L318.4 524.6C309.5 499 303 412.7 306.1 362.5C309.5 310 305.6 305.2 263.2 309C234.1 311.6 226.7 323.6 208 399C195.6 449.3 189.3 490.3 187.5 534.3C186.5 557.1 186.7 557.3 174.7 523C141.6 428.8 106.6 338.7 100.2 331.7C91.6 322.2 71.2 321.7 60.9 330.9C52.9 338 53.7 343 68.2 372C80.8 397.5 90.2 418.4 101.2 445.9C114.5 479.3 121.8 499.2 151.5 584.5C159.6 607.6 171.1 639.8 177.2 656C188.2 685.5 191.7 695.6 209 749C219.1 780 221.4 785.4 225.9 789.3C235.4 797.3 257.8 797.4 265.7 789.5C270.9 784.3 270.3 780.2 261 751.4C245.8 704.9 232 628.2 232 590.8C232 540.8 236.3 536.8 248 575.5C250.3 583.2 254.2 594.7 256.5 601C281.4 667.7 291.2 694.5 298.8 717C319.1 776.6 320.1 779.4 323.7 784.8C332.2 797.6 345.4 802.2 363 798.5C382.9 794.3 387 785.3 380.5 760.1C363.9 695.4 363.1 607 378.5 544.3C385.6 515.7 403.4 471 407.2 472.2C408.2 472.6 408.8 480.5 409.7 505.1C412.9 595.9 417.9 644.5 428 686.3C436.1 719.6 435.2 722.6 414.5 728.9C406.4 731.3 403.8 732.7 401 735.5L397.5 739.1L397.5 749.3C397.6 758.2 398 760.7 400.9 769.3C407.3 787.9 412.4 791.7 429.6 790.6C447.1 789.4 447.7 790 455.7 815.7C473.8 874.4 483.5 886 505.1 875C522.1 866.3 525.7 849.1 517.2 817C512.9 800.9 510.8 787.6 511.6 782.5C512.7 775.6 513.1 775 516.9 773C526.3 768.2 541.1 766.8 581.3 766.9C625.5 767 623.2 765.7 623.4 790.3C623.5 809.8 627.2 815.2 641.3 816.7C657.8 818.4 665.7 811 669.9 790.2C673.5 772.7 677.6 770.1 698.6 772.5C740.9 777.3 779.5 785.8 873.5 811C942.5 829.5 948.2 830.8 966 831.6C1002.5 833.4 1021.3 815.7 1021.5 779.5C1021.6 753.1 1008.9 735.2 969.5 706C897.4 652.5 815.2 617.5 724.3 601.6C698.8 597.1 699.2 597.9 703.5 565.6C708.1 531.4 708.9 530 725.4 530C742.6 530 787.4 542 833.7 559.1C867.6 571.6 873 572.6 882.4 568.1C898.4 560.3 914.7 528.3 909.9 513.9C903.3 494.2 823.8 464.1 746.5 452C728.8 449.2 729.2 449.4 727 445.7C724.4 441.5 724.4 433.3 727 422C733 395.6 722.2 382.7 694 382.5C663.2 382.4 657.4 389.4 654.1 430.9C652.5 450.6 649.8 454 633.2 457.5C598.4 464.8 564 479.2 520.4 504.8C495.4 519.5 495.3 519.4 496.3 499.7C498.5 456.1 526.5 286.5 538 246.1C546 218.1 543.6 209.4 526.8 205.5C518.2 203.5 502.5 202.7 495.8 204ZM645.8 540.2C648 542.4 644.7 584.9 642 590C640.5 592.8 635.5 592.6 610 588.6C600.9 587.2 588.3 585.6 582 584.9C562.5 583 560.2 580.6 569.1 571.9C580 561.3 596.7 552.3 619 545C638.7 538.5 643.3 537.7 645.8 540.2ZM507.9 623.5C535.2 639 563.8 646.6 621.2 653.5C628 654.4 632.7 657 633.6 660.6C634.5 664.3 630.1 711.8 628.5 715.7C626.1 721.4 625.2 721.5 591.2 720.2C574.3 719.5 548.4 719 533.5 719C496.2 719 497.9 720.3 495 688.7C492.2 658.5 490.6 624.1 491.9 620.7C493.5 616.6 497 617.2 507.9 623.5ZM716.1 669C799 693.4 862.9 724 895.3 754.8C904.2 763.4 903.2 763.7 884.7 758.6C842.9 746.8 768.7 733.4 709.5 727C677.6 723.5 678.2 723.6 677.5 720.7C676.8 717.8 684.8 665 686.2 663.3C688 661.1 691.5 661.8 716.1 669Z', TAG_VB = [53, 201, 970, 680];
 const seed = s => () => (s = (s*16807) % 2147483647) / 2147483647;
 const TAG_W = 1.4, TAG_CX = -.1, TAG_CY = 1.5, tagS = TAG_W/TAG_VB[2], TAG_H = TAG_VB[3]*tagS;
 const tagTex = canvasTex(2048, Math.round(2048*TAG_VB[3]/TAG_VB[2]), (c,w)=>{ const s=w/TAG_VB[2]; c.scale(s,s); c.translate(-TAG_VB[0],-TAG_VB[1]); c.fillStyle='#141312'; c.fill(new Path2D(TAG_D),'evenodd'); });
@@ -114,7 +114,7 @@ tagMesh.position.set(TAG_CX, TAG_CY, .002); tagMesh.receiveShadow=true; scene.ad
 const paintMat = new THREE.MeshStandardMaterial({color:0x020202, roughness:.22, metalness:0});
 const SKIRT = .12, drips = [];
 /* three hand-placed runs: two that make it to the floor, one that gives up halfway */
-const DRIPS_USE = [[272,785,false,.009,.01],[552,873,true,.011,.015],[964,797,false,.008,.008]];
+const DRIPS_USE = [[245,795,false,.009,.01],[492,878,true,.011,.015],[871,810,false,.008,.008]];
 function stripGeo(len, w, r, z0){
   const rows = Math.max(8, Math.round(len/.004)), pos=[], idx=[], ph=r()*6, ph2=r()*6;
   for(let j=0;j<=rows;j++){
@@ -173,11 +173,11 @@ function drawVinyl(){
   const c = vinylTex.image.getContext('2d'), w = 2048, h = 1024; c.clearRect(0,0,w,h);
   c.textBaseline = 'alphabetic';
   c.fillStyle = '#d8233d'; c.beginPath(); c.arc(26, 104, 20, 0, Math.PI*2); c.fill();
-  c.fillStyle = INK; c.font = '700 54px "Archivo Variable", Archivo, sans-serif'; tracked(c, 'NOW SHOWING  \u00b7  ROOM ONE', 70, 123, 12);
-  c.font = '800 300px "Archivo Variable", Archivo, sans-serif'; tracked(c, 'MARK', -6, 420, 12); tracked(c, 'STAPLES', -6, 700, 12);
+  c.fillStyle = INK; c.font = '700 54px "Montserrat Variable", Montserrat, sans-serif'; tracked(c, 'NOW SHOWING  \u00b7  ROOM ONE', 70, 123, 12);
+  c.font = '170px Bernoru, "Arial Black", sans-serif'; tracked(c, 'MARK', -4, 400, 4); tracked(c, 'STAPLES', -4, 650, 4);
   c.fillRect(4, 760, 380, 12);
-  c.font = '500 76px "Archivo Variable", Archivo, sans-serif'; c.fillText('Street pop art, paintings and sculpture', 4, 880);
-  c.globalAlpha = .6; c.font = '700 50px "Archivo Variable", Archivo, sans-serif'; tracked(c, 'SOUTHAMPTON, UK', 6, 972, 13); c.globalAlpha = 1;
+  c.font = '500 76px "Montserrat Variable", Montserrat, sans-serif'; c.fillText('Street pop art, paintings and sculpture', 4, 880);
+  c.globalAlpha = .6; c.font = '700 50px "Montserrat Variable", Montserrat, sans-serif'; tracked(c, 'SOUTHAMPTON, UK', 6, 972, 13); c.globalAlpha = 1;
   // Mark's own hand over the clean lettering, like he signed the vinyl on opening night
   c.save(); c.translate(1090, 318); c.rotate(-.12); c.fillStyle = '#d8233d'; c.font = '124px "Permanent Marker", cursive';
   c.fillText('Peace & love x', 0, 0); c.restore();
@@ -194,7 +194,7 @@ function canLabel(body, band, tagCol){
     c.fillStyle = 'rgba(255,255,255,.18)'; c.fillRect(0,h*.26,w,4);
     for(let k=0;k<2;k++){ // the MS tag twice round the can, so one always faces you
       c.save(); const s = 300/TAG_VB[2]; c.translate(120 + k*512, h*.36); c.scale(s,s); c.translate(-TAG_VB[0],-TAG_VB[1]); c.fillStyle = tagCol; c.fill(new Path2D(TAG_D),'evenodd'); c.restore();
-      c.fillStyle = tagCol; c.globalAlpha = .7; c.font = '700 26px "Archivo Variable", Archivo, sans-serif'; tracked(c, '400 ML  ·  MATT', 124 + k*512, h*.9, 5); c.globalAlpha = 1;
+      c.fillStyle = tagCol; c.globalAlpha = .7; c.font = '700 26px "Montserrat Variable", Montserrat, sans-serif'; tracked(c, '400 ML  ·  MATT', 124 + k*512, h*.9, 5); c.globalAlpha = 1;
       c.fillStyle = band; c.beginPath(); c.arc(420 + k*512, h*.86, 22, 0, Math.PI*2); c.fill();
     }
     // a run of its own paint down the side
@@ -233,8 +233,8 @@ const CR_W = .62, CR_H = .062; let crS = 1;
 const creditTex = canvasTex(2000, 200, ()=>{});
 function drawCredit(){
   const c = creditTex.image.getContext('2d'); c.clearRect(0,0,2000,200); c.fillStyle = INK; c.textBaseline = 'middle';
-  c.font = '500 104px "Archivo Variable", Archivo, sans-serif'; c.fillText('Exhibition design by ', 0, 104); let x = c.measureText('Exhibition design by ').width;
-  c.font = '800 104px "Archivo Variable", Archivo, sans-serif'; c.fillText('Future Faced', x, 104); x += c.measureText('Future Faced').width;
+  c.font = '500 104px "Montserrat Variable", Montserrat, sans-serif'; c.fillText('Exhibition design by ', 0, 104); let x = c.measureText('Exhibition design by ').width;
+  c.font = '800 104px "Montserrat Variable", Montserrat, sans-serif'; c.fillText('Future Faced', x, 104); x += c.measureText('Future Faced').width;
   creditTex.needsUpdate = true;
 }
 const creditMat = new THREE.MeshBasicMaterial({map:creditTex, transparent:true, opacity:.7, depthWrite:false, color:0xffffff});
@@ -247,7 +247,7 @@ if(creditLink){
 }
 
 drawVinyl(); drawCredit();
-if(document.fonts){ Promise.all(['800 80px "Archivo Variable"','500 40px "Archivo Variable"','80px "Permanent Marker"'].map(f=>document.fonts.load(f))).then(()=>{ if(alive){ drawVinyl(); drawCredit(); } }).catch(()=>{}); }
+if(document.fonts){ Promise.all(['80px Bernoru','800 80px "Montserrat Variable"','500 40px "Montserrat Variable"','80px "Permanent Marker"'].map(f=>document.fonts.load(f))).then(()=>{ if(alive){ drawVinyl(); drawCredit(); } }).catch(()=>{}); }
 
 /* wide screens: the vinyl hangs to the right of the tag; tall phones: tucked under it */
 function placeEntrance(aspect){
@@ -956,7 +956,7 @@ try{ const n=document.createElement('canvas'); n.width=n.height=180; const x=n.g
   for(let i=0;i<id.data.length;i+=4){ const v=Math.random()*255|0; id.data[i]=id.data[i+1]=id.data[i+2]=v; id.data[i+3]=255; }
   x.putImageData(id,0,0);  }catch(e){}
 const intro=$('#loader'); requestAnimationFrame(()=>intro.classList.add('play'));
-const fontsReady = document.fonts ? Promise.all([document.fonts.load('800 120px "Archivo Variable"'), document.fonts.load('40px "Permanent Marker"')]) : Promise.resolve();
+const fontsReady = document.fonts ? Promise.all([document.fonts.load('120px Bernoru'), document.fonts.load('600 40px "Montserrat Variable"'), document.fonts.load('40px "Permanent Marker"')]) : Promise.resolve();
 Promise.all([Promise.race([fontsReady, new Promise(r=>setTimeout(r,2500))]), new Promise(r=>setTimeout(r, reduce?150:2300))]).then(()=>{
   if(torsoMat){ const old=torsoMat.map; buildTorsoTexOnly(); old.dispose(); }
   intro.classList.add('gone'); started=true; t0=last=performance.now();

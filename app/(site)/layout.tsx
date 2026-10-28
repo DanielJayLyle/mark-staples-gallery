@@ -1,5 +1,5 @@
 /* Fonts are self-hosted (no Google Fonts request): faster, and no visitor data sent to Google */
-import '@fontsource-variable/archivo/wdth.css';
+import '@fontsource-variable/montserrat';
 import '@fontsource/permanent-marker';
 import '@fontsource/rubik-spray-paint';
 /* hand styles for the influences ceiling */
