@@ -26,6 +26,7 @@ export default function EnquiryForm({ slug, title, sold, startOpen = false }: { 
       <label className="hp" aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
       <label>Message<textarea name="message" defaultValue={(() => { const t = title === 'this piece' ? title : `"${title}"`; return sold ? `Hi, I love ${t}. Do you have anything similar available, or take commissions?` : `Hi, I'm interested in ${t}. Is it available?`; })()} /></label>
       <div ref={tsEl} />
+      <p className="form-note">Mark uses your details only to reply. <a href="/privacy" target="_blank">Privacy</a></p>
       <div><button className="btn" type="submit" disabled={state.status === 'sending'}>{state.status === 'sending' ? 'Sending' : 'Send enquiry'}</button></div>
       {state.status === 'error' && <div className="done">{state.msg}</div>}
     </form>

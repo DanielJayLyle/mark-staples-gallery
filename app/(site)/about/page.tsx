@@ -3,11 +3,10 @@ import Link from 'next/link';
 import Gallery from '@/components/Gallery';
 import { getFeatured } from '@/lib/artworks';
 import { toEngine } from '@/lib/toEngine';
-import { ABOUT } from '@/content/about';
+import { getAbout } from '@/lib/siteText';
 import { SITE } from '@/lib/site';
 
 export const revalidate = 60;
-const text = (p: string) => p.replace('{influences}', ABOUT.influences.join(', '));
 export const metadata: Metadata = {
   title: 'About Mark Staples',
   description: 'Meet Mark Staples: a 70s council estate kid from Bristol who found peace in graffiti and art, and now has work in Brighton galleries, bars, cafes and walls across the UK.',
@@ -15,7 +14,8 @@ export const metadata: Metadata = {
 };
 
 export default async function AboutPage() {
-  const artworks = await getFeatured();
+  const [artworks, ABOUT] = await Promise.all([getFeatured(), getAbout()]);
+  const text = (p: string) => p.replace('{influences}', ABOUT.influences.join(', '));
   const person = { '@context': 'https://schema.org', '@type': 'Person', name: 'Mark Staples', alternateName: 'MS11', jobTitle: 'Artist', sameAs: ['https://www.instagram.com/marky_s11/'], url: `${SITE.url}/about`, description: ABOUT.paragraphs.map(text).join(' ') };
   return (
     <>

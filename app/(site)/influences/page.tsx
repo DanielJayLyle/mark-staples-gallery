@@ -3,18 +3,21 @@ import Link from 'next/link';
 import Gallery from '@/components/Gallery';
 import { getFeatured } from '@/lib/artworks';
 import { toEngine } from '@/lib/toEngine';
-import { ABOUT } from '@/content/about';
-import { INFLUENCES } from '@/content/influences';
+import { getAbout } from '@/lib/siteText';
 
 export const revalidate = 60;
-export const metadata: Metadata = {
-  title: 'Who inspires Mark Staples',
-  description: `The artists who inspire Mark Staples: ${INFLUENCES.names.map((n) => n.name).join(', ')}.`,
-  alternates: { canonical: '/influences' },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { inspires } = await getAbout();
+  return {
+    title: 'Who inspires Mark Staples',
+    description: `The artists who inspire Mark Staples: ${inspires.names.map((n) => n.name).join(', ')}.`,
+    alternates: { canonical: '/influences' },
+  };
+}
 
 export default async function InfluencesPage() {
-  const artworks = await getFeatured();
+  const [artworks, ABOUT] = await Promise.all([getFeatured(), getAbout()]);
+  const INFLUENCES = ABOUT.inspires;
   return (
     <>
       <div className="sr-only">

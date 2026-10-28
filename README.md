@@ -2,6 +2,8 @@
 
 A 3D gallery website for Mark Staples, built with Next.js. Visitors walk a lit gallery wall, open any piece, and send an enquiry. Every artwork also has its own page so the site can rank on Google.
 
+Status: Sanity, Resend and Turnstile are connected (October 2026). Working with Claude on this repo? It reads `CLAUDE.md` first.
+
 ## What's in here
 
 | Part | Where | What it does |
@@ -12,7 +14,7 @@ A 3D gallery website for Mark Staples, built with Next.js. Visitors walk a lit g
 | All work | `app/(site)/work/page.tsx` | A plain, crawlable grid of every piece. |
 | Enquiries | `app/api/enquiry/route.ts` | Emails Mark (and a thank-you to the buyer) through Resend, and saves the enquiry in the CMS. Has a hidden spam trap. |
 | CMS | `/studio`, `sanity/schemaTypes` | Sanity Studio built into the site. Mark adds work, sets prices and status, and sees enquiries here. |
-| Local content | `content/seed.ts`, `content/archive.json`, `public/work`, `public/art` | Mark's real pieces, used until Sanity is connected. `archive.json` was generated from his photo folders; `public/art` holds the cut-outs for the 3D room. |
+| Local content | `content/seed.ts`, `content/archive.json`, `public/work`, `public/art` | Mark's real pieces. Imported into Sanity; still used as the fallback if Sanity is empty or unreachable. `archive.json` was generated from his photo folders; `public/art` holds the cut-outs for the 3D room. |
 | SEO | `app/sitemap.ts`, `app/robots.ts` | Sitemap and robots file, generated from the artworks. |
 
 When a piece opens in the gallery, the address bar changes to `/work/<slug>`, and the browser back button closes it. Anyone arriving at that link directly gets the full artwork page, with a "Walk the gallery from here" link that drops them into the room at that piece (`/?piece=<slug>`).
@@ -66,7 +68,7 @@ Open http://localhost:3000. With no settings it uses the local content and enqui
 2. In Vercel add:
    - `RESEND_API_KEY`
    - `ENQUIRY_TO` = Mark's email address
-   - `ENQUIRY_FROM` = e.g. `Mark Staples Gallery <gallery@markstaples.co.uk>` (must be on the verified domain)
+   - `ENQUIRY_FROM` = e.g. `Mark Staples Gallery <enquiries@markys11.co.uk>` (must be on the verified domain)
 3. Redeploy. Mark gets each enquiry by email and can just hit reply; the buyer gets an automatic thank-you.
 
 ## How the CMS fields drive the 3D room
