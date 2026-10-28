@@ -499,7 +499,7 @@ function makeClouds(img) {
 // the parts of the wall that stay clean: behind every piece, the tag, the vinyl and the end signs
 function cleanZones() {
   const z = [];
-  PIECES.forEach(p => { if (p.sculpture) z.push([p.x, 1.05, 1.0, 2.1]); else z.push([p.x, p.cy, (p.fw || p.w) + .26, (p.fh || p.h) + .28]); });
+  // no patches behind the art: the graffiti runs right up to the frames
   z.push([TAG_CX, TAG_CY, TAG_W + .2, TAG_H + .25]);
   z.push([vinyl.position.x, vinyl.position.y, VIN_W * vinyl.scale.x + .2, VIN_H * vinyl.scale.y + .2]);
   z.push([END_X, 1.08, 1.25, .95]);
