@@ -22,6 +22,11 @@ export async function POST(req: Request) {
 
   // Spam trap: real people never fill the hidden "website" field
   if (data.website) return NextResponse.json({ ok: true });
+  if (process.env.TURNSTILE_SECRET_KEY) {
+    const v = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', { method: 'POST', body: new URLSearchParams({ secret: process.env.TURNSTILE_SECRET_KEY, response: String(data.turnstile || '') }) })
+      .then((r) => r.json()).catch(() => ({ success: false }));
+    if (!v.success) return NextResponse.json({ error: 'Please wait a second for the spam check, then send again.' }, { status: 400 });
+  }
   if (!name || !/^\S+@\S+\.\S+$/.test(email)) return NextResponse.json({ error: 'Please add your name and a valid email address.' }, { status: 400 });
 
   const found = slug ? await getArtwork(slug) : null;
@@ -61,6 +66,8 @@ export async function POST(req: Request) {
     // Not configured yet (local demo) or both services failed
     console.log('[enquiry]', { name, email, slug, message });
     if (problems.length) return NextResponse.json({ error: 'Sorry, that did not send. Please try again in a minute.' }, { status: 502 });
+    // nothing is connected yet: say so rather than pretending it was sent
+    return NextResponse.json({ error: 'Online enquiries are being switched on this week. For now, please message Mark on Instagram: @marky_s11' }, { status: 503 });
   }
   return NextResponse.json({ ok: true, emailed, saved });
 }

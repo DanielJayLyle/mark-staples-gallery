@@ -334,3 +334,5 @@ body.hint-on #next{animation:nudge 2.4s ease-in-out infinite;}
 .clock:hover,.clock.on{background:var(--ink);color:var(--paper);border-color:var(--ink);}
 body.in-about .clock,body.in-inf .clock{opacity:0;pointer-events:none;}
 @media (max-width:820px){ .clock{top:calc(env(safe-area-inset-top,0px) + 64px);height:32px;} }
+.inf-cta a.chip{text-decoration:none;display:inline-flex;}
+.about-ig{margin-top:.6em!important;}

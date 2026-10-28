@@ -1,3 +1,4 @@
+import { mountTurnstile } from '../turnstile';
 /* Mark Staples 3D gallery engine.
    Ported from the approved prototype. Three.js is pinned to r128 so the scene renders exactly as signed off;
    upgrading Three.js is a separate, planned task (colour management and light units changed in later versions). */
@@ -891,18 +892,19 @@ function closeDetail(fromHistory){
 function detailStep(d){ openDetail((openIdx + d + PIECES.length) % PIECES.length); }
 $('#dClose').onclick=()=>closeDetail(); $('#dPrev').onclick=()=>detailStep(-1); $('#dNext').onclick=()=>detailStep(1);
 detail.addEventListener('click', e=>{ if(e.target===detail || e.target.classList.contains('detail-wrap')) closeDetail(); });
-$('#dEnquire').onclick=()=>{ $('#dEnquire').hidden=true; $('#dForm').hidden=false; $('#fName').focus(); };
+let dTs = null;
+$('#dEnquire').onclick=()=>{ $('#dEnquire').hidden=true; $('#dForm').hidden=false; $('#fName').focus(); if(!dTs) dTs = mountTurnstile($('#dTs')); };
 $('#dForm').addEventListener('submit', e=>{
   e.preventDefault();
   const name=$('#fName').value.trim(), email=$('#fEmail').value.trim();
   if(!name || !/^\S+@\S+\.\S+$/.test(email)){ ($('#fName').value.trim()? $('#fEmail') : $('#fName')).focus(); return; }
   const p = PIECES[openIdx], btn = $('#dForm button[type=submit]'); btn.disabled = true; btn.textContent = 'Sending';
-  fetch('/api/enquiry', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({name, email, message:$('#fMsg').value, slug:p.slug, website:$('#fWebsite').value})})
+  fetch('/api/enquiry', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({name, email, message:$('#fMsg').value, slug:p.slug, website:$('#fWebsite').value, turnstile: dTs ? dTs.token() : ''})})
     .then(r=>r.json().then(j=>({ok:r.ok, j}))).then(({ok,j})=>{
       btn.disabled=false; btn.textContent='Send enquiry';
-      if(!ok){ const d=$('#dDone'); d.hidden=false; d.textContent = j.error || 'Something went wrong. Please try again, or email Mark directly.'; return; }
+      if(!ok){ dTs && dTs.reset(); const d=$('#dDone'); d.hidden=false; d.textContent = j.error || 'Something went wrong. Please try again, or email Mark directly.'; return; }
       $('#dForm').hidden=true; const d=$('#dDone'); d.hidden=false;
-      d.textContent = `Thanks ${name}. Mark has your enquiry about "${p.title}" and will reply to ${email} soon.`;
+      d.textContent = `Thanks ${name}. Mark has your enquiry about "${p.title}" and will reply to ${email} soon.`; dTs && dTs.reset();
     }).catch(()=>{ btn.disabled=false; btn.textContent='Send enquiry'; const d=$('#dDone'); d.hidden=false; d.textContent='Could not reach the server. Check your connection and try again.'; });
 });
 
@@ -964,7 +966,9 @@ function buildAbout(){
   });
   const sig = document.createElement('p'); sig.className = 'spray sig'; words(sig, about.signoff);
   sig.insertAdjacentHTML('beforeend', ' <span class="w">MS11</span>');
+  const ig = document.createElement('p'); ig.className = 'inf-cta about-ig'; ig.innerHTML = '<a class="chip" href="https://www.instagram.com/marky_s11/" target="_blank" rel="noopener">Follow on Instagram @marky_s11</a>';
   aboutBody.appendChild(sig);
+  aboutBody.appendChild(ig);
   if(about.inspires){ const cta = document.createElement('p'); cta.className = 'inf-cta'; cta.innerHTML = '<button class="chip" type="button" id="infGo">Who inspires me &uarr;</button>'; aboutBody.appendChild(cta); cta.firstChild.onclick = () => openInf();
     aboutBody.querySelectorAll('.inf').forEach(s => { s.setAttribute('role','link'); s.tabIndex = 0; s.onclick = () => openInf(); s.onkeydown = e => { if(e.key === 'Enter') openInf(); }; }); }
   // photos: three taped beside the text, the rest in a reel that scrolls past forever

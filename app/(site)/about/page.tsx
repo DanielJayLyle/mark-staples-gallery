@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 export default async function AboutPage() {
   const artworks = await getFeatured();
-  const person = { '@context': 'https://schema.org', '@type': 'Person', name: 'Mark Staples', alternateName: 'MS11', jobTitle: 'Artist', url: `${SITE.url}/about`, description: ABOUT.paragraphs.map(text).join(' ') };
+  const person = { '@context': 'https://schema.org', '@type': 'Person', name: 'Mark Staples', alternateName: 'MS11', jobTitle: 'Artist', sameAs: ['https://www.instagram.com/marky_s11/'], url: `${SITE.url}/about`, description: ABOUT.paragraphs.map(text).join(' ') };
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(person) }} />

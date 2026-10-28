@@ -1,8 +1,16 @@
-# Weekly checks for package updates; security fixes open as pull requests automatically
+# Weekly checks for package updates. Minor and patch updates only, grouped into one pull request against dev.
+# Major upgrades (React 19, Next 15...) are done by hand. Three.js is pinned at r128 on purpose.
 version: 2
 updates:
   - package-ecosystem: npm
     directory: /
-    schedule: { interval: weekly }
-    open-pull-requests-limit: 5
     target-branch: dev
+    schedule: { interval: weekly }
+    open-pull-requests-limit: 3
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "three"
+    groups:
+      minor-and-patch:
+        update-types: ["minor", "patch"]
