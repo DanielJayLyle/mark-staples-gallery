@@ -89,3 +89,11 @@ Open http://localhost:3000. With no settings it uses the local content and enqui
 - **Rooms:** the wall currently grows to fit any number of pieces in one long room. Splitting into several rooms is a later feature.
 - **Photos:** ask for original photos of 3,000 px or more on the long side. The current images are about 1,400 px.
 - **Phones:** test on a real mid-range Android phone; shadow quality is already lowered automatically on touch devices.
+
+## Hosting
+
+The site is on the Future Faced Vercel account (project `mark-staples-gallery`).
+
+- Live: https://mark-staples-gallery-ashen.vercel.app (built from `main`)
+- Dev preview: built from `dev`, behind Vercel login
+- Once connected, the real address will be https://markys11.co.uk
