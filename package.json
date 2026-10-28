@@ -19,7 +19,7 @@
     "@fontsource/rubik-spray-paint": "5.3.0",
     "@fontsource/sedgwick-ave-display": "^5.3.0",
     "@sanity/client": "6.29.1",
-    "@sanity/image-url": "1.1.0",
+    "@sanity/image-url": "2.1.1",
     "next": "14.2.35",
     "next-sanity": "9.12.3",
     "react": "18.3.1",
