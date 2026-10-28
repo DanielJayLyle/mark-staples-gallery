@@ -44,7 +44,7 @@ scene.fog = new THREE.Fog(0xC6C2BB, 10, 26);
 const camera = new THREE.PerspectiveCamera(48, 1, .1, 80);
 const maxAniso = renderer.capabilities.getMaxAnisotropy();
 
-scene.add(new THREE.HemisphereLight(0xfffaf2, 0xb9b1a5, .47));
+const hemi = new THREE.HemisphereLight(0xfffaf2, 0xb9b1a5, .47); scene.add(hemi);
 const key = new THREE.DirectionalLight(0xfff4e6, .14); key.position.set(2,5,7); scene.add(key);
 
 function canvasTex(w,h,draw,srgb=true){
@@ -385,7 +385,7 @@ PIECES.forEach((p,i)=>{
       if(p.tape){ const tp=new THREE.Mesh(new THREE.PlaneGeometry(.2,.055), track(p,new THREE.MeshStandardMaterial({color:0xC8A44C, roughness:.5, metalness:.3}))); tp.position.set(W/2+t*.4, Hh/2+t*.4, d+.002); tp.rotation.z=-Math.PI/4; g.add(tp); }
     }
     const FW=W+2*t, FH=Hh+2*t, frac=.5;
-    p.cy = 1.5; p.baseY = p.cy; p.fh = FH;
+    p.cy = 1.5; p.baseY = p.cy; p.fh = FH; p.fw = FW;
     g.position.set(p.x,p.cy,0);
     const sh = new THREE.Mesh(new THREE.PlaneGeometry(FW/frac, FH/frac), new THREE.MeshBasicMaterial({map:p.round?shadowRound:shadowDrop, transparent:true, opacity:0, depthWrite:false}));
     sh.position.set(p.x+.012,p.cy-.035,.002); sh.renderOrder=1; sh.visible = !p.cutWall; scene.add(sh); p.shMat = sh.material;
@@ -457,6 +457,129 @@ if(document.fonts) document.fonts.load('80px "Permanent Marker"').then(()=>{ if(
 const workMat = new THREE.MeshStandardMaterial({map:workTex, transparent:true, roughness:.3, metalness:0, depthWrite:false, polygonOffset:true, polygonOffsetFactor:-2});
 const workSign = new THREE.Mesh(new THREE.PlaneGeometry(1.1, .275), workMat); workSign.position.set(END_X, .84, .003); workSign.renderOrder = 1; scene.add(workSign);
 let endHover = false, workHover = false;
+
+/* ---------- after hours: the wall gets tagged up as the day goes on, and is painted white again at 6am ----------
+   Everything here is optional dressing: if an image fails or anything throws, the room just stays clean. */
+const GRAF = { mode: 'live', v: -1, night: 0, nightT: 0, ready: false, segs: [], items: [], clouds: [], pastes: [] };
+try { const m = localStorage.getItem('ms-clock'); if (m === 'midnight') GRAF.mode = 'midnight'; } catch (e) {}
+const SEG_W = 3.6, SEG_PX = 1024, PPM = SEG_PX / SEG_W; // segments square: wall height is 3.6 m
+const TIME_OVERRIDE = (() => { const t = parseFloat(new URLSearchParams(location.search).get('time')); return t >= 0 && t < 24 ? t : null; })(); // preview any hour: /?time=21
+function grafProgress(now) {
+  if (GRAF.mode === 'midnight') return { v: 1, night: 1 };
+  const h = TIME_OVERRIDE ?? (now.getHours() + now.getMinutes() / 60);
+  const s = ((h - 6) + 24) % 24 / 24;                         // 0 at 6am, almost 1 at 5:59am
+  const v = Math.min(1, s / .75) ** 1.5;                        // slow in the day, full by midnight
+  const night = h >= 19 || h < 6 ? 1 : h >= 17 ? (h - 17) / 2 : 0; // lights down from 5pm to 7pm
+  return { v, night };
+}
+function buildGrafItems() {
+  const r = seed(911), it = [], COLS = ['#d8233d', '#4fb4ec', '#141312', '#f2c230', '#e8317a', '#2e9e5b', '#f4f1ea'];
+  const words = ['MS11', 'Peace & love', 'Be you', 'LOVE', 'MS', 'x', 'Mark was here', 'Be kind'];
+  for (let x = ROOM.start + .2; x < ROOM.end - .2; x += .32) {
+    if (r() < .75) it.push({ k: 'cloud', x: x + r() * .32, y: .3 + r() * 3, w: 1.3 + r() * 1.8, a: .24 + r() * .26, i: Math.floor(r() * 6), t: .3 + r() * .7 });
+    if (r() < .85) { const s = .2 + r() * .75; it.push({ k: 'tag', x: x + r() * .5, y: .5 + r() * 2.5, w: s, rot: (r() - .5) * .5, c: COLS[Math.floor(r() * COLS.length)], t: Math.min(1, s * .55 + r() * .5 - .08), drip: r() < .4 }); }
+    if (r() < .38) it.push({ k: 'paste', x: x + r() * .5, y: .7 + r() * 2.2, w: .28 + r() * .22, rot: (r() - .5) * .3, i: Math.floor(r() * 99), t: .1 + r() * .8 });
+    if (r() < .5) it.push({ k: 'word', x: x + r() * .5, y: .35 + r() * 2.9, s: .07 + r() * .12, rot: (r() - .5) * .35, c: COLS[Math.floor(r() * COLS.length)], w: words[Math.floor(r() * words.length)], t: r() * .9 });
+  }
+  return it.sort((a, b) => a.t - b.t);
+}
+// soft clouds of Mark's own spray, cut from his canvases
+function makeClouds(img) {
+  const out = [];
+  for (let k = 0; k < 6; k++) {
+    const c = document.createElement('canvas'); c.width = c.height = 512; const x = c.getContext('2d');
+    const sw = img.width * .45, sx = (img.width - sw) * ((k * .37) % 1), sy = (img.height - sw * .9) * ((k * .61) % 1);
+    x.drawImage(img, sx, sy, sw, sw * .9, 0, 0, 512, 512);
+    x.globalCompositeOperation = 'destination-in';
+    const g = x.createRadialGradient(256, 256, 40, 256, 256, 256); g.addColorStop(0, 'rgba(0,0,0,1)'); g.addColorStop(.55, 'rgba(0,0,0,.7)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+    x.fillStyle = g; x.fillRect(0, 0, 512, 512); out.push(c);
+  }
+  return out;
+}
+// the parts of the wall that stay clean: behind every piece, the tag, the vinyl and the end signs
+function cleanZones() {
+  const z = [];
+  PIECES.forEach(p => { if (p.sculpture) z.push([p.x, 1.05, 1.0, 2.1]); else z.push([p.x, p.cy, (p.fw || p.w) + .26, (p.fh || p.h) + .28]); });
+  z.push([TAG_CX, TAG_CY, TAG_W + .2, TAG_H + .25]);
+  z.push([vinyl.position.x, vinyl.position.y, VIN_W * vinyl.scale.x + .2, VIN_H * vinyl.scale.y + .2]);
+  z.push([END_X, 1.08, 1.25, .95]);
+  return z;
+}
+function drawSeg(seg, v) {
+  const c = seg.ctx, x0 = seg.x0; c.setTransform(1, 0, 0, 1, 0, 0); c.clearRect(0, 0, SEG_PX, SEG_PX);
+  const X = x => (x - x0) * PPM, Y = y => (H - y) * PPM;
+  for (const o of GRAF.items) {
+    if (o.t > v) break;
+    const span = (o.w || 1) * 1.2; if (o.x + span < x0 || o.x - span > x0 + SEG_W) continue;
+    c.save(); c.translate(X(o.x), Y(o.y));
+    if (o.k === 'cloud' && GRAF.clouds.length) { const s = o.w * PPM; c.globalAlpha = o.a; c.drawImage(GRAF.clouds[o.i % GRAF.clouds.length], -s / 2, -s / 2, s, s); }
+    else if (o.k === 'tag') {
+      const s = o.w * PPM / TAG_VB[2]; c.rotate(o.rot); c.scale(s, s); c.translate(-TAG_VB[0] - TAG_VB[2] / 2, -TAG_VB[1] - TAG_VB[3] / 2);
+      c.globalAlpha = .82; c.shadowColor = o.c; c.shadowBlur = 10 / s * .02; c.fillStyle = o.c; c.fill(new Path2D(TAG_D), 'evenodd');
+      if (o.drip) { c.shadowBlur = 0; c.fillRect(TAG_VB[0] + TAG_VB[2] * .45, TAG_VB[1] + TAG_VB[3] * .8, 9, TAG_VB[3] * .55); }
+    }
+    else if (o.k === 'paste' && GRAF.pastes.length) {
+      const im = GRAF.pastes[o.i % GRAF.pastes.length]; const w = o.w * PPM, h = w * im.height / im.width; c.rotate(o.rot);
+      c.globalAlpha = .9; c.fillStyle = '#f6f3ec'; c.fillRect(-w / 2 - 6, -h / 2 - 6, w + 12, h + 12); c.drawImage(im, -w / 2, -h / 2, w, h);
+    }
+    else if (o.k === 'word') { c.rotate(o.rot); c.globalAlpha = .85; c.fillStyle = o.c; c.font = `${Math.round(o.s * PPM)}px "Permanent Marker", cursive`; c.fillText(o.w, 0, 0); }
+    c.restore();
+  }
+  // fade the whole layer back so it reads as texture, then wipe clean patches with soft edges
+  c.globalCompositeOperation = 'destination-out';
+  c.fillStyle = 'rgba(0,0,0,.2)'; c.fillRect(0, 0, SEG_PX, SEG_PX);
+  for (const [cx, cy, w, h] of cleanZones()) {
+    if (cx + w < x0 || cx - w > x0 + SEG_W) continue;
+    for (let k = 0; k < 10; k++) { const g = (9 - k) * .022; c.fillStyle = `rgba(0,0,0,${k === 9 ? 1 : .13})`; c.fillRect(X(cx - w / 2 - g), Y(cy + h / 2 + g), (w + 2 * g) * PPM, (h + 2 * g) * PPM); }
+  }
+  c.globalCompositeOperation = 'source-over'; seg.tex.needsUpdate = true;
+}
+function grafUpdate(force) {
+  if (!GRAF.ready) return;
+  const p = grafProgress(new Date());
+  GRAF.nightT = p.night;
+  const count = GRAF.items.filter(o => o.t <= p.v).length;
+  if (!force && count === GRAF.count) return;
+  GRAF.count = count; GRAF.v = p.v;
+  GRAF.segs.forEach(s => drawSeg(s, p.v));
+}
+function grafInit() {
+  try {
+    for (let x0 = ROOM.start; x0 < ROOM.end; x0 += SEG_W) {
+      const cv = document.createElement('canvas'); cv.width = cv.height = SEG_PX;
+      const tex = new THREE.CanvasTexture(cv); tex.encoding = THREE.sRGBEncoding; tex.anisotropy = maxAniso;
+      const m = new THREE.Mesh(new THREE.PlaneGeometry(SEG_W, H), new THREE.MeshStandardMaterial({ map: tex, transparent: true, depthWrite: false, roughness: .9, metalness: 0 }));
+      m.position.set(x0 + SEG_W / 2, H / 2, .0011); scene.add(m);
+      GRAF.segs.push({ x0, ctx: cv.getContext('2d'), tex, mesh: m });
+    }
+    GRAF.items = buildGrafItems();
+    const load = src => new Promise(res => { const i = new Image(); i.onload = () => res(i); i.onerror = () => res(null); i.src = src; });
+    fetch('/night/manifest.json').then(r => r.json()).then(async (mf) => {
+      const [canv, ...pastes] = await Promise.all([load(mf.canvases[0]), ...mf.pasteups.map(load)]);
+      if (!alive) return;
+      if (canv) GRAF.clouds = makeClouds(canv);
+      GRAF.pastes = pastes.filter(Boolean);
+      if (document.fonts) await document.fonts.load('80px "Permanent Marker"').catch(() => {});
+      GRAF.ready = true; grafUpdate(true);
+    }).catch(() => {});
+    const iv = setInterval(() => grafUpdate(false), 5 * 60 * 1000); offs.push(() => clearInterval(iv));
+  } catch (e) { console.warn('after hours layer skipped', e); }
+}
+grafInit();
+// lights: the room dims after dark and the picture lights carry it
+const NIGHT_BG = new THREE.Color(0x5e5a55), DAY_BG = new THREE.Color(0xC6C2BB), tmpBg = new THREE.Color();
+function grafLight(dt) {
+  GRAF.night += (GRAF.nightT - GRAF.night) * (1 - Math.exp(-dt * 2));
+  const n = GRAF.night;
+  hemi.intensity = .47 * (1 - .55 * n); key.intensity = .14 * (1 - .7 * n);
+  tmpBg.copy(DAY_BG).lerp(NIGHT_BG, n); renderer.setClearColor(tmpBg); scene.fog.color.copy(tmpBg);
+}
+function setClock(mode) {
+  GRAF.mode = mode; try { localStorage.setItem('ms-clock', mode); } catch (e) {}
+  const b = $('#clockBtn'); if (b) { b.classList.toggle('on', mode === 'midnight'); b.setAttribute('aria-pressed', mode === 'midnight'); b.querySelector('span').textContent = mode === 'midnight' ? 'Back to now' : 'Skip to midnight'; }
+  grafUpdate(true);
+}
+{ const b = $('#clockBtn'); if (b) { b.onclick = () => setClock(GRAF.mode === 'midnight' ? 'live' : 'midnight'); setClock(GRAF.mode); } }
 
 /* ---------- camera + controls ---------- */
 const stations = [{x:-.1, idx:-1}].concat(PIECES.map((p,i)=>({x:p.x, idx:i})), [{x:END_X, idx:-2}]);
@@ -647,6 +770,7 @@ function frame(now){
   const nL = shade(NAME, T, dt, T>.35 && Math.abs(NAME.x-camX) < Math.max(reach,1.2), focusIdx>=0 ? .45 : 1);
 
   updateDrips(T, dt);
+  grafLight(dt);
   { const near = Math.abs(END_X-camX) < 1.4 && !inAbout; endMat.color.setScalar(near ? (endHover ? 1.15 : 1) : .78); workMat.color.setScalar(near ? (workHover ? 1.15 : 1) : .78); }
   PIECES.forEach((p,i)=>{
     const ft = focusIdx<0 ? 1 : (i===focusIdx ? 1 : .45);
