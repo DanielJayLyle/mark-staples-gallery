@@ -148,3 +148,8 @@ nav.arch-jump a.on{background:var(--ink);color:var(--paper);border-color:var(--i
 .lb-info h2.untitled{font-size:16px;}
 .work-card .t.s{font-family:var(--f-body);text-transform:none;font-size:13px;}
 @media (max-width:820px){ .inf-title h2{font-size:22px;} .page h1.big{font-size:30px;} .arch-head h2{font-size:17px;} .card h3,.work-card h3,.work-card .t{font-size:11px;} }
+
+/* header logo: full lockup on desktop, the MS tag alone on phones */
+.brand .brand-full{height:34px;width:auto;display:block;}
+.brand .brand-icon{display:none;}
+@media (max-width:820px){ .brand .brand-full{display:none;} .brand .brand-icon{display:block;} }
