@@ -45,7 +45,7 @@ export async function POST(req: Request) {
         html: `<p><b>${esc(name)}</b> (${esc(email)}) asked about <a href="${link}">${esc(label || 'your work')}</a>:</p><blockquote>${esc(message).replace(/\n/g, '<br>')}</blockquote><p>Just hit reply to answer them.</p>`,
       });
       await sendEmail({
-        from: process.env.ENQUIRY_FROM, to: email, subject: `Thanks for your enquiry${art?.title ? ' about ' + art.title : ''}`,
+        from: process.env.ENQUIRY_FROM, to: email, reply_to: process.env.ENQUIRY_TO, subject: `Thanks for your enquiry${art?.title ? ' about ' + art.title : ''}`,
         html: `<p>Hi ${esc(name)},</p><p>Thanks for getting in touch${art ? ` about <a href="${link}">${esc(label)}</a>` : ''}. Mark will reply personally, usually within a day or two.</p><p>Mark Staples</p>`,
       });
       emailed = true;
