@@ -429,13 +429,17 @@ LIGHTABLE.push(ABOUT_L);
 /* the end of the room: Mark's painted arrow pointing round the corner to the About wall */
 const END_X = ROOM.end - 1.6 + .78;
 const endTex = canvasTex(1024, 512, ()=>{});
-function drawEnd(){
+function drawEnd(nudge = 0, hov = 0){
+  // nudge: how far the arrow has slid along (px), hov: 0..1 hover glow. Redrawn only while they change.
   const c = endTex.image.getContext('2d'); c.clearRect(0,0,1024,512);
   c.fillStyle = '#d8233d'; c.strokeStyle = '#d8233d'; c.lineCap = 'round'; c.lineJoin = 'round';
-  c.save(); c.translate(70, 190); c.rotate(-.06); c.font = '112px "Permanent Marker", cursive'; c.fillText('Meet the', 0, 0); c.fillText('artist', 40, 120); c.restore();
-  // a quick, loose hand-drawn arrow
-  c.lineWidth = 22; c.beginPath(); c.moveTo(150, 405); c.bezierCurveTo(360, 450, 620, 430, 880, 360); c.stroke();
-  c.beginPath(); c.moveTo(770, 300); c.lineTo(888, 356); c.lineTo(800, 452); c.stroke();
+  c.save(); c.translate(70, 190); c.rotate(-.06); c.font = '112px "Permanent Marker", cursive'; c.fillText('Meet the', 0, 0); c.fillText('artist', 40, 120);
+  if (hov > .01) { c.globalAlpha = hov; c.lineWidth = 9; c.beginPath(); c.moveTo(44, 150); c.bezierCurveTo(140, 168, 260, 160, 360, 146); c.stroke(); c.globalAlpha = 1; }
+  c.restore();
+  // a quick, loose hand-drawn arrow that keeps nudging round the corner
+  const d = nudge + hov * 34;
+  c.lineWidth = 22 + hov * 5; c.beginPath(); c.moveTo(150, 405); c.bezierCurveTo(360, 450, 620 + d * .6, 430, 880 + d, 360); c.stroke();
+  c.beginPath(); c.moveTo(770 + d, 300); c.lineTo(888 + d, 356); c.lineTo(800 + d, 452); c.stroke();
   endTex.needsUpdate = true;
 }
 drawEnd();
@@ -444,13 +448,14 @@ const endMat = new THREE.MeshStandardMaterial({map:endTex, transparent:true, rou
 const endSign = new THREE.Mesh(new THREE.PlaneGeometry(1.1, .55), endMat); endSign.position.set(END_X, 1.3, .003); endSign.renderOrder = 1; scene.add(endSign);
 /* and underneath, in Mark's blue: the way to the rest of his work */
 const workTex = canvasTex(1024, 256, ()=>{});
-function drawWork(){
+function drawWork(nudge = 0, hov = 0){
   // same hand as "Meet the artist": solid marker, no outline. A touch deeper than #76ceff so it reads on the pale wall
   const c = workTex.image.getContext('2d'); c.clearRect(0,0,1024,256);
   c.fillStyle = '#4fb4ec'; c.strokeStyle = '#4fb4ec'; c.lineCap = 'round'; c.lineJoin = 'round';
   c.save(); c.translate(110, 140); c.rotate(-.04); c.font = '104px "Permanent Marker", cursive'; c.fillText('See all work', 0, 0); c.restore();
-  c.lineWidth = 20; c.beginPath(); c.moveTo(150, 205); c.bezierCurveTo(400, 236, 640, 228, 860, 196); c.stroke();
-  c.beginPath(); c.moveTo(800, 160); c.lineTo(868, 194); c.lineTo(812, 238); c.stroke();
+  const d = nudge + hov * 34;
+  c.lineWidth = 20 + hov * 5; c.beginPath(); c.moveTo(150, 205); c.bezierCurveTo(400, 236, 640 + d * .6, 228, 860 + d, 196); c.stroke();
+  c.beginPath(); c.moveTo(800 + d, 160); c.lineTo(868 + d, 194); c.lineTo(812 + d, 238); c.stroke();
   workTex.needsUpdate = true;
 }
 drawWork();
@@ -458,6 +463,8 @@ if(document.fonts) document.fonts.load('80px "Permanent Marker"').then(()=>{ if(
 const workMat = new THREE.MeshStandardMaterial({map:workTex, transparent:true, roughness:.3, metalness:0, depthWrite:false, polygonOffset:true, polygonOffsetFactor:-2});
 const workSign = new THREE.Mesh(new THREE.PlaneGeometry(1.1, .275), workMat); workSign.position.set(END_X, .84, .003); workSign.renderOrder = 1; scene.add(workSign);
 let endHover = false, workHover = false;
+// the end signs nudge their arrows now and then so they read as buttons, and lean in on hover
+const SIGN = { eh: 0, wh: 0, last: '' };
 
 /* ---------- after hours: the wall gets tagged up as the day goes on, and is painted white again at 6am ----------
    Everything here is optional dressing: if an image fails or anything throws, the room just stays clean. */
@@ -506,7 +513,7 @@ function cleanZones() {
   // no patches behind the art: the graffiti runs right up to the frames
   z.push([TAG_CX, TAG_CY, TAG_W + .2, TAG_H + .25, .45]);
   z.push([vinyl.position.x, vinyl.position.y, VIN_W * vinyl.scale.x + .2, VIN_H * vinyl.scale.y + .2, .72]);
-  z.push([END_X, 1.08, 1.25, .95, .68]);
+  z.push([END_X, 1.1, 1.45, 1.1, .82]);
   return z;
 }
 // simple spray-can shapes in Mark's vocabulary: hearts, smileys, stars, crowns, arrows, splats, drips
@@ -540,6 +547,7 @@ function drawSeg(seg, v) {
       const im = GRAF.pastes[o.i % GRAF.pastes.length]; const w = o.w * PPM, h = w * im.height / im.width; c.rotate(o.rot);
       c.globalAlpha = .9; c.fillStyle = '#f6f3ec'; c.fillRect(-w / 2 - 6, -h / 2 - 6, w + 12, h + 12); c.drawImage(im, -w / 2, -h / 2, w, h);
     }
+    else if ((o.k === 'word' && o.x > END_X - 1.9 && o.y > .4 && o.y < 1.95) || (o.k === 'shape' && Math.abs(o.x - END_X) < 1 && o.y > .45 && o.y < 1.85)) { /* nothing fighting the end signs */ }
     else if (o.k === 'word') { c.rotate(o.rot); c.globalAlpha = .85; c.fillStyle = o.c; c.font = `${Math.round(o.s * PPM)}px ${o.f || '"Permanent Marker"'}, cursive`; c.fillText(o.w, 0, 0); }
     else if (o.k === 'shape') { c.rotate(o.rot); c.globalAlpha = .8; drawShape(c, o, o.w * PPM); }
     } catch (e) { /* skip this one mark, keep drawing the rest */ } c.shadowBlur = 0; c.restore();
@@ -792,7 +800,16 @@ function frame(now){
 
   updateDrips(T, dt);
   grafLight(dt);
-  { const near = Math.abs(END_X-camX) < 1.4 && !inAbout; endMat.color.setScalar(near ? (endHover ? 1.15 : 1) : .78); workMat.color.setScalar(near ? (workHover ? 1.15 : 1) : .78); }
+  { const near = Math.abs(END_X-camX) < 1.4 && !inAbout; endMat.color.setScalar(near ? (endHover ? 1.12 : 1) : .78); workMat.color.setScalar(near ? (workHover ? 1.12 : 1) : .78);
+    if (near) {
+      const k = Math.min(1, dt * 10); SIGN.eh += ((endHover ? 1 : 0) - SIGN.eh) * k; SIGN.wh += ((workHover ? 1 : 0) - SIGN.wh) * k;
+      // every 2.6s the arrows push forward twice, like someone pointing: ok to skip for reduced motion
+      const ph = (performance.now() / 1000) % 2.6, push = reduce ? 0 : (ph < 1 ? Math.pow(Math.sin(ph * Math.PI * 2), 2) * 26 : 0);
+      const eN = Math.round(push), wN = Math.round(ph > .25 && ph < 1.25 ? Math.pow(Math.sin((ph - .25) * Math.PI * 2), 2) * 22 : 0) * (reduce ? 0 : 1);
+      const key = eN + ',' + wN + ',' + SIGN.eh.toFixed(2) + ',' + SIGN.wh.toFixed(2);
+      if (key !== SIGN.last) { SIGN.last = key; drawEnd(eN, SIGN.eh); drawWork(wN, SIGN.wh); }
+      const se = 1 + SIGN.eh * .05, sw = 1 + SIGN.wh * .06; endSign.scale.set(se, se, 1); workSign.scale.set(sw, sw, 1);
+    } }
   PIECES.forEach((p,i)=>{
     const ft = focusIdx<0 ? 1 : (i===focusIdx ? 1 : .45);
     const L = shade(p, T, dt, T>.6 && Math.abs(p.x-camX) < reach, ft);
