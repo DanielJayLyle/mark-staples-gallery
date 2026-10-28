@@ -41,7 +41,7 @@ const ROOM: Record<string, Partial<Artwork> & { image: Photo }> = {
     image: { url: '/art/brighton-buddy-boi.webp', width: 916, height: 1460, alt: 'Brighton Buddy Boi: Buddha figure in a teal beanie and round sunglasses' } },
 };
 /** Hanging order in the 3D room */
-const ROOM_ORDER = ['smile', 'acquiesce', 'endless-love', 'the-dreamer', 'heartfelt', 'tagged', 'brighton-buddy-boi'];
+export const ROOM_ORDER = ['smile', 'acquiesce', 'endless-love', 'the-dreamer', 'heartfelt', 'tagged', 'brighton-buddy-boi'];
 
 type Raw = { slug: string; title: string; collection: string; photos: Photo[]; alt: string; addedAt: string; status: Artwork['status']; note: string };
 const fromArchive = (r: Raw): Artwork => {

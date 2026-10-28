@@ -32,6 +32,8 @@ export const artwork = defineType({
     defineField({ name: 'addedAt', title: 'Added', type: 'date', group: 'more', initialValue: () => new Date().toISOString().slice(0, 10),
       description: 'Pieces added in the last 12 months show in Recent. Change it to backdate older work.' }),
 
+    defineField({ name: 'rank', title: 'Lead order', type: 'number', group: 'more',
+      description: 'Optional. 1 shows first in its collection, then 2, and so on. Pieces without a number follow, newest first.' }),
     defineField({ name: 'note', type: 'string', group: 'more', description: 'One short line, e.g. "Silent auction for charity until 20 December"' }),
     defineField({ name: 'story', type: 'text', rows: 4, group: 'more', description: 'A few sentences about the piece. Pieces with a story, size or year get their own page.' }),
     defineField({ name: 'kind', type: 'string', group: 'more', options: { list: ['Painting', 'Mixed media on canvas', 'Mirror art', 'Sculpture', 'Drawing', 'Poem', 'Print', 'Commission'] } }),
@@ -57,6 +59,8 @@ export const artwork = defineType({
     defineField({ name: 'shape', type: 'string', group: 'room', initialValue: 'rect', options: { layout: 'radio', list: [{ title: 'Rectangular', value: 'rect' }, { title: 'Round', value: 'round' }] } }),
     defineField({ name: 'frame', type: 'string', group: 'room', initialValue: 'none',
       options: { list: [{ title: 'Unframed canvas', value: 'none' }, { title: 'Black float frame', value: 'black' }, { title: 'Oak float frame', value: 'oak' }, { title: 'White frame', value: 'white' }, { title: 'Original or vintage frame', value: 'original' }] } }),
+    defineField({ name: 'sizeEstimated', title: 'Size is a guess', type: 'boolean', group: 'room', initialValue: false,
+      description: 'Ticked: the room uses the size, but it is not shown to visitors. Untick once the real size is in.' }),
     defineField({ name: 'frameText', title: 'Frame description', type: 'string', group: 'room' }),
     defineField({ name: 'scan', title: '3D scan (.glb from Polycam)', type: 'file', group: 'room', options: { accept: '.glb,.gltf' },
       hidden: ({ parent }) => parent?.display !== 'sculptureModel' }),

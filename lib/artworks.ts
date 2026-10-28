@@ -5,7 +5,8 @@ import type { Artwork, Collection } from './types';
 
 const QUERY = `*[_type == "artwork" && defined(slug.current)] | order(_createdAt desc){
   "slug": slug.current, "title": coalesce(title, ""), kind, medium, year, "status": coalesce(status, ""), price, display, shape,
-  widthCm, heightCm, depthCm, frame, frameText, story, soldNote, featured, note, "addedAt": coalesce(addedAt, _createdAt),
+  widthCm, heightCm, depthCm, frame, frameText, story, soldNote, note, rank, sizeEstimated,
+  "featured": _id in *[_type == "room"][0].pieces[]._ref, "addedAt": coalesce(addedAt, _createdAt),
   "collection": collection->{title, blurb, story, "slug": slug.current},
   "photos": photos[]{
     _type == "video" => { "url": asset->url, "width": 1024, "height": 576, "video": true },
