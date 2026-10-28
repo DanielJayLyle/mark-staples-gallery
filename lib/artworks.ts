@@ -21,7 +21,11 @@ const QUERY = `*[_type == "artwork" && defined(slug.current)] | order(_createdAt
   }
 }`;
 
-export const sanityClient = sanityEnabled ? createClient({ ...sanityConfig, useCdn: true }) : null;
+/* The dataset is private (it also holds enquiries with people's details), so the site reads it with a
+   server-only viewer token. */
+export const sanityClient = sanityEnabled
+  ? createClient({ ...sanityConfig, token: process.env.SANITY_API_READ_TOKEN, useCdn: true })
+  : null;
 
 /* Untitled pieces get a simple name from their collection, e.g. "Doodle #37". The number comes from the
    piece's web address when it has one (stable), otherwise its place in the collection. */
