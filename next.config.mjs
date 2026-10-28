@@ -8,8 +8,6 @@ const security = [
 ];
 const nextConfig = {
   poweredByHeader: false,
-  // the one-off Sanity import reads the site's own photo files
-  experimental: { outputFileTracingIncludes: { '/api/admin/import': ['./public/work/**', './public/art/**'] } },
   images: { remotePatterns: [{ protocol: 'https', hostname: 'cdn.sanity.io' }] },
   async headers() { return [{ source: '/:path*', headers: security }]; },
 };
