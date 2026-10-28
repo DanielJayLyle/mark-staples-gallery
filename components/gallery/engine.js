@@ -460,7 +460,7 @@ let endHover = false, workHover = false;
 
 /* ---------- after hours: the wall gets tagged up as the day goes on, and is painted white again at 6am ----------
    Everything here is optional dressing: if an image fails or anything throws, the room just stays clean. */
-const GRAF = { mode: 'live', v: -1, night: 0, nightT: 0, ready: false, segs: [], items: [], clouds: [], pastes: [] };
+const GRAF = { fade: 0, mode: 'live', v: -1, night: 0, nightT: 0, ready: false, segs: [], items: [], clouds: [], pastes: [] };
 try { localStorage.removeItem('ms-clock'); } catch (e) {} // the old manual switch is gone; always follow the real clock
 const SEG_W = 3.6, SEG_PX = 1024, PPM = SEG_PX / SEG_W; // segments square: wall height is 3.6 m
 const TIME_OVERRIDE = (() => { const t = parseFloat(new URLSearchParams(location.search).get('time')); return t >= 0 && t < 24 ? t : null; })(); // preview any hour: /?time=21
@@ -562,12 +562,13 @@ function grafUpdate(force) {
   GRAF.count = count; GRAF.v = p.v;
   GRAF.segs.forEach(s => drawSeg(s, p.v));
 }
+let grafDone; const grafReady = new Promise(r => { grafDone = r; });
 function grafInit() {
   try {
     for (let x0 = ROOM.start; x0 < ROOM.end; x0 += SEG_W) {
       const cv = document.createElement('canvas'); cv.width = cv.height = SEG_PX;
       const tex = new THREE.CanvasTexture(cv); tex.encoding = THREE.sRGBEncoding; tex.anisotropy = maxAniso;
-      const m = new THREE.Mesh(new THREE.PlaneGeometry(SEG_W, H), new THREE.MeshStandardMaterial({ map: tex, transparent: true, depthWrite: false, roughness: .9, metalness: 0 }));
+      const m = new THREE.Mesh(new THREE.PlaneGeometry(SEG_W, H), new THREE.MeshStandardMaterial({ map: tex, transparent: true, opacity: 0, depthWrite: false, roughness: .9, metalness: 0 }));
       m.position.set(x0 + SEG_W / 2, H / 2, .0011); scene.add(m);
       GRAF.segs.push({ x0, ctx: cv.getContext('2d'), tex, mesh: m });
     }
@@ -578,10 +579,10 @@ function grafInit() {
       if (!alive) return;
       if (canv) GRAF.clouds = makeClouds(canv);
       if (document.fonts) await Promise.all(['"Permanent Marker"', '"Rubik Spray Paint"', '"Sedgwick Ave Display"', 'Knewave', '"Rock Salt"', '"Caveat Brush"'].map(f => document.fonts.load('60px ' + f).catch(() => {})));
-      GRAF.ready = true; grafUpdate(true);
-    }).catch((e) => console.warn('after hours layer skipped', e));
+      GRAF.ready = true; grafUpdate(true); grafDone();
+    }).catch((e) => { console.warn('after hours layer skipped', e); grafDone(); });
     const iv = setInterval(() => grafUpdate(false), 5 * 60 * 1000); offs.push(() => clearInterval(iv));
-  } catch (e) { console.warn('after hours layer skipped', e); }
+  } catch (e) { console.warn('after hours layer skipped', e); grafDone(); }
 }
 grafInit();
 // lights: the room dims after dark and the picture lights carry it
@@ -589,6 +590,7 @@ const NIGHT_BG = new THREE.Color(0x5e5a55), DAY_BG = new THREE.Color(0xC6C2BB), 
 function grafLight(dt) {
   GRAF.night += (GRAF.nightT - GRAF.night) * (1 - Math.exp(-dt * 2));
   const n = GRAF.night;
+  if (GRAF.ready && GRAF.fade < 1) { GRAF.fade = Math.min(1, GRAF.fade + dt / 1.2); GRAF.segs.forEach(sg => { sg.mesh.material.opacity = GRAF.fade; }); }
   hemi.intensity = .47 * (1 - .55 * n); key.intensity = .14 * (1 - .7 * n);
   tmpBg.copy(DAY_BG).lerp(NIGHT_BG, n); renderer.setClearColor(tmpBg); scene.fog.color.copy(tmpBg);
 }
@@ -1099,7 +1101,9 @@ try{ const n=document.createElement('canvas'); n.width=n.height=180; const x=n.g
   x.putImageData(id,0,0);  }catch(e){}
 const intro=$('#loader'); requestAnimationFrame(()=>intro.classList.add('play'));
 const fontsReady = document.fonts ? Promise.all([document.fonts.load('900 120px "Unbounded Variable"'), document.fonts.load('600 40px "Montserrat Variable"'), document.fonts.load('40px "Permanent Marker"')]) : Promise.resolve();
-Promise.all([Promise.race([fontsReady, new Promise(r=>setTimeout(r,2500))]), new Promise(r=>setTimeout(r, reduce?150:2300))]).then(()=>{
+// the intro waits for the graffiti too (up to 4s), so the walls don't change after the room appears
+Promise.all([Promise.race([fontsReady, new Promise(r=>setTimeout(r,2500))]), Promise.race([grafReady, new Promise(r=>setTimeout(r,4000))]), new Promise(r=>setTimeout(r, reduce?150:2300))]).then(()=>{
+  if(GRAF.ready){ GRAF.fade = 1; GRAF.segs.forEach(sg => { sg.mesh.material.opacity = 1; }); }
   if(torsoMat){ const old=torsoMat.map; buildTorsoTexOnly(); old.dispose(); }
   intro.classList.add('gone'); started=true; t0=last=performance.now();
   if(initialView==='gallery' && !initialSlug) setTimeout(startHint, 900); else dismissHint();
