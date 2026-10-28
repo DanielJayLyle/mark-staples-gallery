@@ -23,7 +23,9 @@ export default function Lightbox({ cards, index, onClose, onIndex, studio = fals
   const stageRef = useRef<HTMLDivElement>(null);
   const n = card.photos.length;
 
-  useEffect(() => { setPhoto(0); setAsking(false); }, [index]);
+  // a new piece always opens on its first photo, in the same render (not a frame later)
+  const [shownIndex, setShownIndex] = useState(index);
+  if (shownIndex !== index) { setShownIndex(index); setPhoto(0); setAsking(false); }
   useEffect(() => { setZoom({ s: 1, x: 0, y: 0 }); }, [index, photo]);
   const step = useCallback((d: number) => setPhoto((p) => (p + d + n) % n), [n]);
   const piece = useCallback((d: number) => onIndex((index + d + cards.length) % cards.length), [index, cards.length, onIndex]);
@@ -44,7 +46,9 @@ export default function Lightbox({ cards, index, onClose, onIndex, studio = fals
     window.addEventListener('keydown', key); return () => window.removeEventListener('keydown', key);
   }, [n, step, piece, onClose]);
 
-  const p = card.photos[photo];
+  // the photo index resets after a piece change; until it does, never point past this piece's photos
+  const cur = Math.min(photo, n - 1);
+  const p = card.photos[cur];
   function toggleZoom(cx: number, cy: number) {
     if (zoom.s > 1) { setZoom({ s: 1, x: 0, y: 0 }); return; }
     const r = stageRef.current!.getBoundingClientRect(), s = 2.5;
@@ -121,7 +125,7 @@ export default function Lightbox({ cards, index, onClose, onIndex, studio = fals
           {n > 1 && (
             <div className="lb-thumbs" role="tablist" aria-label="Photos of this piece">
               {card.photos.map((ph, i) => (
-                <button key={ph.url} type="button" role="tab" aria-selected={i === photo} aria-label={`Photo ${i + 1}${ph.video ? ' (video)' : ''}`} onClick={() => setPhoto(i)} className={i === photo ? 'on' : ''}>
+                <button key={ph.url} type="button" role="tab" aria-selected={i === cur} aria-label={`Photo ${i + 1}${ph.video ? ' (video)' : ''}`} onClick={() => setPhoto(i)} className={i === cur ? 'on' : ''}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={ph.thumb || ph.url} alt="" loading="lazy" />{ph.video && <i aria-hidden="true">▶</i>}
                 </button>
