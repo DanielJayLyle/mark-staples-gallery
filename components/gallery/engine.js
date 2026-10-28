@@ -28,7 +28,7 @@ const cm = m => Math.round(m*100/5)*5;
 PIECES.forEach(p=>{
   const im = IMG[p.id];
   if(!p.sculpture) p.h = p.round ? p.w : +(p.w*im.h/im.w).toFixed(3);
-  p.size = p.sizeText || (p.round ? '\u00d8 ' + cm(p.w) + ' cm' : cm(p.w) + ' \u00d7 ' + cm(p.h) + ' cm');
+  p.size = p.sizeText || ''; // only real sizes from the CMS, never ones worked out from the 3D hanging size
 });
 
 /* ---------- three.js scene ---------- */
