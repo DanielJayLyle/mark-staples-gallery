@@ -14,6 +14,7 @@ export default defineConfig({
       structure: (S) => S.list().title('Mark Staples').items([
         S.listItem().title('3D room').child(S.document().schemaType('room').documentId('room')),
         S.documentTypeListItem('artwork').title('All pieces'),
+        S.listItem().title('About & influences').child(S.document().schemaType('siteText').documentId('siteText')),
         S.listItem().title('New enquiries').child(S.documentList().title('New enquiries').filter('_type == "enquiry" && status == "new"').defaultOrdering([{ field: 'receivedAt', direction: 'desc' }])),
         S.documentTypeListItem('enquiry').title('All enquiries'),
         S.divider(),
@@ -22,6 +23,6 @@ export default defineConfig({
       ]),
     }),
   ],
-  schema: { types: schemaTypes, templates: (t) => t.filter(({ schemaType }) => schemaType !== 'room') },
-  document: { actions: (prev, ctx) => (ctx.schemaType === 'room' ? prev.filter(({ action }) => action !== 'duplicate' && action !== 'delete') : prev) },
+  schema: { types: schemaTypes, templates: (t) => t.filter(({ schemaType }) => schemaType !== 'room' && schemaType !== 'siteText') },
+  document: { actions: (prev, ctx) => (ctx.schemaType === 'room' || ctx.schemaType === 'siteText' ? prev.filter(({ action }) => action !== 'duplicate' && action !== 'delete') : prev) },
 });

@@ -3,12 +3,12 @@ import Gallery from '@/components/Gallery';
 import { getFeatured } from '@/lib/artworks';
 import { toEngine } from '@/lib/toEngine';
 import { SITE } from '@/lib/site';
-import { ABOUT } from '@/content/about';
+import { getAbout } from '@/lib/siteText';
 
 export const revalidate = 60;
 
 export default async function Home() {
-  const artworks = await getFeatured();
+  const [artworks, about] = await Promise.all([getFeatured(), getAbout()]);
   return (
     <>
       {/* Readable by Google and screen readers; the 3D room sits on top visually */}
@@ -20,7 +20,7 @@ export default async function Home() {
           <Link href="/work">Browse all work</Link> <Link href="/about">About Mark Staples</Link>
         </nav>
       </div>
-      <Gallery artworks={artworks.map(toEngine)} about={ABOUT} />
+      <Gallery artworks={artworks.map(toEngine)} about={about} />
     </>
   );
 }
