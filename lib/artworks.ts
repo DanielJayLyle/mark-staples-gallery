@@ -23,9 +23,9 @@ const QUERY = `*[_type == "artwork" && defined(slug.current)] | order(_createdAt
 }`;
 
 /* The dataset is private (it also holds enquiries with people's details), so the site reads it with a
-   server-only viewer token. */
+   server-only viewer token. Only published documents: drafts Mark is still working on never reach the site. */
 export const sanityClient = sanityEnabled
-  ? createClient({ ...sanityConfig, token: process.env.SANITY_API_READ_TOKEN, useCdn: true })
+  ? createClient({ ...sanityConfig, token: process.env.SANITY_API_READ_TOKEN, useCdn: true, perspective: 'published' })
   : null;
 
 /* Untitled pieces get a simple name from their collection, e.g. "Doodle #37". The number comes from the
@@ -53,7 +53,11 @@ async function fetchArtworks(): Promise<Artwork[]> {
   if (!sanityClient) return SEED;
   try {
     const rows = await sanityClient.fetch<Artwork[]>(QUERY, {}, { next: { revalidate: 60, tags: ['artwork'] } });
-    return rows.length ? rows : SEED;
+    // skip anything half-finished: empty photo slots, or a piece with no photo at all
+    const clean = rows
+      .map((r) => ({ ...r, photos: (r.photos || []).filter((p) => p && p.url) }))
+      .filter((r) => r.image?.url && r.slug);
+    return clean.length ? clean : SEED;
   } catch (e) {
     console.error('Sanity fetch failed, using seed content', e);
     return SEED;
