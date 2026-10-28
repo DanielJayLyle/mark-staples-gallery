@@ -131,9 +131,9 @@ nav.arch-jump a.on{background:var(--ink);color:var(--paper);border-color:var(--i
 .lb-zoomhint{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);background:rgba(248,246,242,.85);padding:4px 10px;border-radius:99px;pointer-events:none;}
 @media (pointer:fine){ .lb-zoomhint{display:none;} }
 
-/* ---------- brand type: Bernoru for headings (caps), Montserrat for everything else ---------- */
+/* ---------- brand type: Unbounded for headings (caps), Montserrat for everything else ---------- */
 .brand span,.tape,.info h2,.grid-head h2,.card h3,.intro-name,.inf-title h2,.art h1,.work-card h2,.work-card h3,.work-card .t,.page h1.big,.arch-head h2,.lb-info h2{
-  font-family:var(--f-display);font-weight:400;font-stretch:normal;text-transform:uppercase;letter-spacing:0;}
+  font-family:var(--f-display);font-weight:900;font-stretch:normal;text-transform:uppercase;letter-spacing:-.01em;}
 .brand span{font-size:11px;line-height:1.05;}
 .tape{font-size:11px;letter-spacing:.01em;}
 .info h2{font-size:clamp(24px,2.8vw,38px);line-height:1;}

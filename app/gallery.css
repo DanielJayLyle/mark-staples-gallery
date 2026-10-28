@@ -1,5 +1,4 @@
-/* Headings: Bernoru Black Ultra Expanded (Mark's brand face), always in caps. Body: Montserrat. */
-@font-face{font-family:"Bernoru";src:url("/fonts/bernoru-black-ultra-expanded.woff2") format("woff2");font-weight:400 900;font-style:normal;font-display:swap;}
+/* Headings: Unbounded (free, Google Fonts licence), black weight, always in caps. Body: Montserrat. */
 
 /* Layout: full-bleed WebGL gallery wall; slim fixed chrome top and bottom (brand, progress rail); detail and grid open as blurred overlays. Single light look by design (a white gallery). */
 :root{
@@ -12,7 +11,7 @@
   --tape-2:#B28C34;
   --red:#d8233d;--blue:#76ceff;
   --f-body:"Montserrat Variable","Montserrat","Helvetica Neue",Arial,sans-serif;
-  --f-display:"Bernoru","Arial Black","Helvetica Neue",sans-serif;
+  --f-display:"Unbounded Variable","Unbounded","Arial Black",sans-serif;
   --ease:cubic-bezier(.2,.8,.2,1);
   color-scheme:light;
 }
@@ -277,7 +276,7 @@ button.inf-name{cursor:pointer;}
 .infl.show .inf-name{animation:inftag .6s cubic-bezier(.2,.7,.2,1) forwards;animation-delay:var(--d);}
 @keyframes inftag{from{opacity:0;filter:blur(8px);scale:1.15}to{opacity:1;filter:blur(0);scale:1}}
 .f1{font-family:"Sedgwick Ave Display",cursive} .f2{font-family:"Rubik Spray Paint",cursive} .f3{font-family:"Knewave",cursive} .f4{font-family:"Permanent Marker",cursive}
-.f5{font-family:"Caveat Brush",cursive} .f6{font-family:"Rock Salt",cursive} .f7{font-family:"Nanum Pen Script",cursive} .f8{font-family:var(--f-display);font-weight:400;letter-spacing:.04em}
+.f5{font-family:"Caveat Brush",cursive} .f6{font-family:"Rock Salt",cursive} .f7{font-family:"Nanum Pen Script",cursive} .f8{font-family:var(--f-display);font-weight:900;letter-spacing:.04em}
 .inf-photo{position:absolute;left:var(--x);top:var(--y);width:calc(var(--w) * var(--u) + 14px);margin:0;background:#fbfaf7;padding:7px 7px 26px;box-shadow:0 18px 30px -16px rgba(0,0,0,.45),0 2px 5px rgba(0,0,0,.08);
   transform:translate(-50%,-50%) rotate(var(--r));opacity:0;transition:transform .55s cubic-bezier(.2,.8,.2,1),box-shadow .55s ease,opacity .45s ease;will-change:transform,opacity;}
 .infl.show .inf-photo{animation:infph .7s var(--ease) forwards;animation-delay:var(--d);}

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@fontsource-variable/montserrat": "^5.3.0",
+    "@fontsource-variable/unbounded": "^5.3.0",
     "@fontsource/caveat-brush": "^5.3.0",
     "@fontsource/knewave": "^5.3.0",
     "@fontsource/nanum-pen-script": "^5.3.0",

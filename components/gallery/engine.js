@@ -174,7 +174,7 @@ function drawVinyl(){
   c.textBaseline = 'alphabetic';
   c.fillStyle = '#d8233d'; c.beginPath(); c.arc(26, 104, 20, 0, Math.PI*2); c.fill();
   c.fillStyle = INK; c.font = '700 54px "Montserrat Variable", Montserrat, sans-serif'; tracked(c, 'NOW SHOWING  \u00b7  ROOM ONE', 70, 123, 12);
-  c.font = '170px Bernoru, "Arial Black", sans-serif'; tracked(c, 'MARK', -4, 400, 4); tracked(c, 'STAPLES', -4, 650, 4);
+  c.font = '900 190px "Unbounded Variable", Unbounded, "Arial Black", sans-serif'; tracked(c, 'MARK', -4, 400, 4); tracked(c, 'STAPLES', -4, 650, 4);
   c.fillRect(4, 760, 380, 12);
   c.font = '500 76px "Montserrat Variable", Montserrat, sans-serif'; c.fillText('Street pop art, paintings and sculpture', 4, 880);
   c.globalAlpha = .6; c.font = '700 50px "Montserrat Variable", Montserrat, sans-serif'; tracked(c, 'SOUTHAMPTON, UK', 6, 972, 13); c.globalAlpha = 1;
@@ -247,7 +247,7 @@ if(creditLink){
 }
 
 drawVinyl(); drawCredit();
-if(document.fonts){ Promise.all(['80px Bernoru','800 80px "Montserrat Variable"','500 40px "Montserrat Variable"','80px "Permanent Marker"'].map(f=>document.fonts.load(f))).then(()=>{ if(alive){ drawVinyl(); drawCredit(); } }).catch(()=>{}); }
+if(document.fonts){ Promise.all(['900 80px "Unbounded Variable"','800 80px "Montserrat Variable"','500 40px "Montserrat Variable"','80px "Permanent Marker"'].map(f=>document.fonts.load(f))).then(()=>{ if(alive){ drawVinyl(); drawCredit(); } }).catch(()=>{}); }
 
 /* wide screens: the vinyl hangs to the right of the tag; tall phones: tucked under it */
 function placeEntrance(aspect){
@@ -956,7 +956,7 @@ try{ const n=document.createElement('canvas'); n.width=n.height=180; const x=n.g
   for(let i=0;i<id.data.length;i+=4){ const v=Math.random()*255|0; id.data[i]=id.data[i+1]=id.data[i+2]=v; id.data[i+3]=255; }
   x.putImageData(id,0,0);  }catch(e){}
 const intro=$('#loader'); requestAnimationFrame(()=>intro.classList.add('play'));
-const fontsReady = document.fonts ? Promise.all([document.fonts.load('120px Bernoru'), document.fonts.load('600 40px "Montserrat Variable"'), document.fonts.load('40px "Permanent Marker"')]) : Promise.resolve();
+const fontsReady = document.fonts ? Promise.all([document.fonts.load('900 120px "Unbounded Variable"'), document.fonts.load('600 40px "Montserrat Variable"'), document.fonts.load('40px "Permanent Marker"')]) : Promise.resolve();
 Promise.all([Promise.race([fontsReady, new Promise(r=>setTimeout(r,2500))]), new Promise(r=>setTimeout(r, reduce?150:2300))]).then(()=>{
   if(torsoMat){ const old=torsoMat.map; buildTorsoTexOnly(); old.dispose(); }
   intro.classList.add('gone'); started=true; t0=last=performance.now();
