@@ -478,7 +478,6 @@ function buildGrafItems() {
   for (let x = ROOM.start + .2; x < ROOM.end - .2; x += .32) {
     if (r() < .75) it.push({ k: 'cloud', x: x + r() * .32, y: .3 + r() * 3, w: 1.3 + r() * 1.8, a: .24 + r() * .26, i: Math.floor(r() * 6), t: .3 + r() * .7 });
     if (r() < .85) { const s = .2 + r() * .75; it.push({ k: 'tag', x: x + r() * .5, y: .5 + r() * 2.5, w: s, rot: (r() - .5) * .5, c: COLS[Math.floor(r() * COLS.length)], t: Math.min(1, s * .55 + r() * .5 - .08), drip: r() < .4 }); }
-    if (r() < .38) it.push({ k: 'paste', x: x + r() * .5, y: .7 + r() * 2.2, w: .28 + r() * .22, rot: (r() - .5) * .3, i: Math.floor(r() * 99), t: .1 + r() * .8 });
     if (r() < .5) it.push({ k: 'word', x: x + r() * .5, y: .35 + r() * 2.9, s: .07 + r() * .12, rot: (r() - .5) * .35, c: COLS[Math.floor(r() * COLS.length)], w: words[Math.floor(r() * words.length)], t: r() * .9 });
   }
   return it.sort((a, b) => a.t - b.t);
@@ -555,10 +554,9 @@ function grafInit() {
     GRAF.items = buildGrafItems();
     const load = src => new Promise(res => { const i = new Image(); i.onload = () => res(i); i.onerror = () => res(null); i.src = src; });
     fetch('/night/manifest.json').then(r => r.json()).then(async (mf) => {
-      const [canv, ...pastes] = await Promise.all([load(mf.canvases[0]), ...mf.pasteups.map(load)]);
+      const canv = await load(mf.canvases[0]);
       if (!alive) return;
       if (canv) GRAF.clouds = makeClouds(canv);
-      GRAF.pastes = pastes.filter(Boolean);
       if (document.fonts) await document.fonts.load('80px "Permanent Marker"').catch(() => {});
       GRAF.ready = true; grafUpdate(true);
     }).catch(() => {});
