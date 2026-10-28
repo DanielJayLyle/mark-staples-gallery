@@ -45,7 +45,7 @@ a.chip,a.brand,.crumbs a{text-decoration:none;color:var(--ink);}
 
 
 /* footer credit on the normal pages */
-.site-foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:72px;padding:22px 0 30px;border-top:1px solid rgba(20,19,18,.12);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);}
+.site-foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:72px;padding:22px 0 30px;width:calc(100% - 40px);box-sizing:border-box;border-top:1px solid rgba(20,19,18,.12);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);}
 .site-foot a{color:var(--ink-2);text-decoration:none;}
 .site-foot a:hover{color:var(--ink);}
 .site-foot b{font-weight:800;color:var(--ink);}
@@ -154,13 +154,18 @@ nav.arch-jump a.on{background:var(--ink);color:var(--paper);border-color:var(--i
 .brand .brand-icon{display:none;}
 @media (max-width:820px){ .brand .brand-full{display:none;} .brand .brand-icon{display:block;} }
 /* 404 */
-.nf{display:grid;place-items:center;min-height:100vh;}
-.nf-wrap{text-align:center;display:grid;justify-items:center;gap:6px;}
-.nf-tag{width:120px;height:auto;margin-bottom:18px;opacity:.9;}
-.nf .lede{margin:0 auto 26px;}
-.nf-links{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;align-items:center;}
-.nf-links .chip{padding:14px 22px;text-decoration:none;color:var(--ink);}
-.nf-links .btn{text-decoration:none;}
+.nf{display:flex;flex-direction:column;min-height:100vh;}
+.nf .nf-wrap{flex:1;display:grid;justify-items:center;align-content:center;text-align:center;gap:6px;padding-top:56px;padding-bottom:56px;}
+.nf-tag{width:110px;height:auto;margin-bottom:14px;}
+.nf-code{margin:0;font:800 12px/1 var(--f-display);letter-spacing:.3em;color:#d8233d;}
+.nf .lede{margin:6px auto 28px;max-width:44ch;}
+.nf-links{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
+.nf-btn{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;width:250px;height:54px;padding:0 22px;white-space:nowrap;border:1px solid var(--ink);border-radius:999px;
+  font-family:var(--f-body);font-weight:700;font-size:12px;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;color:var(--ink);background:transparent;transition:background .25s,color .25s;}
+.nf-btn.solid,.nf-btn:hover{background:var(--ink);color:var(--paper);}
+.nf-btn.solid:hover{background:transparent;color:var(--ink);}
+.nf .site-foot{margin-top:0;}
+@media (max-width:520px){ .nf-btn{width:100%;} .nf-links{width:100%;max-width:320px;flex-direction:column;} }
 
 /* privacy page and the line under enquiry forms */
 .prose{max-width:760px;}
