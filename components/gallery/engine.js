@@ -849,7 +849,7 @@ function openDetail(i, fromHistory){
     const wrap=document.createElement('div'); wrap.className='spin';
     wrap.innerHTML = '<canvas id="spinCanvas" aria-label="3D view of the sculpture. Drag to turn it."></canvas><div class="photo"><img alt="Photo of the actual piece" src="'+IMG[p.id].src+'">The real piece</div>';
     media.appendChild(wrap);
-    const cap=document.createElement('div'); cap.className='cap'; cap.textContent='Drag to turn it. Stand-in model until the real piece is scanned.'; media.appendChild(cap);
+    const cap=document.createElement('div'); cap.className='cap'; cap.textContent= coarse ? 'Drag to turn it round' : 'Drag to turn it round'; media.appendChild(cap);
     requestAnimationFrame(()=>startSpin(wrap.querySelector('canvas')));
   } else {
     const box=document.createElement('div'); box.className='zoombox'+((p.cutWall||p.cut)?' cut':(p.round?' round':''));
@@ -970,7 +970,7 @@ function buildAbout(){
   // photos: three taped beside the text, the rest in a reel that scrolls past forever
   const photos = about.photos || [];
   const print = (ph, n) => '<figure class="print'+(ph.w > ph.h ? ' wide' : '')+'" style="--ar:'+(ph.w && ph.h ? (ph.w/ph.h).toFixed(3) : '0.8')+'"><i class="tape t1"></i><i class="tape t2"></i>' +
-    (ph.src ? '<img src="'+ph.src+'" width="'+(ph.w||400)+'" height="'+(ph.h||500)+'" alt="'+(ph.caption || 'Mark Staples')+'" loading="lazy" decoding="async">' : '<div class="ph"><span>Photo '+String(n).padStart(2,'0')+'<small>placeholder</small></span></div>') +
+    (ph.src ? '<img src="'+ph.src+'" width="'+(ph.w||400)+'" height="'+(ph.h||500)+'" alt="'+(ph.caption || 'Mark Staples')+'" loading="lazy" decoding="async">' : '') +
     (ph.caption ? '<figcaption>'+ph.caption+'</figcaption>' : '') + '</figure>';
   $('#aboutPhotos').innerHTML = photos.slice(0, 3).map((ph, i) => print(ph, i + 1)).join('');
   const rest = photos.slice(3);
