@@ -1,0 +1,8 @@
+# Weekly checks for package updates; security fixes open as pull requests automatically
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule: { interval: weekly }
+    open-pull-requests-limit: 5
+    target-branch: dev
