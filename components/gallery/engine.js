@@ -461,14 +461,15 @@ let endHover = false, workHover = false;
 /* ---------- after hours: the wall gets tagged up as the day goes on, and is painted white again at 6am ----------
    Everything here is optional dressing: if an image fails or anything throws, the room just stays clean. */
 const GRAF = { mode: 'live', v: -1, night: 0, nightT: 0, ready: false, segs: [], items: [], clouds: [], pastes: [] };
-try { const m = localStorage.getItem('ms-clock'); if (m === 'midnight') GRAF.mode = 'midnight'; } catch (e) {}
+try { localStorage.removeItem('ms-clock'); } catch (e) {} // the old manual switch is gone; always follow the real clock
 const SEG_W = 3.6, SEG_PX = 1024, PPM = SEG_PX / SEG_W; // segments square: wall height is 3.6 m
 const TIME_OVERRIDE = (() => { const t = parseFloat(new URLSearchParams(location.search).get('time')); return t >= 0 && t < 24 ? t : null; })(); // preview any hour: /?time=21
 function grafProgress(now) {
   if (GRAF.mode === 'midnight') return { v: 1, night: 1 };
   const h = TIME_OVERRIDE ?? (now.getHours() + now.getMinutes() / 60);
-  const s = ((h - 6) + 24) % 24 / 24;                         // 0 at 6am, almost 1 at 5:59am
-  const v = Math.min(1, s / .75) ** 1.5;                        // slow in the day, full by midnight
+  // 6am clean -> 10am first small tags -> 2pm more -> 6pm words and spray -> 10pm full, until 6am
+  const hh = ((h - 6) + 24) % 24 + 6; // 6..30, so the night runs on past midnight
+  const v = hh < 10 ? 0 : hh < 14 ? (hh - 10) / 4 * .25 : hh < 18 ? .25 + (hh - 14) / 4 * .3 : hh < 22 ? .55 + (hh - 18) / 4 * .45 : 1;
   const night = h >= 19 || h < 6 ? 1 : h >= 17 ? (h - 17) / 2 : 0; // lights down from 5pm to 7pm
   return { v, night };
 }
@@ -478,9 +479,9 @@ function buildGrafItems() {
   const FONTS = ['"Permanent Marker"', '"Rubik Spray Paint"', '"Sedgwick Ave Display"', 'Knewave', '"Rock Salt"', '"Caveat Brush"'];
   const SHAPES = ['heart', 'smiley', 'star', 'crown', 'arrow', 'splat', 'drips', 'xs', 'heart', 'smiley'];
   for (let x = ROOM.start + .2; x < ROOM.end - .2; x += .32) {
-    if (r() < .75) it.push({ k: 'cloud', x: x + r() * .32, y: .3 + r() * 3, w: 1.3 + r() * 1.8, a: .24 + r() * .26, i: Math.floor(r() * 6), t: .3 + r() * .7 });
+    if (r() < .75) it.push({ k: 'cloud', x: x + r() * .32, y: .3 + r() * 3, w: 1.3 + r() * 1.8, a: .24 + r() * .26, i: Math.floor(r() * 6), t: .5 + r() * .5 });
     if (r() < .85) { const s = .2 + r() * .75; it.push({ k: 'tag', x: x + r() * .5, y: .5 + r() * 2.5, w: s, rot: (r() - .5) * .5, c: COLS[Math.floor(r() * COLS.length)], t: Math.min(1, s * .55 + r() * .5 - .08), drip: r() < .4 }); }
-    if (r() < .5) it.push({ k: 'word', x: x + r() * .5, y: .35 + r() * 2.9, s: .07 + r() * .12, rot: (r() - .5) * .35, c: COLS[Math.floor(r() * COLS.length)], w: words[Math.floor(r() * words.length)], t: r() * .9, f: FONTS[Math.floor(r() * FONTS.length)] });
+    if (r() < .5) it.push({ k: 'word', x: x + r() * .5, y: .35 + r() * 2.9, s: .07 + r() * .12, rot: (r() - .5) * .35, c: COLS[Math.floor(r() * COLS.length)], w: words[Math.floor(r() * words.length)], t: .3 + r() * .7, f: FONTS[Math.floor(r() * FONTS.length)] });
     if (r() < .75) { const s = .12 + r() * .45; it.push({ k: 'shape', sh: SHAPES[Math.floor(r() * SHAPES.length)], x: x + r() * .32, y: .3 + r() * 3, w: s, rot: (r() - .5) * .6, c: COLS[Math.floor(r() * COLS.length)], t: Math.min(1, s * .7 + r() * .6 - .05), lw: .02 + r() * .025 }); }
   }
   return it.sort((a, b) => a.t - b.t);
