@@ -52,4 +52,4 @@ Read this before changing anything. The README explains the project for people; 
 
 ## Environment variables (Vercel)
 
-`RESEND_API_KEY`, `ENQUIRY_FROM` (`Mark Staples <enquiries@markys11.co.uk>`), `ENQUIRY_TO`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`, `NEXT_PUBLIC_SANITY_PROJECT_ID` (`lymhtovz`), `NEXT_PUBLIC_SANITY_DATASET` (`production`), `SANITY_API_READ_TOKEN`, `SANITY_API_WRITE_TOKEN`, optional `SANITY_REVALIDATE_SECRET`, `NEXT_PUBLIC_SITE_URL` once the domain is live. Keys are created and pasted into Vercel by Dan; they never go in chat or in the repo.
+`RESEND_API_KEY`, `ENQUIRY_FROM` (`Mark Staples <enquiries@markys11.co.uk>`), `ENQUIRY_TO`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`, `NEXT_PUBLIC_SANITY_PROJECT_ID` (`lymhtovz`), `NEXT_PUBLIC_SANITY_DATASET` (`production`), `SANITY_API_READ_TOKEN`, `SANITY_API_WRITE_TOKEN`, optional `SANITY_REVALIDATE_SECRET`, `NEXT_PUBLIC_SITE_URL` (`https://www.markys11.co.uk`), `SITE_PASSWORD` (temporary preview wall in `middleware.ts`: delete it in Vercel and redeploy to open the site). Keys are created and pasted into Vercel by Dan; they never go in chat or in the repo.
