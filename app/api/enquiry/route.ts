@@ -3,7 +3,7 @@ import { createClient } from '@sanity/client';
 import { getArtwork, hasPage } from '@/lib/artworks';
 import { SITE, sanityConfig, statusText } from '@/lib/site';
 
-const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
+import { toMark, toVisitor } from '@/lib/emails';
 
 async function sendEmail(body: Record<string, unknown>) {
   const r = await fetch('https://api.resend.com/emails', {
@@ -40,14 +40,11 @@ export async function POST(req: Request) {
 
   if (process.env.RESEND_API_KEY && process.env.ENQUIRY_TO && process.env.ENQUIRY_FROM) {
     try {
-      await sendEmail({
-        from: process.env.ENQUIRY_FROM, to: process.env.ENQUIRY_TO, reply_to: email, subject,
-        html: `<p><b>${esc(name)}</b> (${esc(email)}) asked about <a href="${link}">${esc(label || 'your work')}</a>:</p><blockquote>${esc(message).replace(/\n/g, '<br>')}</blockquote><p>Just hit reply to answer them.</p>`,
-      });
-      await sendEmail({
-        from: process.env.ENQUIRY_FROM, to: email, reply_to: process.env.ENQUIRY_TO, subject: `Thanks for your enquiry${art?.title ? ' about ' + art.title : ''}`,
-        html: `<p>Hi ${esc(name)},</p><p>Thanks for getting in touch${art ? ` about <a href="${link}">${esc(label)}</a>` : ''}. Mark will reply personally, usually within a day or two.</p><p>Mark Staples</p>`,
-      });
+      const piece = art ? { title: label, link, image: art.photos?.find((ph) => !ph.video)?.thumb || art.image?.url, status: art.status === 'sold' ? 'Sold' : statusText(art) } : null;
+      const m = toMark({ name, email, message, piece, subject });
+      await sendEmail({ from: process.env.ENQUIRY_FROM, to: process.env.ENQUIRY_TO, reply_to: email, subject: m.subject, html: m.html, text: m.text });
+      const v = toVisitor({ name, piece });
+      await sendEmail({ from: process.env.ENQUIRY_FROM, to: email, reply_to: process.env.ENQUIRY_TO, subject: v.subject, html: v.html, text: v.text });
       emailed = true;
     } catch (e) { problems.push('email'); console.error(e); }
   }
