@@ -51,7 +51,7 @@ export async function POST(req: Request) {
 
   if (sanityConfig.projectId && process.env.SANITY_API_WRITE_TOKEN) {
     try {
-      const client = createClient({ ...sanityConfig, token: process.env.SANITY_API_WRITE_TOKEN, useCdn: false });
+      const client = createClient({ ...sanityConfig, token: process.env.SANITY_API_WRITE_TOKEN, useCdn: false, perspective: 'published' });
       const ref = art ? await client.fetch<string | null>(`*[_type=="artwork" && slug.current==$slug][0]._id`, { slug: art.slug }) : null;
       await client.create({ _type: 'enquiry', name, email, message, status: 'new', receivedAt: new Date().toISOString(), artworkTitle: label || undefined,
         ...(ref ? { artwork: { _type: 'reference', _ref: ref } } : {}) });
