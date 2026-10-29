@@ -49,6 +49,9 @@ export const artwork = defineType({
 
     defineField({ name: 'image', title: 'Cut-out for the 3D room (optional)', type: 'image', group: 'room', options: { hotspot: true },
       description: 'Only for pieces in the 3D room: a straight-on photo, or a PNG with the background removed for mirrors and sculptures. If empty, the main photo is used.' }),
+    defineField({ name: 'turnViews', title: 'Turntable photos (sculptures)', type: 'array', group: 'room', options: { layout: 'grid' },
+      of: [defineArrayMember({ type: 'image' })], validation: (r) => r.max(8),
+      description: 'Background-removed photos from all round the piece, in order: front, side, back, other side. The room and the pop-up turn through them.' }),
     defineField({ name: 'display', title: 'Show in the 3D room as', type: 'string', group: 'room', initialValue: 'canvas',
       options: { layout: 'radio', list: [
         { title: 'Canvas or framed piece on the wall', value: 'canvas' },

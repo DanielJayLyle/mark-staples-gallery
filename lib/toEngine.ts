@@ -13,6 +13,9 @@ export function toEngine(a: Artwork) {
     frameText: a.frameText, sizeText: sizeText(a), frame: 'none',
     image: { src: a.image.url, w: a.image.width, h: a.image.height },
   };
+  // a sculpture with turntable photos turns through them, whatever display mode is set
+  if (a.views && a.views.length >= 2 && (a.display === 'sculptureModel' || a.display === 'sculpturePhoto'))
+    return { ...base, w: 0.8, sculpture: true, model: 'views', figH: (a.heightCm || 80) / 100, views: a.views.map((v) => ({ src: v.url, w: v.width, h: v.height })) };
   switch (a.display) {
     case 'cutout':
       return { ...base, w: (a.widthCm || 80) / 100, round: a.shape === 'round', cutWall: true };
