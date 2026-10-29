@@ -55,7 +55,11 @@ async function fetchArtworks(): Promise<Artwork[]> {
     const rows = await sanityClient.fetch<Artwork[]>(QUERY, {}, { next: { revalidate: 60, tags: ['artwork'] } });
     // skip anything half-finished: empty photo slots, or a piece with no photo at all
     const clean = rows
-      .map((r) => ({ ...r, photos: (r.photos || []).filter((p) => p && p.url) }))
+      .map((r) => {
+        // all-round photos of a sculpture (built in for now) lead its photos
+        const views = SEED.find((s) => s.slug === r.slug)?.views;
+        return { ...r, views, image: views?.[0] ? { ...views[0], url: views[0].url } : r.image, photos: [...(views || []), ...(r.photos || []).filter((p) => p && p.url)] };
+      })
       .filter((r) => r.image?.url && r.slug);
     return clean.length ? clean : SEED;
   } catch (e) {

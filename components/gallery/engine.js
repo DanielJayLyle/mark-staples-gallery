@@ -306,6 +306,34 @@ function beam(x, yTop, yBot, width, z){
   m.position.set(x,(yTop+yBot)/2, z||.003); m.renderOrder=2; scene.add(m); return m.material;
 }
 
+/* the real piece: a body built from Mark's photos (outline from the front and side shots, surface from all four), standing straight on the plinth,
+   swapped in for the stand-in shape as soon as it has loaded */
+let scanReady = false, scanBase = null;
+function loadScan(base){
+  fetch(base + '.json').then(r => r.json()).then(d => {
+    const tex = loader.load(base + '.webp', () => { if(alive) applyScan(d, tex); }); tex.encoding = THREE.sRGBEncoding; tex.anisotropy = maxAniso;
+  }).catch(() => {});
+}
+function applyScan(d, tex){
+  const H = d.height, P = d.profile, f0 = P[0][0], f1 = P[P.length-1][0], baseT = 0, S = 128, N = P.length;
+  const pos = [], uv = [], idx = [];
+  for(let j=0;j<N;j++){ const [f, w, df, db] = P[j], y = baseT + (f1 - f) * H;
+    for(let k=0;k<=S;k++){ const th = k / S * Math.PI * 2, dz = Math.cos(th) >= 0 ? df : db;
+      pos.push(w * Math.sin(th) * H, y, dz * Math.cos(th) * H); uv.push(k / S, 1 - (f - f0) / (f1 - f0)); } }
+  for(let j=0;j<N-1;j++) for(let k=0;k<S;k++){ const a=j*(S+1)+k, b=a+S+1; idx.push(a,b,a+1, a+1,b,b+1); }
+  const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos,3)); g.setAttribute('uv', new THREE.Float32BufferAttribute(uv,2)); g.setIndex(idx); g.computeVertexNormals();
+  const mat = new THREE.MeshStandardMaterial({map:tex, roughness:.72, metalness:0}); // matte: the photos already carry the real sheen
+  const black = new THREE.MeshStandardMaterial({color:0x141312, roughness:.6});
+  const makeBase = () => { const grp = new THREE.Group();
+    // the open neck, closed with a dark cap just inside the rim
+    const [fT, wT, dfT, dbT] = P[0], cap = new THREE.Mesh(new THREE.CircleGeometry(1, 48), black);
+    cap.rotation.x = -Math.PI/2; cap.scale.set(wT * H * .97, (dfT + dbT) / 2 * H * .97, 1); cap.position.set(0, baseT + (f1 - fT) * H - .004, (dfT - dbT) / 2 * H); grp.add(cap);
+    grp.traverse(o => { if(o.isMesh){ o.castShadow = true; o.receiveShadow = true; } }); return grp; };
+  scanReady = true; scanBase = makeBase;
+  torsoGeo = g; if(torsoMat && torsoMat.map) torsoMat.map.dispose(); torsoMat = mat;
+  PIECES.forEach(p => { if(!p.torso) return; const t = p.torso; t.geometry = g; t.material = mat; t.scale.set(1,1,1); t.position.y = p.ph; t.add(makeBase()); });
+  if(spin){ spin.m.geometry = g; spin.m.material = mat; spin.m.scale.set(1,1,1); spin.m.add(makeBase()); }
+}
 function buildTorso(){
   const pts = [[0,0],[.17,0],[.18,.03],[.16,.14],[.148,.26],[.165,.38],[.2,.47],[.225,.53],[.228,.565],[.21,.595],[.15,.615],[.085,.632],[.06,.65],[.057,.73],[.062,.75],[0,.755]].map(a=>new THREE.Vector2(a[0],a[1]));
   torsoGeo = new THREE.LatheGeometry(pts, 72);
@@ -333,7 +361,7 @@ PIECES.forEach((p,i)=>{
   if(p.sculpture){
     const ph = p.ph = p.model==='cutout' ? 1.12 : 1.0, pw = p.model==='cutout' ? .42 : .52;
     const plinth = new THREE.Mesh(new THREE.BoxGeometry(pw,ph,pw), track(p,new THREE.MeshLambertMaterial({color:0xF7F5F1}))); plinth.position.y=ph/2; g.add(plinth); addHit(plinth,i);
-    if(p.model==='torso'){ const t = buildTorso(); t.position.y=1.0; g.add(t); addHit(t,i); p.torso=t; }
+    if(p.model==='torso'){ const t = buildTorso(); t.position.y=1.0; g.add(t); addHit(t,i); p.torso=t; if(p.scan) loadScan(p.scan); }
     else {
       const im=IMG[p.id], fh=p.figH, fw=fh*im.w/im.h, tex=imgTex(im.src);
       const fig = new THREE.Mesh(new THREE.PlaneGeometry(fw,fh), new THREE.MeshStandardMaterial({map:tex, alphaTest:.5, roughness:.45, side:THREE.DoubleSide}));
@@ -941,7 +969,7 @@ function startSpin(cv){
     const sc = new THREE.Scene(); sc.add(new THREE.HemisphereLight(0xffffff,0xcfc8bc,.85));
     const dl=new THREE.DirectionalLight(0xfff2e0,.8); dl.position.set(1.5,2,2.5); sc.add(dl);
     const rim=new THREE.DirectionalLight(0xffffff,.5); rim.position.set(-2,1.5,-2); sc.add(rim);
-    const m = new THREE.Mesh(torsoGeo, torsoMat); m.scale.set(1.18,1,.56); sc.add(m);
+    const m = new THREE.Mesh(torsoGeo, torsoMat); if(scanReady){ m.add(scanBase()); } else m.scale.set(1.18,1,.56); sc.add(m);
     const top = new THREE.Mesh(new THREE.BoxGeometry(.52,.06,.52), new THREE.MeshLambertMaterial({color:0xF7F5F1})); top.position.y=-.03; sc.add(top);
     const cam = new THREE.PerspectiveCamera(32,1,.05,20); cam.position.set(0,.5,1.75); cam.lookAt(0,.38,0);
     spin = {r, sc, cam, m, rot:0, vel:.5, drag:false, on:false, lx:0, cv:null, tilt:0, tiltT:.0,
@@ -1125,7 +1153,7 @@ const fontsReady = document.fonts ? Promise.all([document.fonts.load('900 120px 
 // the intro waits for the graffiti too (up to 4s), so the walls don't change after the room appears
 Promise.all([Promise.race([fontsReady, new Promise(r=>setTimeout(r,2500))]), Promise.race([grafReady, new Promise(r=>setTimeout(r,4000))]), new Promise(r=>setTimeout(r, reduce?150:2300))]).then(()=>{
   if(GRAF.ready){ GRAF.fade = 1; GRAF.segs.forEach(sg => { sg.mesh.material.opacity = 1; }); }
-  if(torsoMat){ const old=torsoMat.map; buildTorsoTexOnly(); old.dispose(); }
+  if(torsoMat && !scanReady){ const old=torsoMat.map; buildTorsoTexOnly(); old.dispose(); }
   intro.classList.add('gone'); started=true; t0=last=performance.now();
   if(initialView==='gallery' && !initialSlug) setTimeout(startHint, 900); else dismissHint();
   if(initialView==='about') openAbout(true, true);

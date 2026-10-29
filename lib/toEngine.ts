@@ -1,6 +1,9 @@
 import type { Artwork } from './types';
 import { sizeText, priceOrStatus, statusText, SHOW_PRICES } from './site';
 
+/** Sculptures rebuilt in 3D from their photos (public/art/<name>-model.json + .webp) */
+const SCANS: Record<string, string> = { tagged: '/art/tagged-model' };
+
 const FRAME_SIDE: Record<string, number> = { black: 0x121212, oak: 0xc99d68, white: 0xeeeeea, original: 0x2a2420 };
 
 /** Maps CMS fields onto what the 3D engine needs to hang, light and label a piece. */
@@ -17,7 +20,7 @@ export function toEngine(a: Artwork) {
     case 'cutout':
       return { ...base, w: (a.widthCm || 80) / 100, round: a.shape === 'round', cutWall: true };
     case 'sculptureModel':
-      return { ...base, w: 1.0, sculpture: true, model: 'torso' };
+      return { ...base, w: 1.0, sculpture: true, model: 'torso', scan: SCANS[a.slug] };
     case 'sculpturePhoto':
       return { ...base, w: 0.8, sculpture: true, model: 'cutout', figH: (a.heightCm || 30) / 100 };
     default: {

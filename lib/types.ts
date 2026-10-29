@@ -32,6 +32,8 @@ export type Artwork = {
   image: Photo;
   /** Every photo of the piece, main first, for the lightbox. Can include short videos */
   photos?: Photo[];
+  /** Background-removed photos from all round a sculpture (front, side, back, other side) for the turning view */
+  views?: Photo[];
   /** When it was added. Drives the automatic Recent section */
   addedAt?: string;
   /** Lower numbers lead their collection; unranked pieces follow, newest first */

@@ -36,7 +36,9 @@ const ROOM: Record<string, Partial<Artwork> & { image: Photo }> = {
   heartfelt: { featured: true, kind: 'Painting', display: 'canvas', widthCm: 150, heightCm: 100, frame: 'none',
     image: { url: '/art/heartfelt.webp', width: 1427, height: 924, alt: 'Heartfelt: hundreds of colourful spray-painted hearts with drips' } },
   tagged: { featured: true, kind: 'Sculpture', display: 'sculptureModel', widthCm: 46, depthCm: 30, heightCm: 80,
-    image: { url: '/art/tagged.webp', width: 520, height: 776, alt: 'Tagged: black mannequin bust covered in tags with a gold stripe' } },
+    image: { url: '/art/tagged-view-1.webp', width: 1024, height: 1536, alt: 'Tagged: black mannequin bust covered in hand-written tags, with a gold stripe down the front, on a gold base' },
+    views: [1, 2, 3, 4].map((n) => ({ url: `/art/tagged-view-${n}.webp`, width: 1024, height: 1536,
+      alt: `Tagged by Mark Staples, ${['front', 'side', 'back', 'other side'][n - 1]}` })) },
   'brighton-buddy-boi': { featured: true, kind: 'Sculpture', display: 'sculpturePhoto', widthCm: 22, depthCm: 18, heightCm: 34, pastVenue: BRIGHTON_BOX, soldNote: 'Sold at The Brighton Box Gallery',
     image: { url: '/art/brighton-buddy-boi.webp', width: 916, height: 1460, alt: 'Brighton Buddy Boi: Buddha figure in a teal beanie and round sunglasses' } },
 };
@@ -46,7 +48,7 @@ export const ROOM_ORDER = ['smile', 'acquiesce', 'endless-love', 'the-dreamer', 
 type Raw = { slug: string; title: string; collection: string; photos: Photo[]; alt: string; addedAt: string; status: Artwork['status']; note: string };
 const fromArchive = (r: Raw): Artwork => {
   const room = ROOM[r.slug];
-  const photos = room ? [room.image, ...r.photos] : r.photos;
+  const photos = room ? [...(room.views || [room.image]), ...r.photos] : r.photos;
   return {
     slug: r.slug, title: r.title, status: r.status, addedAt: r.addedAt, note: r.note || undefined,
     display: 'canvas', collection: byKey(r.collection), photos, image: room ? room.image : photos[0],
