@@ -306,32 +306,25 @@ function beam(x, yTop, yBot, width, z){
   m.position.set(x,(yTop+yBot)/2, z||.003); m.renderOrder=2; scene.add(m); return m.material;
 }
 
-/* the real piece: a body built from Mark's photos (outline from the front and side shots, surface from all four),
+/* the real piece: a body built from Mark's photos (outline from the front and side shots, surface from all four), standing straight on the plinth,
    swapped in for the stand-in shape as soon as it has loaded */
 let scanReady = false, scanBase = null;
-function goldTex(){ return canvasTex(512,256,(c,w,h)=>{ c.fillStyle='#c79a45'; c.fillRect(0,0,w,h);
-  for(let i=0;i<900;i++){ const x=Math.random()*w, y=Math.random()*h, r=2+Math.random()*16; c.fillStyle=`rgba(${Math.random()<.5?'255,226,150':'120,84,30'},${.05+Math.random()*.12})`; c.fillRect(x,y,r,r*(.3+Math.random()*.7)); }
-  c.strokeStyle='rgba(90,60,20,.18)'; c.lineWidth=1; for(let i=0;i<60;i++){ c.beginPath(); const y=Math.random()*h; c.moveTo(0,y); c.bezierCurveTo(w*.3,y+(Math.random()-.5)*20,w*.6,y+(Math.random()-.5)*20,w,y+(Math.random()-.5)*10); c.stroke(); } }); }
 function loadScan(base){
   fetch(base + '.json').then(r => r.json()).then(d => {
     const tex = loader.load(base + '.webp', () => { if(alive) applyScan(d, tex); }); tex.encoding = THREE.sRGBEncoding; tex.anisotropy = maxAniso;
   }).catch(() => {});
 }
 function applyScan(d, tex){
-  const H = d.height, P = d.profile, f0 = P[0][0], f1 = P[P.length-1][0], baseT = .045, S = 128, N = P.length;
+  const H = d.height, P = d.profile, f0 = P[0][0], f1 = P[P.length-1][0], baseT = 0, S = 128, N = P.length;
   const pos = [], uv = [], idx = [];
   for(let j=0;j<N;j++){ const [f, w, df, db] = P[j], y = baseT + (f1 - f) * H;
     for(let k=0;k<=S;k++){ const th = k / S * Math.PI * 2, dz = Math.cos(th) >= 0 ? df : db;
       pos.push(w * Math.sin(th) * H, y, dz * Math.cos(th) * H); uv.push(k / S, 1 - (f - f0) / (f1 - f0)); } }
   for(let j=0;j<N-1;j++) for(let k=0;k<S;k++){ const a=j*(S+1)+k, b=a+S+1; idx.push(a,b,a+1, a+1,b,b+1); }
   const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos,3)); g.setAttribute('uv', new THREE.Float32BufferAttribute(uv,2)); g.setIndex(idx); g.computeVertexNormals();
-  const mat = new THREE.MeshStandardMaterial({map:tex, roughness:.34, metalness:.08});
-  const gold = new THREE.MeshStandardMaterial({map:goldTex(), color:0xffffff, roughness:.42, metalness:.18});
+  const mat = new THREE.MeshStandardMaterial({map:tex, roughness:.72, metalness:0}); // matte: the photos already carry the real sheen
   const black = new THREE.MeshStandardMaterial({color:0x141312, roughness:.6});
-  const bw = d.base.w * H, bd = d.base.d * H;
   const makeBase = () => { const grp = new THREE.Group();
-    const board = new THREE.Mesh(new THREE.BoxGeometry(bw, baseT*.62, bd), gold); board.position.y = baseT*.38 + baseT*.31; grp.add(board);
-    const strip = new THREE.Mesh(new THREE.BoxGeometry(bw, baseT*.38, bd), black); strip.position.y = baseT*.19; grp.add(strip);
     // the open neck, closed with a dark cap just inside the rim
     const [fT, wT, dfT, dbT] = P[0], cap = new THREE.Mesh(new THREE.CircleGeometry(1, 48), black);
     cap.rotation.x = -Math.PI/2; cap.scale.set(wT * H * .97, (dfT + dbT) / 2 * H * .97, 1); cap.position.set(0, baseT + (f1 - fT) * H - .004, (dfT - dbT) / 2 * H); grp.add(cap);
