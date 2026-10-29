@@ -23,7 +23,6 @@ const FRAMES = {
 };
 
 const coarse = matchMedia('(pointer: coarse)').matches;
-let turnTimer = 0; // the turning photo viewer in the pop-up
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const fmt = n => '£' + n.toLocaleString('en-GB');
 const cm = m => Math.round(m*100/5)*5;
@@ -55,20 +54,6 @@ function canvasTex(w,h,draw,srgb=true){
 }
 const loader = new THREE.TextureLoader();
 function imgTex(src){ const t=loader.load(src); t.encoding=THREE.sRGBEncoding; t.anisotropy=maxAniso; return t; }
-/* a background-removed photo, plus where the piece actually sits inside it (so every angle stands on the plinth at the same height) */
-function viewTex(src){
-  const v = { fit: { top: 0, bot: 1, cx: .5 } };
-  v.tex = loader.load(src, (t) => { try {
-    const im = t.image, W = 128, H = Math.round(128 * im.height / im.width), c = document.createElement('canvas'); c.width = W; c.height = H;
-    const x = c.getContext('2d'); x.drawImage(im, 0, 0, W, H); const d = x.getImageData(0, 0, W, H).data;
-    let t0 = H, b0 = 0, l0 = W, r0 = 0;
-    for (let yy = 0; yy < H; yy++) for (let xx = 0; xx < W; xx++) if (d[(yy * W + xx) * 4 + 3] > 40) { if (yy < t0) t0 = yy; if (yy > b0) b0 = yy; if (xx < l0) l0 = xx; if (xx > r0) r0 = xx; }
-    if (b0 > t0) v.fit = { top: t0 / H, bot: (b0 + 1) / H, cx: (l0 + r0 + 1) / 2 / W };
-    v.ready = true;
-  } catch (e) { v.ready = true; } });
-  v.tex.encoding = THREE.sRGBEncoding; v.tex.anisotropy = maxAniso;
-  return v;
-}
 
 let rand = (s=>()=>(s=(s*16807)%2147483647)/2147483647)(42);
 
@@ -321,6 +306,41 @@ function beam(x, yTop, yBot, width, z){
   m.position.set(x,(yTop+yBot)/2, z||.003); m.renderOrder=2; scene.add(m); return m.material;
 }
 
+/* the real piece: a body built from Mark's photos (outline from the front and side shots, surface from all four),
+   swapped in for the stand-in shape as soon as it has loaded */
+let scanReady = false, scanBase = null;
+function goldTex(){ return canvasTex(512,256,(c,w,h)=>{ c.fillStyle='#c79a45'; c.fillRect(0,0,w,h);
+  for(let i=0;i<900;i++){ const x=Math.random()*w, y=Math.random()*h, r=2+Math.random()*16; c.fillStyle=`rgba(${Math.random()<.5?'255,226,150':'120,84,30'},${.05+Math.random()*.12})`; c.fillRect(x,y,r,r*(.3+Math.random()*.7)); }
+  c.strokeStyle='rgba(90,60,20,.18)'; c.lineWidth=1; for(let i=0;i<60;i++){ c.beginPath(); const y=Math.random()*h; c.moveTo(0,y); c.bezierCurveTo(w*.3,y+(Math.random()-.5)*20,w*.6,y+(Math.random()-.5)*20,w,y+(Math.random()-.5)*10); c.stroke(); } }); }
+function loadScan(base){
+  fetch(base + '.json').then(r => r.json()).then(d => {
+    const tex = loader.load(base + '.webp', () => { if(alive) applyScan(d, tex); }); tex.encoding = THREE.sRGBEncoding; tex.anisotropy = maxAniso;
+  }).catch(() => {});
+}
+function applyScan(d, tex){
+  const H = d.height, P = d.profile, f0 = P[0][0], f1 = P[P.length-1][0], baseT = .045, S = 128, N = P.length;
+  const pos = [], uv = [], idx = [];
+  for(let j=0;j<N;j++){ const [f, w, df, db] = P[j], y = baseT + (f1 - f) * H;
+    for(let k=0;k<=S;k++){ const th = k / S * Math.PI * 2, dz = Math.cos(th) >= 0 ? df : db;
+      pos.push(w * Math.sin(th) * H, y, dz * Math.cos(th) * H); uv.push(k / S, 1 - (f - f0) / (f1 - f0)); } }
+  for(let j=0;j<N-1;j++) for(let k=0;k<S;k++){ const a=j*(S+1)+k, b=a+S+1; idx.push(a,b,a+1, a+1,b,b+1); }
+  const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos,3)); g.setAttribute('uv', new THREE.Float32BufferAttribute(uv,2)); g.setIndex(idx); g.computeVertexNormals();
+  const mat = new THREE.MeshStandardMaterial({map:tex, roughness:.34, metalness:.08});
+  const gold = new THREE.MeshStandardMaterial({map:goldTex(), color:0xffffff, roughness:.42, metalness:.18});
+  const black = new THREE.MeshStandardMaterial({color:0x141312, roughness:.6});
+  const bw = d.base.w * H, bd = d.base.d * H;
+  const makeBase = () => { const grp = new THREE.Group();
+    const board = new THREE.Mesh(new THREE.BoxGeometry(bw, baseT*.62, bd), gold); board.position.y = baseT*.38 + baseT*.31; grp.add(board);
+    const strip = new THREE.Mesh(new THREE.BoxGeometry(bw, baseT*.38, bd), black); strip.position.y = baseT*.19; grp.add(strip);
+    // the open neck, closed with a dark cap just inside the rim
+    const [fT, wT, dfT, dbT] = P[0], cap = new THREE.Mesh(new THREE.CircleGeometry(1, 48), black);
+    cap.rotation.x = -Math.PI/2; cap.scale.set(wT * H * .97, (dfT + dbT) / 2 * H * .97, 1); cap.position.set(0, baseT + (f1 - fT) * H - .004, (dfT - dbT) / 2 * H); grp.add(cap);
+    grp.traverse(o => { if(o.isMesh){ o.castShadow = true; o.receiveShadow = true; } }); return grp; };
+  scanReady = true; scanBase = makeBase;
+  torsoGeo = g; if(torsoMat && torsoMat.map) torsoMat.map.dispose(); torsoMat = mat;
+  PIECES.forEach(p => { if(!p.torso) return; const t = p.torso; t.geometry = g; t.material = mat; t.scale.set(1,1,1); t.position.y = p.ph; t.add(makeBase()); });
+  if(spin){ spin.m.geometry = g; spin.m.material = mat; spin.m.scale.set(1,1,1); spin.m.add(makeBase()); }
+}
 function buildTorso(){
   const pts = [[0,0],[.17,0],[.18,.03],[.16,.14],[.148,.26],[.165,.38],[.2,.47],[.225,.53],[.228,.565],[.21,.595],[.15,.615],[.085,.632],[.06,.65],[.057,.73],[.062,.75],[0,.755]].map(a=>new THREE.Vector2(a[0],a[1]));
   torsoGeo = new THREE.LatheGeometry(pts, 72);
@@ -346,24 +366,11 @@ function track(p, mat){ p.mats.push({m:mat, base:mat.color.clone()}); return mat
 PIECES.forEach((p,i)=>{
   const g = new THREE.Group(); p.mats=[]; p.lit=0; p.onAt=null; p.focus=1;
   if(p.sculpture){
-    const ph = p.ph = p.model==='cutout' ? 1.12 : p.model==='views' ? .9 : 1.0, pw = p.model==='cutout' ? .42 : .52;
+    const ph = p.ph = p.model==='cutout' ? 1.12 : 1.0, pw = p.model==='cutout' ? .42 : .52;
     const plinth = new THREE.Mesh(new THREE.BoxGeometry(pw,ph,pw), track(p,new THREE.MeshLambertMaterial({color:0xF7F5F1}))); plinth.position.y=ph/2; g.add(plinth); addHit(plinth,i);
-    if(p.model==='torso'){ const t = buildTorso(); t.position.y=1.0; g.add(t); addHit(t,i); p.torso=t; }
-    else if(p.model==='views'){
-      // two stacked photo planes: the one showing, and the next angle fading in over it
-      p.vt = p.views.map(v => viewTex(v.src));
-      const mk = (o) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(1,1), new THREE.MeshStandardMaterial({map:p.vt[0].tex, transparent:true, alphaTest:.02, roughness:.5, side:THREE.DoubleSide, depthWrite:false}));
-        m.renderOrder = o; m.customDepthMaterial = new THREE.MeshDepthMaterial({depthPacking:THREE.RGBADepthPacking, map:p.vt[0].tex, alphaTest:.5}); return m; };
-      const holder = new THREE.Group(); holder.position.y = ph; p.planeA = mk(2); p.planeB = mk(3); p.planeB.position.z = .002; p.planeB.material.opacity = 0;
-      p.planeA.castShadow = true; holder.add(p.planeA); holder.add(p.planeB); g.add(holder); addHit(p.planeA,i); p.cut = holder;
-      p.vi = 0; p.vn = 0; p.vf = 0; p.vClock = 0;
-      p.fitView = (mesh, k) => { const v = p.vt[k], im = p.views[k], frac = Math.max(.2, v.fit.bot - v.fit.top), Hf = p.figH / frac, Wf = Hf * im.w / im.h;
-        mesh.scale.set(Wf, Hf, 1); mesh.position.y = Hf * (.5 - (1 - v.fit.bot)); mesh.position.x = Wf * (.5 - v.fit.cx);
-        mesh.material.map = v.tex; mesh.customDepthMaterial.map = v.tex; mesh.material.needsUpdate = true; };
-      p.fitView(p.planeA, 0);
-    }
+    if(p.model==='torso'){ const t = buildTorso(); t.position.y=1.0; g.add(t); addHit(t,i); p.torso=t; if(p.scan) loadScan(p.scan); }
     else {
-      const im=IMG[p.id], fh=p.figH, fw=fh*im.w/im.h, tex=imgTex(im.src); // a single cut-out photo
+      const im=IMG[p.id], fh=p.figH, fw=fh*im.w/im.h, tex=imgTex(im.src);
       const fig = new THREE.Mesh(new THREE.PlaneGeometry(fw,fh), new THREE.MeshStandardMaterial({map:tex, alphaTest:.5, roughness:.45, side:THREE.DoubleSide}));
       fig.customDepthMaterial = new THREE.MeshDepthMaterial({depthPacking:THREE.RGBADepthPacking, map:tex, alphaTest:.5});
       const holder = new THREE.Group(); holder.position.y = ph; fig.position.y = fh/2 - .004; holder.add(fig); g.add(holder); addHit(fig,i); p.cut = holder;
@@ -849,19 +856,6 @@ function frame(now){
     if(p.haloMat) p.haloMat.opacity = .34 * Math.min(1,lv);
     if(p.sheen){ p.sheen.opacity = .22*Math.min(1,lv); p.sheen.map.offset.x = (camera.position.x - p.x)*.45; }
     if(p.cut){ p.cut.rotation.y = Math.atan2(camera.position.x - p.x, camera.position.z - 1.05); p.point.intensity = .25*lv; }
-    if(p.planeA){
-      // standing in front of it, it turns round every couple of seconds; walk on and it settles back to the front
-      if(!p.fitted && p.vt[0].ready){ p.fitted = true; p.fitView(p.planeA, p.vi); }
-      const isA = (i===active || Math.abs(p.x - camX) < .7) && openIdx !== i && !reduce;
-      if(p.vf === 0){
-        p.vClock = isA ? p.vClock + dt : 0;
-        const want = isA ? (p.vClock > 2.2 ? (p.vi + 1) % p.vt.length : p.vi) : 0;
-        if(want !== p.vi && p.vt[want].ready){ p.vn = want; p.vf = .0001; p.fitView(p.planeB, want); }
-      } else {
-        p.vf = Math.min(1, p.vf + dt / .45); p.planeB.material.opacity = p.vf; p.planeA.material.opacity = 1 - p.vf * .35;
-        if(p.vf >= 1){ p.vi = p.vn; p.fitView(p.planeA, p.vi); p.planeA.material.opacity = 1; p.planeB.material.opacity = 0; p.vf = 0; p.vClock = 0; }
-      }
-    }
     if(p.torso){
       p.point.intensity = .25*lv;
       const isA = i===active;
@@ -902,7 +896,7 @@ function openDetail(i, fromHistory){
   document.title = PIECES[i].title + ' by Mark Staples';
   openIdx=i; const p=PIECES[i];
   camTarget = p.x; distMulT = .72;
-  const media=$('#dMedia'); media.innerHTML=''; media.classList.toggle('is-spin', !!(p.torso || p.views)); clearInterval(turnTimer);
+  const media=$('#dMedia'); media.innerHTML=''; media.classList.toggle('is-spin', !!p.torso);
   if(spin) spin.on=false;
   if(p.torso){
     const wrap=document.createElement('div'); wrap.className='spin';
@@ -910,27 +904,6 @@ function openDetail(i, fromHistory){
     media.appendChild(wrap);
     const cap=document.createElement('div'); cap.className='cap'; cap.textContent= coarse ? 'Drag to turn it round' : 'Drag to turn it round'; media.appendChild(cap);
     requestAnimationFrame(()=>startSpin(wrap.querySelector('canvas')));
-  } else if(p.views){
-    // turn through the photos: drag, swipe or the arrows; it turns on its own until touched
-    const n = p.views.length, names = ['Front','Side','Back','Other side'];
-    const wrap = document.createElement('div'); wrap.className = 'turn';
-    wrap.innerHTML = '<div class="turn-stage" role="img" aria-label="'+String(p.title).replace(/"/g,'&quot;').replace(/</g,'&lt;')+' from all sides">' + p.views.map((v,k)=>'<img src="'+v.src+'" alt="" draggable="false" class="'+(k?'':'on')+'">').join('') + '</div>'
-      + '<button type="button" class="turn-arrow l" aria-label="Turn left">&lsaquo;</button><button type="button" class="turn-arrow r" aria-label="Turn right">&rsaquo;</button>'
-      + '<div class="turn-dots">' + p.views.map((v,k)=>'<button type="button" aria-label="'+(names[k]||('View '+(k+1)))+'"'+(k?'':' class="on"')+'></button>').join('') + '</div>';
-    media.appendChild(wrap);
-    const imgs = [...wrap.querySelectorAll('.turn-stage img')], dots = [...wrap.querySelectorAll('.turn-dots button')];
-    let cur = 0;
-    const show = (k) => { cur = (k + n) % n; imgs.forEach((im,j)=>im.classList.toggle('on', j===cur)); dots.forEach((d,j)=>d.classList.toggle('on', j===cur)); };
-    const stop = () => clearInterval(turnTimer);
-    if(!reduce) turnTimer = setInterval(()=>show(cur+1), 2200);
-    wrap.querySelector('.turn-arrow.l').onclick = () => { stop(); show(cur-1); };
-    wrap.querySelector('.turn-arrow.r').onclick = () => { stop(); show(cur+1); };
-    dots.forEach((d,k)=>d.onclick = () => { stop(); show(k); });
-    const stage = wrap.querySelector('.turn-stage'); let sx = null, acc = 0;
-    stage.addEventListener('pointerdown', e=>{ sx = e.clientX; acc = 0; stop(); stage.setPointerCapture(e.pointerId); });
-    stage.addEventListener('pointermove', e=>{ if(sx===null) return; acc += e.clientX - sx; sx = e.clientX; const step = coarse ? 45 : 70; while(Math.abs(acc) > step){ show(cur + (acc < 0 ? 1 : -1)); acc -= Math.sign(acc) * step; } });
-    const up = () => { sx = null; }; stage.addEventListener('pointerup', up); stage.addEventListener('pointercancel', up);
-    const cap=document.createElement('div'); cap.className='cap'; cap.textContent = coarse ? 'Swipe to walk round it' : 'Drag to walk round it'; media.appendChild(cap);
   } else {
     const box=document.createElement('div'); box.className='zoombox'+((p.cutWall||p.cut)?' cut':(p.round?' round':''));
     const img=new Image(); img.src=IMG[p.id].src; img.alt=p.title+', '+p.medium; img.draggable=false; box.appendChild(img);
@@ -963,7 +936,7 @@ function closeDetail(fromHistory){
   if(openIdx>=0 && !fromHistory) history.pushState({gallery:true}, '', '/');
   document.title = baseTitle;
   detail.classList.remove('show'); distMulT=1;
-  const i=openIdx; openIdx=-1; if(spin) spin.on=false; clearInterval(turnTimer);
+  const i=openIdx; openIdx=-1; if(spin) spin.on=false;
   setTimeout(()=>{ if(openIdx<0) detail.hidden=true; }, 360);
   if(i>=0) camTarget = PIECES[i].x;
   canvas.focus({preventScroll:true});
@@ -1003,7 +976,7 @@ function startSpin(cv){
     const sc = new THREE.Scene(); sc.add(new THREE.HemisphereLight(0xffffff,0xcfc8bc,.85));
     const dl=new THREE.DirectionalLight(0xfff2e0,.8); dl.position.set(1.5,2,2.5); sc.add(dl);
     const rim=new THREE.DirectionalLight(0xffffff,.5); rim.position.set(-2,1.5,-2); sc.add(rim);
-    const m = new THREE.Mesh(torsoGeo, torsoMat); m.scale.set(1.18,1,.56); sc.add(m);
+    const m = new THREE.Mesh(torsoGeo, torsoMat); if(scanReady){ m.add(scanBase()); } else m.scale.set(1.18,1,.56); sc.add(m);
     const top = new THREE.Mesh(new THREE.BoxGeometry(.52,.06,.52), new THREE.MeshLambertMaterial({color:0xF7F5F1})); top.position.y=-.03; sc.add(top);
     const cam = new THREE.PerspectiveCamera(32,1,.05,20); cam.position.set(0,.5,1.75); cam.lookAt(0,.38,0);
     spin = {r, sc, cam, m, rot:0, vel:.5, drag:false, on:false, lx:0, cv:null, tilt:0, tiltT:.0,
@@ -1187,7 +1160,7 @@ const fontsReady = document.fonts ? Promise.all([document.fonts.load('900 120px 
 // the intro waits for the graffiti too (up to 4s), so the walls don't change after the room appears
 Promise.all([Promise.race([fontsReady, new Promise(r=>setTimeout(r,2500))]), Promise.race([grafReady, new Promise(r=>setTimeout(r,4000))]), new Promise(r=>setTimeout(r, reduce?150:2300))]).then(()=>{
   if(GRAF.ready){ GRAF.fade = 1; GRAF.segs.forEach(sg => { sg.mesh.material.opacity = 1; }); }
-  if(torsoMat){ const old=torsoMat.map; buildTorsoTexOnly(); old.dispose(); }
+  if(torsoMat && !scanReady){ const old=torsoMat.map; buildTorsoTexOnly(); old.dispose(); }
   intro.classList.add('gone'); started=true; t0=last=performance.now();
   if(initialView==='gallery' && !initialSlug) setTimeout(startHint, 900); else dismissHint();
   if(initialView==='about') openAbout(true, true);

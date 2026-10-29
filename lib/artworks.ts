@@ -12,7 +12,6 @@ const QUERY = `*[_type == "artwork" && defined(slug.current)] | order(_createdAt
     _type == "video" => { "url": asset->url, "width": 1024, "height": 576, "video": true },
     _type != "video" => { "url": asset->url + "?w=1400&fm=webp&q=78", "thumb": asset->url + "?w=480&fm=webp&q=70",
       "width": asset->metadata.dimensions.width, "height": asset->metadata.dimensions.height, "alt": alt } },
-  "views": turnViews[]{ "url": asset->url + "?w=1600&fm=webp&q=88", "thumb": asset->url + "?w=480&fm=webp&q=70", "width": asset->metadata.dimensions.width, "height": asset->metadata.dimensions.height },
   "currentVenue": currentVenue->{name, address, url},
   "pastVenue": pastVenue->{name, address, url},
   "image": coalesce(image, photos[_type == "image"][0]){
@@ -57,8 +56,8 @@ async function fetchArtworks(): Promise<Artwork[]> {
     // skip anything half-finished: empty photo slots, or a piece with no photo at all
     const clean = rows
       .map((r) => {
-        // turntable photos: from the Studio, or the built-in set until some are uploaded there
-        const views = (r.views || []).filter((p) => p && p.url).length >= 2 ? r.views!.filter((p) => p && p.url) : SEED.find((s) => s.slug === r.slug)?.views;
+        // all-round photos of a sculpture (built in for now) lead its photos
+        const views = SEED.find((s) => s.slug === r.slug)?.views;
         return { ...r, views, image: views?.[0] ? { ...views[0], url: views[0].url } : r.image, photos: [...(views || []), ...(r.photos || []).filter((p) => p && p.url)] };
       })
       .filter((r) => r.image?.url && r.slug);
