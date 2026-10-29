@@ -309,6 +309,7 @@ function beam(x, yTop, yBot, width, z){
 /* the real piece: a body built from Mark's photos (outline from the front and side shots, surface from all four), standing straight on the plinth,
    swapped in for the stand-in shape as soon as it has loaded */
 let scanReady = false, scanBase = null;
+const footTex = canvasTex(128,128,(c,w,h)=>{ const g=c.createRadialGradient(w/2,h/2,0,w/2,h/2,w/2); g.addColorStop(0,'rgba(0,0,0,.75)'); g.addColorStop(.45,'rgba(0,0,0,.45)'); g.addColorStop(1,'rgba(0,0,0,0)'); c.fillStyle=g; c.fillRect(0,0,w,h); });
 function loadScan(base){
   fetch(base + '.json').then(r => r.json()).then(d => {
     const tex = loader.load(base + '.webp', () => { if(alive) applyScan(d, tex); }); tex.encoding = THREE.sRGBEncoding; tex.anisotropy = maxAniso;
@@ -328,10 +329,13 @@ function applyScan(d, tex){
     // the open neck, closed with a dark cap just inside the rim
     const [fT, wT, dfT, dbT] = P[0], cap = new THREE.Mesh(new THREE.CircleGeometry(1, 48), black);
     cap.rotation.x = -Math.PI/2; cap.scale.set(wT * H * .97, (dfT + dbT) / 2 * H * .97, 1); cap.position.set(0, baseT + (f1 - fT) * H - .004, (dfT - dbT) / 2 * H); grp.add(cap);
-    grp.traverse(o => { if(o.isMesh){ o.castShadow = true; o.receiveShadow = true; } }); return grp; };
+    // a soft contact shadow under its foot that turns with it, instead of the spotlight's hard cast shadow
+    const [, wB, dfB, dbB] = P[N-1], foot = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({map:footTex, transparent:true, opacity:.55, depthWrite:false}));
+    foot.rotation.x = -Math.PI/2; foot.scale.set(wB * H * 2.9, (dfB + dbB) * H * 1.45, 1); foot.position.set(0, .0015, (dfB - dbB) / 2 * H); foot.renderOrder = 1; grp.add(foot);
+    cap.castShadow = false; return grp; };
   scanReady = true; scanBase = makeBase;
   torsoGeo = g; if(torsoMat && torsoMat.map) torsoMat.map.dispose(); torsoMat = mat;
-  PIECES.forEach(p => { if(!p.torso) return; const t = p.torso; t.geometry = g; t.material = mat; t.scale.set(1,1,1); t.position.y = p.ph; t.add(makeBase()); });
+  PIECES.forEach(p => { if(!p.torso) return; const t = p.torso; t.geometry = g; t.material = mat; t.scale.set(1,1,1); t.position.y = p.ph; t.castShadow = false; t.add(makeBase()); });
   if(spin){ spin.m.geometry = g; spin.m.material = mat; spin.m.scale.set(1,1,1); spin.m.add(makeBase()); }
 }
 function buildTorso(){
