@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   alternates: { canonical: '/privacy' },
 };
 
-const UPDATED = '28 October 2026';
+const UPDATED = '30 October 2026';
 
 export default function Privacy() {
   return (
@@ -34,7 +34,7 @@ export default function Privacy() {
           <li><b>Resend</b> sends the enquiry emails.</li>
           <li><b>Sanity</b> stores a copy of each enquiry so Mark can keep track of them.</li>
           <li><b>Cloudflare Turnstile</b> checks that a form is being sent by a person, not a bot. It looks at technical signals from your browser and doesn&rsquo;t track you across other sites.</li>
-          <li><b>Vercel</b> hosts the website and keeps short-lived technical logs, such as IP addresses, to keep it secure and running.</li>
+          <li><b>Vercel</b> hosts the website and keeps short-lived technical logs, such as IP addresses, to keep it secure and running. Its visitor statistics count page views without cookies and without identifying you.</li>
         </ul>
         <p>Some of these companies are based in, or use servers in, the United States. They protect UK data with the safeguards UK law requires for international transfers.</p>
 

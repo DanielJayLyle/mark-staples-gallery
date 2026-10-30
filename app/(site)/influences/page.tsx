@@ -4,13 +4,20 @@ import Gallery from '@/components/Gallery';
 import { getFeatured } from '@/lib/artworks';
 import { toEngine } from '@/lib/toEngine';
 import { getAbout } from '@/lib/siteText';
+import { WHO } from '@/lib/seo';
 
 export const revalidate = 60;
 export async function generateMetadata(): Promise<Metadata> {
   const { inspires } = await getAbout();
   return {
-    title: 'Who inspires Mark Staples',
-    description: `The artists who inspire Mark Staples: ${inspires.names.map((n) => n.name).join(', ')}.`,
+    title: { absolute: 'Who inspires Mark Staples' },
+    // the people he has met first, then as many others as fit in a search snippet
+    description: (() => {
+      const list = [...inspires.names.filter((n) => n.met), ...inspires.names.filter((n) => !n.met)].map((n) => n.name);
+      let out = `The artists who inspire ${WHO}: ${list[0]}`;
+      for (const n of list.slice(1)) { if ((out + ', ' + n + ' and more.').length > 155) break; out += ', ' + n; }
+      return out + ' and more.';
+    })(),
     alternates: { canonical: '/influences' },
   };
 }

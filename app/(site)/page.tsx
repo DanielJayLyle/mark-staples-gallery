@@ -6,6 +6,7 @@ import { SITE } from '@/lib/site';
 import { getAbout } from '@/lib/siteText';
 
 export const revalidate = 60;
+export const metadata = { alternates: { canonical: '/' } };
 
 export default async function Home() {
   const [artworks, about] = await Promise.all([getFeatured(), getAbout()]);

@@ -1,9 +1,10 @@
 import type { Metadata, Viewport } from 'next';
+import { Analytics } from '@vercel/analytics/next';
 import { SITE, isProduction } from '@/lib/site';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
-  title: { default: 'Mark Staples | Pop and street art', template: '%s | Mark Staples' },
+  title: { default: 'Mark Staples | Street pop artist, Southampton', template: '%s | Mark Staples' },
   description: SITE.description,
   icons: { icon: '/tag.svg', apple: '/apple-touch-icon.png' },
   openGraph: { siteName: 'Mark Staples', type: 'website', locale: 'en_GB', images: [{ url: '/og.jpg', width: 1200, height: 630, alt: 'Mark Staples, street pop art' }] },
@@ -15,7 +16,8 @@ export const viewport: Viewport = { width: 'device-width', initialScale: 1, view
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en-GB">
-      <body>{children}</body>
+      {/* Vercel Web Analytics: no cookies, no personal data, counts visits only */}
+      <body>{children}<Analytics /></body>
     </html>
   );
 }
