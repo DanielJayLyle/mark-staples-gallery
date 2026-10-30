@@ -19,7 +19,8 @@ export async function generateStaticParams() {
   return [...cols.map((c) => ({ slug: c.slug })), ...all.filter(hasPage).map((a) => ({ slug: a.slug }))];
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata(props: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const params = await props.params;
   const g = await getCollection(params.slug);
   if (g) {
     const description = `${g.collection.title} by Mark Staples: ${g.artworks.length} pieces.${g.collection.blurb ? ' ' + g.collection.blurb : ''}`.slice(0, 300);
@@ -41,7 +42,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default async function ArtworkPage({ params }: { params: { slug: string } }) {
+export default async function ArtworkPage(props: { params: Promise<{ slug: string }> }) {
+  const params = await props.params;
   const g = await getCollection(params.slug);
   if (g) return <CollectionPage group={g} />;
   const r = await getArtwork(params.slug);

@@ -6,7 +6,8 @@ import '@fontsource-variable/unbounded';
 
 export const metadata: Metadata = { title: 'Preview', robots: { index: false, follow: false } };
 
-export default function Preview({ searchParams }: { searchParams: { next?: string; wrong?: string } }) {
+export default async function Preview(props: { searchParams: Promise<{ next?: string; wrong?: string }> }) {
+  const searchParams = await props.searchParams;
   return (
     <div className="page nf pv">
       <main className="wrap nf-wrap">

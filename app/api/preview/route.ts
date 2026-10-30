@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { COOKIE, passHash } from '@/middleware';
+import { COOKIE, passHash } from '@/lib/preview';
 
 export async function POST(req: Request) {
   const form = await req.formData();

@@ -6,7 +6,7 @@ Read this before changing anything. The README explains the project for people; 
 
 - Site for the artist **Mark Staples** (Instagram @marky_s11), built and run by **Dan at Future Faced**. Dan asks for changes; Mark edits content in the Studio.
 - Domain: markys11.co.uk (DNS at GoDaddy). Live on Vercel (Future Faced account, project `ff-9dec`) at `mark-staples-gallery-ashen.vercel.app` until the domain is connected.
-- Stack: Next.js 14 App Router, Three.js **r128** (do not upgrade, the engine depends on it), Sanity (content), Resend (email), Cloudflare Turnstile (spam), Vercel (hosting).
+- Stack: Next.js 16 App Router (React 19, Node 22), Three.js **r128** (do not upgrade, the engine depends on it), Sanity (content), Resend (email), Cloudflare Turnstile (spam), Vercel (hosting).
 
 ## Workflow (always)
 
@@ -14,7 +14,7 @@ Read this before changing anything. The README explains the project for people; 
 2. Run `npx tsc --noEmit -p .` and `npm run build` before pushing.
 3. Dan checks the preview on desktop and phone. Only merge `dev` into `main` when he says "push to live". `main` deploys the live site.
 4. Never force-push `main`. A safe copy of the site before the graffiti feature is on the branch `save-v1-before-graffiti`.
-5. Dependabot opens weekly minor/patch PRs into `dev`; majors and `three` are ignored on purpose.
+5. Dependabot opens weekly minor/patch PRs into `dev`; majors and `three` are ignored on purpose. Majors (Next, React, Sanity) are planned upgrades on their own branch with a full re-test. Next 16 note: page `params`/`searchParams` are Promises, and middleware is `proxy.ts`.
 
 ## Writing rules
 
@@ -53,4 +53,4 @@ Read this before changing anything. The README explains the project for people; 
 
 ## Environment variables (Vercel)
 
-`RESEND_API_KEY`, `ENQUIRY_FROM` (`Mark Staples <enquiries@markys11.co.uk>`), `ENQUIRY_TO`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`, `NEXT_PUBLIC_SANITY_PROJECT_ID` (`lymhtovz`), `NEXT_PUBLIC_SANITY_DATASET` (`production`), `SANITY_API_READ_TOKEN`, `SANITY_API_WRITE_TOKEN`, optional `SANITY_REVALIDATE_SECRET`, `NEXT_PUBLIC_SITE_URL` (`https://www.markys11.co.uk`), `SITE_PASSWORD` (temporary preview wall in `middleware.ts`: delete it in Vercel and redeploy to open the site). Keys are created and pasted into Vercel by Dan; they never go in chat or in the repo.
+`RESEND_API_KEY`, `ENQUIRY_FROM` (`Mark Staples <enquiries@markys11.co.uk>`), `ENQUIRY_TO`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`, `NEXT_PUBLIC_SANITY_PROJECT_ID` (`lymhtovz`), `NEXT_PUBLIC_SANITY_DATASET` (`production`), `SANITY_API_READ_TOKEN`, `SANITY_API_WRITE_TOKEN`, optional `SANITY_REVALIDATE_SECRET`, `NEXT_PUBLIC_SITE_URL` (`https://www.markys11.co.uk`), `SITE_PASSWORD` (temporary preview wall in `proxy.ts` + `lib/preview.ts`: delete it in Vercel and redeploy to open the site). Keys are created and pasted into Vercel by Dan; they never go in chat or in the repo.
