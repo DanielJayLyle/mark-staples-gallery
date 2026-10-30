@@ -1018,7 +1018,7 @@ function buildAbout(){
   });
   const sig = document.createElement('p'); sig.className = 'spray sig'; words(sig, about.signoff);
   sig.insertAdjacentHTML('beforeend', ' <span class="w">MS11</span>');
-  const ig = document.createElement('p'); ig.className = 'inf-cta about-ig'; ig.innerHTML = '<a class="chip" href="https://www.instagram.com/marky_s11/" target="_blank" rel="noopener">Follow on Instagram @marky_s11</a>';
+  const ig = document.createElement('p'); ig.className = 'inf-cta about-ig'; ig.innerHTML = '<a class="chip" href="#contact" data-contact>Get in touch</a> <a class="chip" href="https://www.instagram.com/marky_s11/" target="_blank" rel="noopener">Follow on Instagram @marky_s11</a>';
   aboutBody.appendChild(sig);
   aboutBody.appendChild(ig);
   if(about.inspires){ const cta = document.createElement('p'); cta.className = 'inf-cta'; cta.innerHTML = '<button class="chip" type="button" id="infGo">Who inspires me &uarr;</button>'; aboutBody.appendChild(cta); cta.firstChild.onclick = () => openInf();

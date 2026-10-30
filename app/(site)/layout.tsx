@@ -11,4 +11,5 @@ import '@fontsource/caveat-brush';
 import '@fontsource/nanum-pen-script';
 import '../gallery.css';
 import '../site.css';
-export default function SiteLayout({ children }: { children: React.ReactNode }) { return <>{children}</>; }
+import ContactDialog from '@/components/ContactDialog';
+export default function SiteLayout({ children }: { children: React.ReactNode }) { return <>{children}<ContactDialog /></>; }
