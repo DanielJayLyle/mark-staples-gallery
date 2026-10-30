@@ -46,6 +46,7 @@ Read this before changing anything. The README explains the project for people; 
 
 - One big file, `mountGallery(root, opts)`; markup in `components/gallery/markup.js`. Test changes visually (Playwright with swiftshader works in the cloud workspace).
 - **Graffiti after hours:** builds through the visitor's own day and is cleaned at 6am. Coverage: none 6 to 10am, then rising to full by 10pm, full overnight. Night lighting ramps 5 to 7pm. Preview any hour with `?time=HH`. No manual switch (Dan removed it). Words only from t ≥ .3. No paste-ups or white patches behind art; signs and text stay readable via `cleanZones` fades. The intro waits for the graffiti (max 4s) so it doesn't pop in.
+- Anything from the CMS that goes into `innerHTML` in the engine must go through `escH()`, and links through `safeUrl()`. JSON-LD uses `ldHtml()` from `lib/jsonld.ts`.
 - Seeded random: `seed()` can return negatives; use `Math.abs(...)+7` for anything that must be positive.
 - Influences ceiling has 19 placed slots plus 5 spares, so 24 names maximum.
 - After `npm run build`, start `next start` on a fresh port; an old server serves stale chunks. Don't `pkill -f "next start"` (it kills the shell); kill by port.

@@ -15,7 +15,7 @@ async function sendEmail(body: Record<string, unknown>) {
 export async function POST(req: Request) {
   let data: Record<string, string>;
   try { data = await req.json(); } catch { return NextResponse.json({ error: 'Invalid request.' }, { status: 400 }); }
-  const name = String(data.name || '').trim().slice(0, 120);
+  const name = String(data.name || '').replace(/\s+/g, ' ').trim().slice(0, 80);
   const email = String(data.email || '').trim().slice(0, 200);
   const message = String(data.message || '').trim().slice(0, 4000);
   const slug = String(data.slug || '').trim();
@@ -28,6 +28,8 @@ export async function POST(req: Request) {
     if (!v.success) return NextResponse.json({ error: 'Please wait a second for the spam check, then send again.' }, { status: 400 });
   }
   if (!name || !/^\S+@\S+\.\S+$/.test(email)) return NextResponse.json({ error: 'Please add your name and a valid email address.' }, { status: 400 });
+  // the name goes into a thank-you email sent to whatever address was typed, so it can't carry links
+  if (/https?:|www\.|\.(com|net|org|ru|xyz|io|co)\b|[<>]/i.test(name)) return NextResponse.json({ error: 'Please just add your name in the name box.' }, { status: 400 });
 
   const found = slug ? await getArtwork(slug) : null;
   const art = found?.artwork;

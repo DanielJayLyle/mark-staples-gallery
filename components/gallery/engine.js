@@ -23,6 +23,9 @@ const FRAMES = {
 };
 
 const coarse = matchMedia('(pointer: coarse)').matches;
+// anything from the CMS that goes into HTML is escaped, and links must be plain web addresses
+const escH = t => String(t ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const safeUrl = u => /^https?:\/\//i.test(String(u || '')) ? escH(u) : '#';
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const fmt = n => '£' + n.toLocaleString('en-GB');
 const cm = m => Math.round(m*100/5)*5;
@@ -734,7 +737,7 @@ function setTag(i){
   if(i<0){ tag.classList.remove('on'); return; }
   const p=PIECES[i];
   const tt=$('#tagTitle'); tt.textContent=p.title; tt.classList.remove('pull'); void tt.offsetWidth; tt.classList.add('pull');
-  $('#tagMeta').innerHTML = (p.sold ? '<span class="dot" aria-hidden="true"></span><b>Sold</b>' : ((p.priceText || (p.venue ? '' : p.statusText)) ? '<b>'+(p.priceText || p.statusText)+'</b>' : '')) + (p.size ? '<span>' + p.size + '</span>' : '') + (p.venue && !p.sold ? '<span class="live">On show at '+p.venue.name+'</span>' : '');
+  $('#tagMeta').innerHTML = (p.sold ? '<span class="dot" aria-hidden="true"></span><b>Sold</b>' : ((p.priceText || (p.venue ? '' : p.statusText)) ? '<b>'+escH(p.priceText || p.statusText)+'</b>' : '')) + (p.size ? '<span>' + escH(p.size) + '</span>' : '') + (p.venue && !p.sold ? '<span class="live">On show at '+escH(p.venue.name)+'</span>' : '');
   $('#tagGo').textContent = coarse ? 'Tap to view' : 'Click to view';
   tag.classList.add('on');
 }
@@ -910,14 +913,14 @@ function openDetail(i, fromHistory){
   }
   const eb = [p.kind, p.year].filter(Boolean).join(', '); $('#dEyebrow').textContent = eb ? '/ ' + eb : '';
   $('#dTitle').textContent = p.title;
-  const vLink = v => '<a class="venue" href="'+v.url+'" target="_blank" rel="noopener">'+v.name+' <span aria-hidden="true">\u2197\uFE0E</span></a>';
+  const vLink = v => '<a class="venue" href="'+safeUrl(v.url)+'" target="_blank" rel="noopener">'+escH(v.name)+' <span aria-hidden="true">\u2197\uFE0E</span></a>';
   $('#dPrice').innerHTML = p.sold
-    ? '<strong><span class="dot" aria-hidden="true"></span> Sold</strong><span>'+(p.soldNote && p.soldNote!=='Sold' ? p.soldNote+'. ' : '')+'Ask about similar work or commissions.</span>'
-    : (p.priceText ? '<strong>'+p.priceText+'</strong><span>'+(p.sculpture?'Free UK delivery, carefully packed':'Free UK delivery, ready to hang')+'</span>'
-        : (p.statusText && !p.venue ? '<strong>'+p.statusText+'</strong>' : '')+'<span>Enquire for details</span>')
-      + (p.venue ? '<div class="onshow"><i aria-hidden="true"></i><span>On show now at '+vLink(p.venue)+'</span><small>'+p.venue.place+'. Pop in and see it in person.</small></div>' : '');
+    ? '<strong><span class="dot" aria-hidden="true"></span> Sold</strong><span>'+(p.soldNote && p.soldNote!=='Sold' ? escH(p.soldNote)+'. ' : '')+'Ask about similar work or commissions.</span>'
+    : (p.priceText ? '<strong>'+escH(p.priceText)+'</strong><span>'+(p.sculpture?'Free UK delivery, carefully packed':'Free UK delivery, ready to hang')+'</span>'
+        : (p.statusText && !p.venue ? '<strong>'+escH(p.statusText)+'</strong>' : '')+'<span>Enquire for details</span>')
+      + (p.venue ? '<div class="onshow"><i aria-hidden="true"></i><span>On show now at '+vLink(p.venue)+'</span><small>'+escH(p.venue.place)+'. Pop in and see it in person.</small></div>' : '');
   // only show what we actually know about the piece
-  const specs=[['Medium',p.medium],['Size',p.size],['Frame',p.frameText],['Year',p.year],['On show at',p.venue&&!p.sold?vLink(p.venue):''],[p.sold?'Sold via':'Shown at',p.pastVenue?vLink(p.pastVenue):'']].filter(s=>s[1]);
+  const specs=[['Medium',escH(p.medium||'')],['Size',escH(p.size||'')],['Frame',escH(p.frameText||'')],['Year',escH(p.year||'')],['On show at',p.venue&&!p.sold?vLink(p.venue):''],[p.sold?'Sold via':'Shown at',p.pastVenue?vLink(p.pastVenue):'']].filter(s=>s[1]);
   $('#dSpecs').innerHTML = specs.map(s=>'<div><dt>'+s[0]+'</dt><dd>'+s[1]+'</dd></div>').join('');
   $('#dSpecs').hidden = !specs.length;
   $('#dStory').textContent = p.story || ''; $('#dStory').hidden = !p.story;
@@ -1023,8 +1026,8 @@ function buildAbout(){
   // photos: three taped beside the text, the rest in a reel that scrolls past forever
   const photos = about.photos || [];
   const print = (ph, n) => '<figure class="print'+(ph.w > ph.h ? ' wide' : '')+'" style="--ar:'+(ph.w && ph.h ? (ph.w/ph.h).toFixed(3) : '0.8')+'"><i class="tape t1"></i><i class="tape t2"></i>' +
-    (ph.src ? '<img src="'+ph.src+'" width="'+(ph.w||400)+'" height="'+(ph.h||500)+'" alt="'+(ph.caption || 'Mark Staples')+'" loading="lazy" decoding="async">' : '') +
-    (ph.caption ? '<figcaption>'+ph.caption+'</figcaption>' : '') + '</figure>';
+    (ph.src ? '<img src="'+ph.src+'" width="'+(ph.w||400)+'" height="'+(ph.h||500)+'" alt="'+escH(ph.caption || 'Mark Staples')+'" loading="lazy" decoding="async">' : '') +
+    (ph.caption ? '<figcaption>'+escH(ph.caption)+'</figcaption>' : '') + '</figure>';
   $('#aboutPhotos').innerHTML = photos.slice(0, 3).map((ph, i) => print(ph, i + 1)).join('');
   const rest = photos.slice(3);
   if(rest.length){
@@ -1140,9 +1143,9 @@ $('#infBtn').onclick = e => { e.preventDefault(); openInf(); };
 /* ---------- grid view ---------- */
 const grid=$('#grid');
 $('#cards').innerHTML = PIECES.map((p,i)=>`<button class="card" type="button" data-i="${i}">
-  <div class="thumb"><img loading="lazy" alt="" src="${IMG[p.id].src}"></div>
-  <h3>${p.title}</h3>
-  <div class="row">${p.sold?'<span><span class="dot" aria-hidden="true"></span> <b>Sold</b></span>':((p.priceText||p.statusText) ? '<b>'+(p.priceText||p.statusText)+'</b>' : '')}<span>${p.venue&&!p.sold?'On show at '+p.venue.name:(p.kind||'')}</span></div></button>`).join('');
+  <div class="thumb"><img loading="lazy" alt="" src="${escH(IMG[p.id].src)}"></div>
+  <h3>${escH(p.title)}</h3>
+  <div class="row">${p.sold?'<span><span class="dot" aria-hidden="true"></span> <b>Sold</b></span>':((p.priceText||p.statusText) ? '<b>'+escH(p.priceText||p.statusText)+'</b>' : '')}<span>${escH(p.venue&&!p.sold?'On show at '+p.venue.name:(p.kind||''))}</span></div></button>`).join('');
 $('#cards').addEventListener('click', e=>{ const c=e.target.closest('.card'); if(!c) return; const i=+c.dataset.i; closeGrid(true); camTarget=camX=PIECES[i].x; openDetail(i); });
 function openGrid(){ grid.hidden=false; requestAnimationFrame(()=>grid.classList.add('show')); setTimeout(()=>$('#gClose').focus({preventScroll:true}),50); dismissHint(); }
 function closeGrid(instant){ grid.classList.remove('show'); if(instant) grid.hidden=true; else setTimeout(()=>{ grid.hidden=true; }, 360); }
