@@ -9,8 +9,8 @@ import { SITE } from '@/lib/site';
 
 export const revalidate = 60;
 export const metadata: Metadata = {
-  title: 'About Mark Staples',
-  description: 'Meet Mark Staples: a 70s council estate kid from Bristol who found peace in graffiti and art, and now has work in Brighton galleries, bars, cafes and walls across the UK.',
+  title: 'Meet the artist',
+  description: 'Meet Mark Staples: a 70s council estate kid who found peace in graffiti and art, now with work in Brighton galleries, bars, cafes and on walls across the UK.',
   alternates: { canonical: '/about' },
 };
 

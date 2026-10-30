@@ -19,6 +19,9 @@ export async function POST(req: Request) {
   const email = String(data.email || '').trim().slice(0, 200);
   const message = String(data.message || '').trim().slice(0, 4000);
   const slug = String(data.slug || '').trim();
+  // general messages from the contact pop-up say what they're about
+  const TOPICS: Record<string, string> = { commission: 'Commission', buying: 'Buying a piece', other: 'Something else' };
+  const topic = TOPICS[String(data.topic || '')] || '';
 
   // Spam trap: real people never fill the hidden "website" field
   if (data.website) return NextResponse.json({ ok: true });
@@ -34,7 +37,7 @@ export async function POST(req: Request) {
   const found = slug ? await getArtwork(slug) : null;
   const art = found?.artwork;
   const label = art ? (art.title || `an untitled piece (${art.collection?.title || 'All work'})`) : '';
-  const subject = art ? `Enquiry: ${label} (${art.status === 'sold' ? 'sold, asking about similar work' : (statusText(art) || 'status not set')})` : 'New enquiry from the website';
+  const subject = art ? `Enquiry: ${label} (${art.status === 'sold' ? 'sold, asking about similar work' : (statusText(art) || 'status not set')})` : topic === 'Commission' ? 'Commission enquiry from the website' : `New message from the website${topic ? ` (${topic.toLowerCase()})` : ''}`;
   const link = art ? (hasPage(art) ? `${SITE.url}/work/${art.slug}` : `${SITE.url}/work/${art.collection?.slug || ''}#${art.slug}`) : SITE.url;
 
   let emailed = false, saved = false;
@@ -43,9 +46,9 @@ export async function POST(req: Request) {
   if (process.env.RESEND_API_KEY && process.env.ENQUIRY_TO && process.env.ENQUIRY_FROM) {
     try {
       const piece = art ? { title: label, link, image: art.photos?.find((ph) => !ph.video)?.thumb || art.image?.url, status: art.status === 'sold' ? 'Sold' : statusText(art) } : null;
-      const m = toMark({ name, email, message, piece, subject });
+      const m = toMark({ name, email, message, piece, subject, topic });
       await sendEmail({ from: process.env.ENQUIRY_FROM, to: process.env.ENQUIRY_TO, reply_to: email, subject: m.subject, html: m.html, text: m.text });
-      const v = toVisitor({ name, piece });
+      const v = toVisitor({ name, piece, topic });
       await sendEmail({ from: process.env.ENQUIRY_FROM, to: email, reply_to: process.env.ENQUIRY_TO, subject: v.subject, html: v.html, text: v.text });
       emailed = true;
     } catch (e) { problems.push('email'); console.error(e); }
@@ -55,7 +58,7 @@ export async function POST(req: Request) {
     try {
       const client = createClient({ ...sanityConfig, token: process.env.SANITY_API_WRITE_TOKEN, useCdn: false, perspective: 'published' });
       const ref = art ? await client.fetch<string | null>(`*[_type=="artwork" && slug.current==$slug][0]._id`, { slug: art.slug }) : null;
-      await client.create({ _type: 'enquiry', name, email, message, status: 'new', receivedAt: new Date().toISOString(), artworkTitle: label || undefined,
+      await client.create({ _type: 'enquiry', name, email, message, status: 'new', receivedAt: new Date().toISOString(), artworkTitle: label || undefined, topic: topic || undefined,
         ...(ref ? { artwork: { _type: 'reference', _ref: ref } } : {}) });
       saved = true;
     } catch (e) { problems.push('cms'); console.error(e); }

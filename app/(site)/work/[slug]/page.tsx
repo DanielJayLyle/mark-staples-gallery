@@ -1,5 +1,8 @@
 import Link from 'next/link';
 import { ldHtml } from '@/lib/jsonld';
+import { clip, WHO } from '@/lib/seo';
+
+const KIND: Record<string, string> = { Painting: 'a painting', Sculpture: 'a sculpture', 'Mirror art': 'a piece of mirror art', 'Mixed media on canvas': 'a mixed media piece on canvas', Drawing: 'a drawing', Poem: 'a poem', Print: 'a print', Commission: 'a commission' };
 import Image from 'next/image';
 import { notFound, redirect } from 'next/navigation';
 import type { Metadata } from 'next';
@@ -23,7 +26,7 @@ export async function generateMetadata(props: { params: Promise<{ slug: string }
   const params = await props.params;
   const g = await getCollection(params.slug);
   if (g) {
-    const description = `${g.collection.title} by Mark Staples: ${g.artworks.length} pieces.${g.collection.blurb ? ' ' + g.collection.blurb : ''}`.slice(0, 300);
+    const description = clip(`${g.collection.title} by ${WHO}: ${g.artworks.length} pieces.${g.collection.blurb ? ' ' + g.collection.blurb : ''} Tap any piece to see it up close or enquire.`);
     const cover = g.artworks[0]?.image;
     return { title: g.collection.title, description, alternates: { canonical: `/work/${g.collection.slug}` },
       openGraph: { title: `${g.collection.title} by Mark Staples`, description, images: cover ? [{ url: cover.url, width: cover.width, height: cover.height, alt: cover.alt }] : [] } };
@@ -32,7 +35,9 @@ export async function generateMetadata(props: { params: Promise<{ slug: string }
   if (!r) return {};
   const a = r.artwork;
   if (!hasPage(a)) return { robots: { index: false } };
-  const description = [`${a.title} by Mark Staples.`, [a.kind, a.medium, sizeText(a)].filter(Boolean).join(', '), a.story].filter(Boolean).join(' ').slice(0, 300);
+  const what = [a.medium, sizeText(a)].filter(Boolean).join(', ');
+  const where = a.status === 'sold' ? (a.soldNote && a.soldNote !== 'Sold' ? a.soldNote + '.' : 'Sold.') : a.currentVenue ? `On show at ${a.currentVenue.name}, ${a.currentVenue.address.split(',').pop()?.trim()}.` : '';
+  const description = clip([`${a.title}, ${KIND[a.kind || ''] || (a.kind ? 'a ' + a.kind.toLowerCase() : 'a piece')} by ${WHO}.`, what && what + '.', where, a.story, a.featured ? 'See it in his 3D gallery or enquire.' : 'Enquire about this piece.'].filter(Boolean).join(' '));
   return {
     title: a.kind ? `${a.title}, ${a.kind.toLowerCase()}` : a.title,
     description,

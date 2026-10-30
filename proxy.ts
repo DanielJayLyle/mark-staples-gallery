@@ -19,5 +19,5 @@ export async function proxy(req: NextRequest) {
 
 // Everything except the wall itself, Next's own files, and the few public files emails and link previews need
 export const config = {
-  matcher: ['/((?!preview|api/preview|api/revalidate|_next/|email/|fonts/|og.jpg|favicon|apple-touch-icon.png|tag.svg|logo-full.svg|robots.txt).*)'],
+  matcher: ['/((?!preview|api/preview|api/revalidate|_next/|_vercel/|email/|fonts/|og.jpg|favicon|apple-touch-icon.png|tag.svg|logo-full.svg|robots.txt).*)'],
 };

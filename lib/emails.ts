@@ -46,34 +46,35 @@ ${piece.status ? `<div style="font:12px/1.5 ${BODY};color:${INK2};margin-top:4px
 }
 
 /** The email Mark gets. Reply goes straight to the visitor. */
-export function toMark(o: { name: string; email: string; message: string; piece: EnquiryPiece; subject: string }) {
+export function toMark(o: { name: string; email: string; message: string; piece: EnquiryPiece; subject: string; topic?: string }) {
   const first = o.name.split(/\s+/)[0];
   const quote = esc(o.message || '(no message)').replace(/\n/g, '<br>');
   const reply = `mailto:${encodeURIComponent(o.email)}?subject=${encodeURIComponent('Re: ' + (o.piece ? o.piece.title : 'your enquiry'))}`;
   const html = frame(`${o.name} asked about ${o.piece ? o.piece.title : 'your work'}`, [
-    row(h1('New enquiry'), '18px 32px 6px'),
+    row(h1(o.topic === 'Commission' ? 'Commission enquiry' : o.piece ? 'New enquiry' : 'New message'), '18px 32px 6px'),
+    o.topic && !o.piece ? row(p(`About: <b style="color:${INK};">${esc(o.topic)}</b>`, 'margin:0;'), '2px 32px 2px') : '',
     row(p(`<b style="color:${INK};">${esc(o.name)}</b> &middot; <a href="mailto:${esc(o.email)}" style="color:${INK};">${esc(o.email)}</a>`, 'margin:0;'), '6px 32px 4px'),
     pieceCard(o.piece, 'See the piece'),
     row(`<div style="border-left:4px solid ${RED};padding:4px 0 4px 16px;font:16px/1.65 ${BODY};color:${INK};">${quote}</div>`, '8px 32px 18px'),
     row(btn(reply, `Reply to ${esc(first)}`), '4px 32px 10px'),
     row(p('Or just hit reply: it goes straight to them. The enquiry is also saved in your Studio.', 'font-size:13px;'), '6px 32px 26px'),
   ].join(''));
-  const text = `New enquiry\n\n${o.name} (${o.email})${o.piece ? `\nAbout: ${o.piece.title} ${o.piece.link}` : ''}\n\n${o.message}\n\nJust hit reply to answer them.`;
+  const text = `${o.topic ? o.topic + ' message' : 'New enquiry'}\n\n${o.name} (${o.email})${o.piece ? `\nAbout: ${o.piece.title} ${o.piece.link}` : ''}\n\n${o.message}\n\nJust hit reply to answer them.`;
   return { subject: o.subject, html, text };
 }
 
 /** The thank-you the visitor gets. Replies go to Mark. */
-export function toVisitor(o: { name: string; piece: EnquiryPiece }) {
+export function toVisitor(o: { name: string; piece: EnquiryPiece; topic?: string }) {
   const first = o.name.split(/\s+/)[0];
   const about = o.piece ? ` about <b style="color:${INK};">${esc(o.piece.title)}</b>` : '';
   const html = frame(`Mark has your message and will reply personally.`, [
     row(h1(`Thanks, ${esc(first)}`), '18px 32px 8px'),
-    row(p(`Your enquiry${about} has reached Mark. He reads every one himself and will reply personally, usually within a day or two.`)
+    row(p(`Your ${o.piece ? 'enquiry' : 'message'}${about} has reached Mark. He reads every one himself and will reply personally, usually within a day or two.`)
       + p('If you think of anything else in the meantime, just reply to this email.'), '6px 32px 4px'),
     pieceCard(o.piece, 'See it again'),
     row(`<p style="margin:0;font:15px/1.6 ${BODY};color:${INK};">Peace and love always x<br><b>Mark Staples</b></p>`, '10px 32px 14px'),
     row(btn(`${SITE.url}/work`, 'Explore more work'), '6px 32px 30px'),
   ].join(''));
-  const text = `Thanks, ${first}\n\nYour enquiry${o.piece ? ` about ${o.piece.title}` : ''} has reached Mark. He reads every one himself and will reply personally, usually within a day or two.\n\nIf you think of anything else, just reply to this email.\n\nPeace and love always x\nMark Staples\n${SITE.url}`;
-  return { subject: `Thanks for your enquiry${o.piece ? ' about ' + o.piece.title : ''}`, html, text };
+  const text = `Thanks, ${first}\n\nYour ${o.piece ? 'enquiry' : 'message'}${o.piece ? ` about ${o.piece.title}` : ''} has reached Mark. He reads every one himself and will reply personally, usually within a day or two.\n\nIf you think of anything else, just reply to this email.\n\nPeace and love always x\nMark Staples\n${SITE.url}`;
+  return { subject: o.piece ? `Thanks for your enquiry about ${o.piece.title}` : 'Thanks for getting in touch', html, text };
 }
