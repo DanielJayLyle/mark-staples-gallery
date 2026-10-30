@@ -11,6 +11,8 @@ const security = [
 const nextConfig = {
   poweredByHeader: false,
   images: { remotePatterns: [{ protocol: 'https', hostname: 'cdn.sanity.io' }] },
+  // renamed pieces keep their old links working
+  async redirects() { return [{ source: '/work/peggy', destination: '/work/twiggy', permanent: true }]; },
   async headers() { return [{ source: '/:path*', headers: security }]; },
 };
 export default nextConfig;

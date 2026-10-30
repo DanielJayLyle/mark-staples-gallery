@@ -60,7 +60,7 @@ const fromArchive = (r: Raw): Artwork => {
 /* The strongest pieces lead each collection (picked from the photos); everything else follows. */
 const LEAD = [
   'endless-love', 'heartfelt', 'the-dreamer', 'paintings-06', 'paintings-13', 'paintings-14', 'if-you-see-darkness', 'paintings-01', 'paintings-07', 'paintings-09', 'level-up', 'paintings-10', 'paintings-11',
-  'acquiesce', 'elvis', 'madonna', 'peggy', 'carry-on', 'sid', 'stevie', 'james-dean', 'blondie', 'hendrix', 'kate-moss', 'icons-13', 'charlie',
+  'acquiesce', 'elvis', 'madonna', 'twiggy', 'carry-on', 'sid', 'stevie', 'james-dean', 'blondie', 'hendrix', 'kate-moss', 'icons-13', 'charlie',
   'brighton-buddy-boi', 'buddha-bill', 'buddha-bob', 'buddha-barry', 'buddha-ba',
   'only-love-can-hurt-like-this', 'smile', 'hey-you-never-give-up', 'chaos', 'love-you', 'dancefloor', 'harlan',
   'tagged', 'camper-van', 'models-18', 'models-01', 'models-08', 'models-12', 'the-fallen-angel', 'models-15', 'glideaway', 'models-21',

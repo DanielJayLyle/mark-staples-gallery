@@ -1090,11 +1090,20 @@ function buildInf(){
     return '<'+(n.key?'button type="button"':'span')+' class="inf-name '+p[4]+'"'+(n.key?' data-k="'+n.key+'"':'')+' style="--x:'+p[0]+'%;--y:'+p[1]+'%;--s:'+p[2]+';--r:'+p[3]+'deg;--d:'+(i*70)+'ms">'+esc(n.name)+(n.met?'<i class="heart" aria-label="met">&hearts;</i>':'')+'</'+(n.key?'button':'span')+'>'; };
   const photoEl = (ph, i) => { const p = INF_PHOTO_POS[i] || [50, 50, 150, 0];
     return '<figure class="inf-photo'+(i%2?' r':'')+'" data-ks="'+ph.keys.join(' ')+'" style="--x:'+p[0]+'%;--y:'+p[1]+'%;--w:'+p[2]+';--r:'+p[3]+'deg;--d:'+(300+i*120)+'ms;--ar:'+(ph.w/ph.h).toFixed(3)+'"><i class="tape t1"></i><i class="tape t2"></i><img src="'+ph.src+'" width="'+ph.w+'" height="'+ph.h+'" alt="'+esc(ph.caption)+'" decoding="async"><figcaption>'+esc(ph.caption)+'</figcaption></figure>'; };
-  // interleave in the DOM (a few names, then a photo) so the phone layout flows; desktop places everything absolutely
+  // DOM order is the phone layout (desktop places everything absolutely, by each item's own index):
+  // first the people Mark has met, each name straight above the photos they're in, then everyone else as a tag wall
   let html = '<header class="inf-title"><h2>'+esc(inspires.heading)+'</h2><p>'+esc(inspires.intro)+'</p></header>';
-  const per = Math.ceil(names.length / (photos.length + 1));
-  names.forEach((n, i) => { html += nameEl(n, i); if((i + 1) % per === 0){ const k = (i + 1) / per - 1; if(photos[k]) html += photoEl(photos[k], k); } });
-  photos.forEach((ph, k) => { if(k >= Math.floor(names.length / per)) html += photoEl(ph, k); });
+  const shownN = new Set(), shownP = new Set();
+  const withPhotos = names.map((n, i) => ({n, i})).filter(({n}) => n.key && photos.some(ph => ph.keys.includes(n.key)));
+  if(withPhotos.length) html += '<p class="inf-sec">Met them <i aria-hidden="true">&hearts;</i></p>';
+  withPhotos.forEach(({n, i}) => {
+    if(shownN.has(i)) return; shownN.add(i); html += '<div class="inf-group">' + nameEl(n, i);
+    photos.forEach((ph, k) => { if(!shownP.has(k) && ph.keys.includes(n.key)){ shownP.add(k); html += photoEl(ph, k); } });
+    html += '</div>';
+  });
+  photos.forEach((ph, k) => { if(!shownP.has(k)) html += photoEl(ph, k); });
+  if(names.some((n, i) => !shownN.has(i)) && withPhotos.length) html += '<p class="inf-sec">And the rest</p>';
+  names.forEach((n, i) => { if(!shownN.has(i)) html += nameEl(n, i); });
   html += '<i class="inf-down" style="--x:7%;--y:19%"></i><i class="inf-down" style="--x:97%;--y:38%"></i><i class="inf-down" style="--x:65%;--y:12%"></i>';
   infBoard.innerHTML = html;
   const light = k => { if(k === infKey) return; infKey = k; infBoard.classList.toggle('hov', !!k);
