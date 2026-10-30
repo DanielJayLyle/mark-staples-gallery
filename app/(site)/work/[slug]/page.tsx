@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { ldHtml } from '@/lib/jsonld';
 import Image from 'next/image';
 import { notFound, redirect } from 'next/navigation';
 import type { Metadata } from 'next';
@@ -18,7 +19,8 @@ export async function generateStaticParams() {
   return [...cols.map((c) => ({ slug: c.slug })), ...all.filter(hasPage).map((a) => ({ slug: a.slug }))];
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata(props: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const params = await props.params;
   const g = await getCollection(params.slug);
   if (g) {
     const description = `${g.collection.title} by Mark Staples: ${g.artworks.length} pieces.${g.collection.blurb ? ' ' + g.collection.blurb : ''}`.slice(0, 300);
@@ -40,7 +42,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default async function ArtworkPage({ params }: { params: { slug: string } }) {
+export default async function ArtworkPage(props: { params: Promise<{ slug: string }> }) {
+  const params = await props.params;
   const g = await getCollection(params.slug);
   if (g) return <CollectionPage group={g} />;
   const r = await getArtwork(params.slug);
@@ -66,7 +69,7 @@ export default async function ArtworkPage({ params }: { params: { slug: string }
     ...(a.pastVenue ? [[sold ? 'Sold via' : 'Shown at', <a key="p" className="venue" href={a.pastVenue.url} target="_blank" rel="noopener">{a.pastVenue.name} &#8599;&#xFE0E;</a>] as [string, React.ReactNode]] : [])];
   return (
     <div className="page">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={ldHtml(jsonLd)} />
       <PageTop />
       <main className="wrap">
         <div className="crumbs"><Link href="/work">All work</Link>{a.collection && <> / <Link href={`/work/${a.collection.slug}`}>{a.collection.title}</Link></>} / {title}</div>
@@ -104,7 +107,7 @@ function CollectionPage({ group: g }: { group: Group }) {
     description: g.collection.blurb, hasPart: g.artworks.slice(0, 50).map((a) => ({ '@type': 'VisualArtwork', name: a.title || undefined, image: new URL(a.image.url, SITE.url).toString(), creator: { '@type': 'Person', name: 'Mark Staples' } })) };
   return (
     <div className="page">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={ldHtml(ld)} />
       <PageTop />
       <main className="wrap">
         <div className="crumbs"><Link href="/work">All work</Link> / {g.collection.title}</div>

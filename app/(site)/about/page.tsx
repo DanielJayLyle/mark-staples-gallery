@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { ldHtml } from '@/lib/jsonld';
 import Gallery from '@/components/Gallery';
 import { getFeatured } from '@/lib/artworks';
 import { toEngine } from '@/lib/toEngine';
@@ -19,7 +20,7 @@ export default async function AboutPage() {
   const person = { '@context': 'https://schema.org', '@type': 'Person', name: 'Mark Staples', alternateName: 'MS11', jobTitle: 'Artist', sameAs: ['https://www.instagram.com/marky_s11/'], url: `${SITE.url}/about`, description: ABOUT.paragraphs.map(text).join(' ') };
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(person) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={ldHtml(person)} />
       <div className="sr-only">
         <h1>About Mark Staples</h1>
         {ABOUT.paragraphs.map((p) => <p key={p}>{text(p)}</p>)}
