@@ -1074,6 +1074,7 @@ $('#aboutBtn').onclick = e => { e.preventDefault(); if(inInf && inAbout) closeIn
 $('#aboutBack').onclick = () => closeAbout();
 
 /* ---------- influences: from the About wall, look up at a ceiling tagged with the artists Mark rates ---------- */
+let infReturnX = null; // where to walk back to after looking up
 let inInf = false, infShown = false, bioPending = false, infV = 0, infBuilt = false, infTimer = 0, infKey = null;
 const infEl = $('#inf'), infBoard = $('#infBoard'), inspires = about && about.inspires;
 // hand-placed spots for the desktop ceiling, in % of the screen: [x, y, size px at 1440 wide, rotation, hand]
@@ -1115,6 +1116,9 @@ function openInf(fromHistory, instant){
   if(!fromHistory) history.pushState({gallery:true, about:inAbout, inf:true}, '', '/influences');
   document.title = 'Who inspires Mark Staples';
   inInf = true; hovered = -1; dragging = false; down = null; clearTimeout(infTimer);
+  // near either end of the room the end wall would show when looking up, so step back to where the ceiling fills the view
+  infReturnX = null;
+  if(!inAbout){ const safe = Math.min(ROOM.end - 2.8, Math.max(ROOM.start + 2.8, camTarget)); if(Math.abs(safe - camTarget) > .01){ infReturnX = camTarget; camTarget = safe; if(instant) camX = safe; } }
   aboutEl.classList.remove('show'); document.body.classList.add('in-inf');
   buildInf(); infEl.hidden = false; infEl.querySelector('.inf-scroll').scrollTop = 0;
   $('#infBack').innerHTML = inAbout ? '&darr; Back to the bio' : '&darr; Back to the gallery';
@@ -1135,6 +1139,7 @@ function closeInf(fromHistory, silent){
   } else {
     if(!fromHistory) history.pushState({gallery:true}, '', '/');
     document.title = baseTitle; canvas.focus({preventScroll:true});
+    if(infReturnX !== null){ camTarget = infReturnX; infReturnX = null; }
   }
 }
 $('#infBack').onclick = () => closeInf();
